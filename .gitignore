@@ -1,0 +1,8 @@
+*.pyc
+__pycache__
+db.sqlite3
+/cultural_env
+*.env
+.idea/
+migrations/
+media/
