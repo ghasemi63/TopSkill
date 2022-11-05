@@ -1,0 +1,35 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 pt-5">
+        <div class="row d-flex justify-content-center">
+                <div class="col-xl-5">
+                    <div class="card">
+                    <div class="card-header">
+                        <h2>صفحه ثبت نام کابر</h2>
+                    </div>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            <form action="" method="post" novalidate>
+                                <table>
+                                    <div class="col-md-auto">
+                                        <div class="form-group">
+                                            {{ form.as_p }}
+                                            {{ profile_form.as_p }}
+                                        </div>
+                                     </div>
+                                </table>
+                                <div class="d-grid gap-2 col-6 mx-auto">
+                                    <button type="submit">Sign Up</button>
+                                </div>
+                            </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

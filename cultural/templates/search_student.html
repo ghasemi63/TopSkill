@@ -1,0 +1,57 @@
+{% extends 'base_generic.html' %}{% load static %}
+{% block content %}
+    <div class="container mt-5 pt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>جستجوی دانشجویان بر اساس کد ملی</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'TopSkill:submit_student' %}" method="post">
+                            {% csrf_token %}
+                            <table>
+                                <div class="col-md-auto">
+                                    <div class="form-group">
+                                        <label for="sel1">جستجوی کد ملی:</label>
+                                        <select class="form-control js-data-example-ajax" name="nationalcodeid"
+                                                id="nationalcode"></select>
+                                    </div>
+                                </div>
+                            </table>
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button type="submit" class="btn btn-success  btn-md" value="ثبت">
+                                    ثبت
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <h5>{{ warning }}</h5>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block scriptbutton %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.js-data-example-ajax').select2({
+                ajax: {
+                    url: '{% url 'TopSkill:student' %}',
+                    dataType: 'json',
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.id, text: item.FirstName + " " + item.LastName + " " + "فرزند:"
+                                        + " " + item.FatherName + " (" + item.NationalCode + ")"
+                                };
+                            })
+                        };
+                    }
+                },
+                minimumInputLength: 4
+            });
+        });
+    </script>
+{% endblock scriptbutton %}

@@ -1,0 +1,9 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block content %}
+    <form action="" method="post">{% csrf_token %}
+        <p>آیا از پاک شدن فایل مورد نظر اطمینان دارید؟</p>
+        <input type="submit" value="پاک شود">
+    </form>
+{% endblock content %}

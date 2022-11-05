@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    {% load static %}{% load crispy_forms_tags %}{% block topscript %}{% endblock topscript %}
+    <title>{% block title %}{% endblock title %}</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{% static '/plugins/font-awesome/css/font-awesome.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static '/dist/css/adminlte.min.css' %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <!-- bootstrap rtl -->
+    <link rel="stylesheet" href="{% static '/dist/css/bootstrap-rtl.min.css' %}">
+    <!-- template rtl version -->
+    <link rel="stylesheet" href="{% static '/dist/css/custom-style.css' %}">
+    <!-- Select 2 -->
+    <link rel="stylesheet" href="{% static '/dist/css/select2.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini sidebar-collapse">
+<div class="wrapper">
+    <!-- Navbar -->
+    {% include 'navbar.html' %}
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    {% include 'sidebar.html' %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        {% include 'messages.html' %}
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-left">
+                            <li class="breadcrumb-item"><a href="#">خانه</a></li>
+                            {#                            <li class="breadcrumb-item active">داشبورد دوم</li>#}
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content col-md-auto">
+            <div class="container-md">
+                <div class="card">{% block content %}{% endblock content %}
+                </div>
+            </div><!--/. container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="float-right d-sm-none d-md-block">
+            Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>CopyLeft &copy; 2022 <a href="#">احمد قاسمی</a>.</strong>
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="{% static '/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static '/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static '/dist/js/adminlte.js' %}"></script>
+<!-- DataTables -->
+<script src="{% static '/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static '/plugins/datatables/dataTables.bootstrap4.js' %}"></script>
+<!-- Select 2 -->
+ <script src="{% static '/plugins/select2/select2.min.js' %}"></script>
+<!-- OPTIONAL SCRIPTS -->
+{% block scriptbutton %}{% endblock scriptbutton %}
+</body>
+</html>
