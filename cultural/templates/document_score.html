@@ -19,55 +19,90 @@
                             </a>
                         </div>
                     </div>
-                    <div class="card-body row-cols-md-4 bg-primary">
+                    <div class="card-body" style="background-color: #9fcdff">
                         <div>
                             <form action="" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {% for x in form.instance.student.studentjudgment_set.all %}
-                                    {% if x.judgment_level == "2" %}
-                                        {{ form.ostan_judg }}
-                                    {% elif x.judgment_level == "11" %}
-                                        {{ form.setad_judge1.label }}{{ form.label_suffix }}{{ form.setad_judge1 }}
-                                    {% elif x.judgment_level == "12" %}
-                                        {{ form.setad_judge2.label }}{{ form.label_suffix }}{{ form.setad_judge2 }}
-                                    {% elif x.judgment_level == "13" %}
-                                        {{ form.setad_judge3.label }}{{ form.label_suffix }}{{ form.setad_judge3 }}
-                                    {% endif %}
-                                    {{ form.score }}
-                                    <input type="hidden" name="next" value="{{ request.path }}">
-                                    <button type="submit" name="submit" class="btn btn-success col-4">ثبت امتیاز
-                                    </button>
+                                    <table class="col">
+                                        <td>
+                                            {% if x.judgment_level == "2" %}
+                                                {{ form.ostan_judg }}
+                                            {% elif x.judgment_level == "11" %}
+                                                {{ form.setad_judge1 }}
+                                            {% elif x.judgment_level == "12" %}
+                                                {{ form.setad_judge2 }}
+                                            {% elif x.judgment_level == "13" %}
+                                                {{ form.setad_judge3 }}
+                                            {% endif %}
+                                            {{ form.score }}
+                                        </td>
+                                        </tr>
+                                    </table>
+                                    <table class="col">
+                                        <tr>
+                                            <td>
+                                                <input type="hidden" name="next" value="{{ request.path }}">
+                                                <button type="submit" name="submit" class="btn btn-success col-5">ثبت
+                                                    امتیاز
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 {% endfor %}
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="card col-md-6 col justify-content-center">
-                    <div class="card-header bg-warning ">
+                    <div class="card-heade" style="background-color: #3e999f">
                         <form action="" id="Upload" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div class="row-cols-md-6">
-                                {{ upload_form }}
+                            <div class="col">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            {{ upload_form.upload_file }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {{ upload_form.upload_name }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {{ upload_form.duc_data }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="submit" name="submit" class="btn btn-success col-4">بارگذاری
+                                                فایل
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                            <button type="submit" name="submit" class="btn btn-success col-4">بارگذاری فایل
-                            </button>
                         </form>
                     </div>
-                    <div class="card-body bg-success">
+                    <div class="card-body" style="background-color: #9dbed8">
                         <h2 class="my-4">فایل های بارگذاری شده</h2>
                         <div class="row">
                             <div class="text-right">
                                 <ul>
                                     {% for x in df %}
                                         {% if x.upload_file.url != Null %}
-                                            <li>
-                                                <a href="{% url 'TopSkill:document_delete' x.id %}"><i
-                                                        class="ml-2 btn btn-danger">حذف</i></a>
-                                                <a href="{% url 'TopSkill:download_file' x.id %}"
-                                                   target="_blank"><span
-                                                        class="float-left text-bold text-sm">{{ x.upload_name }}</span></a>
-                                                <div class="dropdown-divider"></div>
-                                            </li>
+                                            <form action="post">
+                                                <li>
+                                                    <a href="{% url 'TopSkill:document_delete' x.id %}" id="delete"><i
+                                                            class="ml-2 btn btn-danger">حذف</i></a>
+                                                    <a href="{% url 'TopSkill:download_file' x.id %}"
+                                                       target="_blank"><span
+                                                            class="float-left text-bold text-sm">{{ x.upload_name }}</span></a>
+                                                    <div class="dropdown-divider"></div>
+                                                </li>
+                                            </form>
                                         {% endif %}
                                     {% empty %}
                                         <p>هیچ فایلی برای نمایش وجود ندارد.</p>
@@ -82,5 +117,4 @@
             </div>
         </div>
     </div>
-{% endblock content %}{% block scriptbutton %}
-{% endblock scriptbutton %}
+{% endblock content %}{% block scriptbutton %}{% endblock scriptbutton %}

@@ -1,14 +1,8 @@
-import os
-
-import self
-
-from cultural import settings
-from django.shortcuts import render, get_object_or_404, HttpResponse, HttpResponseRedirect, redirect, reverse
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Sum
-from django.views.generic.edit import DeleteView
 from django_sendfile import sendfile
 
 from .models import TSStudent, Student, LevelingIndex, DocumentFile, Score, StudentJudgment
@@ -143,6 +137,8 @@ def document_score(request, user_id, doc_id):
                     df = DocumentFile.objects.filter(score=sc)
                     messages.error(request, 'لطفاْ فایل مناسب را بارگذاری کنید.')
                     return render(request, 'document_score.html', {'df': df})
+        elif request.POST.get('delete'):
+            pass
     else:
         ts, create = StudentJudgment.objects.get_or_create(student_id=user_id, user_id=request.user.id)
         li = LevelingIndex.objects.get(id=doc_id)
@@ -167,10 +163,10 @@ def tsdelete(request, pk):
     return HttpResponseRedirect('/')
 
 
-class DeleteDoc(DeleteView):
-    model = DocumentFile
-    success_url = '/'
-    template_name = 'document_delete.html'
+# class DeleteDoc(DeleteView):
+#     model = DocumentFile
+#     success_url = '/'
+#     template_name = 'document_delete.html'
 
 
 # @login_required()
@@ -195,29 +191,19 @@ class DeleteDoc(DeleteView):
 
 
 @login_required()
-def delete_doc(request, pk):
-    if os.path.exists():
-        df = get_object_or_404(DocumentFile, id=pk)
-        df.delete()
-        os.remove(os.path.join(settings.BASE_DIR, df.upload_file.url))
-        messages.success(request, "فایل مورد نظر حذف شد.")
-        next = request.GET.get('next')
-        return HttpResponseRedirect(next)
-    else:
-        # form = DocumentForm()
-        next = request.POST.get('next', '/')
-        messages.success(request, next)
-        messages.success(request, "فایل مورد نظر وجود ندارد.")
-        # return render(request, 'document_score.html', {'form': form})
-        # return HttpResponse(messages.success(request, "فایل مورد نظر وجود ندارد."))
-        return HttpResponseRedirect(next)
+def document_delete(request, pk):
+    df = get_object_or_404(DocumentFile, id=pk)
+    df.delete()
+    url = request.POST.get('next', '/')
+    messages.success(request, url)
+    messages.success(request, "فایل مورد نظر حذف شد.")
+    # return render(request, 'document_score.html', {'form': form})
+    # return HttpResponse(messages.success(request, "فایل مورد نظر وجود ندارد."))
+    return HttpResponseRedirect(url)
 
 
 @login_required()
 def download_file(request, file_id):
     obj = DocumentFile.objects.get(id=file_id)
     ret = sendfile(request, obj.upload_file.path)
-    print('----------------------')
-    print(ret)
-    print('****************')
     return ret
