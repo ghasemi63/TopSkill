@@ -34,14 +34,14 @@ ALLOWED_HOSTS = ['cultural.top', '192.168.200.85', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts.apps.AccountsConfig',
-    'TopSkill.apps.TopskillConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts.apps.AccountsConfig',
+    'TopSkill.apps.TopskillConfig',
     'django_jalali',
     'crispy_forms',
     'widget_tweaks',

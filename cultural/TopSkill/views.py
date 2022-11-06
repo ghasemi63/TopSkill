@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, HttpResponse
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -115,11 +115,10 @@ def document_score(request, user_id, doc_id):
                         var.save()
                 # next = request.POST.get('next', '/')
                 messages.error(request, form.errors)
-                return redirect('TopSkill:student_detail', pk=user_id)
-                # return render(request, 'Student_detail.html', {})
+                return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
+
             else:
                 return messages.error(request, form.errors)
-                # raise ValueError("لطفاْ‌مقدار معتبر وارد کنید.")
         elif request.POST.get('upload'):
             # next = request.GET.get('next')
             if request.FILES:
@@ -136,9 +135,7 @@ def document_score(request, user_id, doc_id):
                 else:
                     df = DocumentFile.objects.filter(score=sc)
                     messages.error(request, 'لطفاْ فایل مناسب را بارگذاری کنید.')
-                    return render(request, 'document_score.html', {'df': df})
-        elif request.POST.get('delete'):
-            pass
+                    return redirect(request, 'document_score.html', {'df': df})
     else:
         ts, create = StudentJudgment.objects.get_or_create(student_id=user_id, user_id=request.user.id)
         li = LevelingIndex.objects.get(id=doc_id)
@@ -149,7 +146,6 @@ def document_score(request, user_id, doc_id):
             max_value=li.max_score,
         )
         form = ScoreForm(instance=score_record)
-        # back = df.first()
         sc = Score.objects.get(student_id=user_id, levelingindex_id=doc_id)
         df = DocumentFile.objects.filter(score=sc)
         upload_form = DocumentForm()
@@ -163,33 +159,6 @@ def tsdelete(request, pk):
     return HttpResponseRedirect('/')
 
 
-# class DeleteDoc(DeleteView):
-#     model = DocumentFile
-#     success_url = '/'
-#     template_name = 'document_delete.html'
-
-
-# @login_required()
-# def delete_doc(request, pk):
-#     df = get_object_or_404(DocumentFile, id=pk)
-#     ddurl = DocumentFile.objects.get(id=pk).upload_file.url
-#     ddurls = os.path.join(settings.BASE_DIR, df.upload_file.url)
-#     if os.path.exists(ddurls):
-#         df.delete()
-#         os.remove(os.path.join(settings.BASE_DIR, df.upload_file.url))
-#         messages.success(request, "فایل مورد نظر حذف شد.")
-#         next = request.GET.get('next')
-#         return HttpResponseRedirect(next)
-#     else:
-#         # form = DocumentForm()
-#         next = request.POST.get('next', '/')
-#         messages.success(request, next)
-#         messages.success(request, "فایل مورد نظر وجود ندارد.")
-#         # return render(request, 'document_score.html', {'form': form})
-#         # return HttpResponse(messages.success(request, "فایل مورد نظر وجود ندارد."))
-#         return HttpResponseRedirect(next)
-
-
 @login_required()
 def document_delete(request, pk):
     df = get_object_or_404(DocumentFile, id=pk)
@@ -197,13 +166,10 @@ def document_delete(request, pk):
     url = request.POST.get('next', '/')
     messages.success(request, url)
     messages.success(request, "فایل مورد نظر حذف شد.")
-    # return render(request, 'document_score.html', {'form': form})
-    # return HttpResponse(messages.success(request, "فایل مورد نظر وجود ندارد."))
     return HttpResponseRedirect(url)
 
 
 @login_required()
 def download_file(request, file_id):
     obj = DocumentFile.objects.get(id=file_id)
-    ret = sendfile(request, obj.upload_file.path)
-    return ret
+    return sendfile(request, obj.upload_file.path)

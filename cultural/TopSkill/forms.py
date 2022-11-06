@@ -1,9 +1,7 @@
-from .models import TSStudent, DocumentFile, Score, LevelingIndex, StudentJudgment
-from django_jalali.forms import jDateInput
-from django.core.exceptions import ValidationError
+from .models import TSStudent, Score
+
 from .views import DocumentFile
 from django import forms
-from .fields import MultiFileField
 
 
 class SearchStudentForm(forms.Form):
@@ -27,7 +25,7 @@ class DocumentForm(forms.ModelForm):
 
 
 class ScoreForm(forms.ModelForm):
-    score = forms.BooleanField(widget=forms.HiddenInput,required=False,  initial=True)
+    score = forms.BooleanField(widget=forms.HiddenInput, required=False, initial=True)
     ostan_judg = forms.FloatField(min_value=0, required=False, label='استان', )
     setad_judge1 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
     setad_judge2 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
