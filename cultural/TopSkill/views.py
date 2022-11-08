@@ -1,11 +1,13 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, HttpResponse
+import requests
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.http import JsonResponse
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import Sum
 from django_sendfile import sendfile
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DeleteView
 
 from .models import TSStudent, Student, LevelingIndex, DocumentFile, Score, StudentJudgment
 from .forms import DocumentForm, ScoreForm
@@ -172,15 +174,18 @@ all delete objects
 
 @login_required()
 def document_delete(request, pk):
-    df = get_object_or_404(DocumentFile, id=pk)
-    df.delete()
-    url = request.POST.get('next', '/')
-    messages.success(request, url)
-    messages.success(request, "فایل مورد نظر حذف شد.")
-    return HttpResponseRedirect(url)
+    if request.POST:
+        df = get_object_or_404(DocumentFile, id=pk)
+        df.delete()
+        messages.success(request, "فایل مورد نظر حذف شد.")
+        return redirect(
+            reverse('TopSkill:document_score', kwargs={'user_id': df.score.student_id, 'doc_id': df.score.levelingindex_id}))
+    else:
+        return render(request, 'document_delete.html', {'pk': pk})
 
 
 def student_delete(request, pk):
     td = get_object_or_404(TSStudent, id=pk)
     td.delete()
     return HttpResponseRedirect('/')
+

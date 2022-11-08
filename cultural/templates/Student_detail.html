@@ -5,7 +5,7 @@
 {% block content %}
     <div class="card card-success">
         <div class="card-header">
-            <h3 class="card-title text-center">جزییات</h3>
+            <h3 class="card-title text-center">پرونده دانشجو</h3>
         </div>
         <div class="card card-warning">
             <div class="card-header ">
@@ -76,7 +76,7 @@
             </div>
         </div>
         <div>
-            <table class="table table-striped table-bordered col-md-auto text-center"
+            <table class="table table-striped table-bordered col-md-auto text-center table-hover"
                    style="width:100%">
                 <thead>
                 <tr>
@@ -96,12 +96,12 @@
                 </tbody>
             </table>
         </div>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="{% url 'TopSkill:index' %}">
-                <button type="button" class="btn btn-success">بازگشت</button>
+           <div class="text-left">
+                <a href="{% url 'TopSkill:index' %}">
+                <button type="button" class="btn btn-success col-2">بازگشت</button>
             </a>
-        </div>
-        <div class="card-body text-center">
+           </div>
+        <div class="card-body">
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#education">آموزشی</a></li>
                 <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#research">پژوهشی</a></li>
@@ -111,11 +111,11 @@
             </ul>
             <div class="tab-content">
                 <div id="education" class="tab-pane fade">
-                    <div class="card-header">
+                    <div class="card-header text-center">
                         <h3 class="card-title">مستندات مربوط به عناوین آموزشی دانشجو </h3>
                     </div>
                     <div class="card-body">
-                        <table id="table3" class="table table-striped table-bordered col-md-auto text-center">
+                        <table id="table3" class="table table-striped table-bordered col-md-auto text-center table-hover">
                             <thead>
                             <tr>
                                 <th>عنوان</th>
@@ -148,11 +148,11 @@
                     </div>
                 </div>
                 <div id="research" class="tab-pane fade">
-                    <div class="card-header">
+                    <div class="card-header text-center">
                         <h3 class="card-title">مستندات مربوط به عناوین پژوهشی دانشجو </h3>
                     </div>
                     <div class="card-body">
-                        <table id="table2" class="table table-striped table-bordered col-md-auto text-center">
+                        <table id="table2" class="table table-striped table-bordered col-md-auto text-center table-hover">
                             <thead>
                             <tr>
                                 <th>عنوان</th>
@@ -185,11 +185,11 @@
                     </div>
                 </div>
                 <div id="Skill" class="tab-pane fade">
-                    <div class="card-header">
+                    <div class="card-header text-center">
                         <h3 class="card-title">مستندات مربوط به عناوین مهارتی دانشجو </h3>
                     </div>
                     <div class="card-body">
-                        <table id="table3" class="table table-striped table-bordered col-md-auto text-center">
+                        <table id="table3" class="table table-striped table-bordered col-md-auto text-center table-hover">
                             <thead>
                             <tr>
                                 <th>عنوان</th>
@@ -220,11 +220,11 @@
                     </div>
                 </div>
                 <div id="cultural" class="tab-pane fade">
-                    <div class="card-header">
+                    <div class="card-header text-center">
                         <h3 class="card-title">مستندات مربوط به عناوین فرهنگی دانشجو </h3>
                     </div>
                     <div class="card-body">
-                        <table id="table3" class="table table-striped table-bordered col-md-auto text-center">
+                        <table id="table3" class="table table-striped table-bordered col-md-auto text-center table-hover">
                             <thead>
                             <tr>
                                 <th>عنوان</th>
@@ -257,11 +257,11 @@
                     </div>
                 </div>
                 <div id="additional" class="tab-pane fade">
-                    <div class="card-header">
+                    <div class="card-header text-center">
                         <h3 class="card-title">مستندات مربوط به امتیاز افزوده </h3>
                     </div>
                     <div class="card-body">
-                        <table id="table3" class="table table-striped table-bordered col-md-auto text-center">
+                        <table id="table3" class="table table-striped table-bordered col-md-auto text-center table-hover">
                             <thead>
                             <tr>
                                 <th>عنوان</th>
@@ -300,8 +300,6 @@
     </div>
 {% endblock content %}
 {% block scriptbutton %}
-    <!-- jquery.dataTables.min.js -->
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#table1, #table2, #table3, #table4, #table5').DataTable({

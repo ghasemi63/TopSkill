@@ -154,7 +154,7 @@ class StudentJudgment(models.Model):
 
 
 class DocumentFile(models.Model):
-    creator= models.ForeignKey(CulturalUser, on_delete=models.RESTRICT, verbose_name='کابر ثبت کننده')
+    creator = models.ForeignKey(CulturalUser, on_delete=models.RESTRICT, verbose_name='کابر ثبت کننده')
     created_date = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت رکورد شمسی')
     score = models.ForeignKey(Score, on_delete=models.CASCADE)
     duc_data = jmodels.jDateField(verbose_name='تاریخ ثبت گواهی',
