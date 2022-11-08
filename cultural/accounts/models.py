@@ -29,31 +29,31 @@ class Center(models.Model):
         return self.center_title
 
 
-class CulturalUserManager(BaseUserManager):
-    def create_user(self, username, password=None):
-        """
-        Creates and saves a User with the given user, and password.
-        """
-        if not username:
-            raise ValueError('لطفاْ نام کاربری را وارد کنید!')
-
-        user = self.model(username=username, )
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, username, password=None):
-        """
-        Creates and saves a superuser with the given username and password.
-        """
-        user = self.create_user(
-            username=username,
-            password=password,
-        )
-        user.is_admin = True
-        user.is_superuser = True
-        user.save(using=self._db)
-        return user
+# class CulturalUserManager(BaseUserManager):
+#     def create_user(self, username, password=None):
+#         """
+#         Creates and saves a User with the given user, and password.
+#         """
+#         if not username:
+#             raise ValueError('لطفاْ نام کاربری را وارد کنید!')
+#
+#         user = self.model(username=username, )
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         return user
+#
+#     def create_superuser(self, username, password=None):
+#         """
+#         Creates and saves a superuser with the given username and password.
+#         """
+#         user = self.create_user(
+#             username=username,
+#             password=password,
+#         )
+#         user.is_admin = True
+#         user.is_superuser = True
+#         user.save(using=self._db)
+#         return user
 
 
 class CulturalUser(AbstractUser, PermissionsMixin):
@@ -84,7 +84,7 @@ class CulturalUser(AbstractUser, PermissionsMixin):
     post = models.CharField(max_length=2, verbose_name='رده دسترسی', choices=POST_CHOICES, default=1)
     profile_image = models.ImageField(upload_to=f'profile/', null=True, blank=True)
 
-    objects = CulturalUserManager()
+    # objects = CulturalUserManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
@@ -92,18 +92,18 @@ class CulturalUser(AbstractUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
-        return self.is_admin
+    # def has_perm(self, perm, obj=None):
+    #     "Does the user have a specific permission?"
+    #     # Simplest possible answer: Yes, always
+    #     return True
+    #
+    # def has_module_perms(self, app_label):
+    #     "Does the user have permissions to view the app `app_label`?"
+    #     # Simplest possible answer: Yes, always
+    #     return True
+    #
+    # @property
+    # def is_staff(self):
+    #     "Is the user a member of staff?"
+    #     # Simplest possible answer: All admins are staff
+    #     return self.is_admin
