@@ -44,7 +44,7 @@
                                         <tr>
                                             <td>
                                                 <input type="hidden" name="next" value="{{ request.path }}">
-                                                <button type="submit" name="submit" class="btn btn-success col-5">ثبت
+                                                <button type="submit" name="submit" class="btn btn-success col-4">ثبت
                                                     امتیاز
                                                 </button>
                                             </td>
@@ -92,24 +92,27 @@
                         <h2 class="my-4">فایل های بارگذاری شده</h2>
                         <div class="row">
                             <div class="text-right">
-                                <ul>
-                                    {% for x in df %}
-{#                                        {% if x.upload_file.url != Null %}#}
-                                            <li>
-                                                <a href="{% url 'TopSkill:document_delete' x.id %}" id="delete"><i
-                                                        class="ml-2 btn btn-danger">حذف</i></a>
-                                                <a href="{% url 'TopSkill:download_file' x.id %}"
-                                                   target="_blank"><span
-                                                        class="float-left text-bold text-sm">{{ x.upload_name }}</span></a>
-                                                <div class="dropdown-divider"></div>
-                                            </li>
-{#                                        {% endif %}#}
-                                    {% empty %}
-                                        <p>هیچ فایلی برای نمایش وجود ندارد.</p>
-                                    {% endfor %}
-                                    {#                    <a class="btn btn-dark my-4" href="/">Return to Homepage</a>#}
-
-                                </ul>
+                                {% for x in df %}
+                                    <table>
+                                        {% if x.upload_file.url != Null %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'TopSkill:document_delete' x.id %}" id="delete"><i
+                                                            class="ml-2 btn btn-danger">حذف</i></a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'TopSkill:download_file' x.id %}"
+                                                       target="_blank"><span
+                                                            class="float-left text-bold text-sm">{{ x.upload_name }}</span></a>
+                                                </td>
+                                            </tr>
+                                            {#                                                <div class="dropdown-divider"></div>#}
+                                        {% endif %}
+                                    </table>
+                                {% empty %}
+                                    <p>هیچ فایلی برای نمایش وجود ندارد.</p>
+                                {% endfor %}
+                                {#                    <a class="btn btn-dark my-4" href="/">Return to Homepage</a>#}
                             </div>
                         </div>
                     </div>

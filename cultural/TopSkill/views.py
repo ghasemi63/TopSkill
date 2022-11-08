@@ -1,19 +1,25 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, HttpResponse
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import Sum
 from django_sendfile import sendfile
+from django.views.generic import TemplateView
 
 from .models import TSStudent, Student, LevelingIndex, DocumentFile, Score, StudentJudgment
 from .forms import DocumentForm, ScoreForm
 
 
 # Create your views here.
+class IndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'index.html'
+
+
 @login_required
-def indexView(request):
+def studentsView(request):
     contex = TSStudent.objects.all()
-    return render(request, 'index.html', {'context': contex})
+    return render(request, 'students.html', {'context': contex})
 
 
 @login_required
@@ -60,7 +66,7 @@ def submit_student(request):
                 except:
                     StudentJudgment.objects.create(user_id=request.user.id,
                                                    student_id=ts.id, judgment_level=2, status=True)
-                return render(request, 'index.html', {'context': TSStudent.objects.all()})
+                return render(request, 'students.html', {'context': TSStudent.objects.all()})
     else:
         na = 'اطلاعات وارد شده به روش امن ارسال نشده است.'
         return render(request, 'search_student.html', {'warning': na})
@@ -153,10 +159,15 @@ def document_score(request, user_id, doc_id):
                       {'form': form, 'upload_form': upload_form, 'contex': score_record, 'df': df})
 
 
-def tsdelete(request, pk):
-    td = get_object_or_404(TSStudent, id=pk)
-    td.delete()
-    return HttpResponseRedirect('/')
+@login_required()
+def download_file(request, file_id):
+    obj = DocumentFile.objects.get(id=file_id)
+    return sendfile(request, obj.upload_file.path)
+
+
+"""
+all delete objects
+"""
 
 
 @login_required()
@@ -169,7 +180,7 @@ def document_delete(request, pk):
     return HttpResponseRedirect(url)
 
 
-@login_required()
-def download_file(request, file_id):
-    obj = DocumentFile.objects.get(id=file_id)
-    return sendfile(request, obj.upload_file.path)
+def student_delete(request, pk):
+    td = get_object_or_404(TSStudent, id=pk)
+    td.delete()
+    return HttpResponseRedirect('/')
