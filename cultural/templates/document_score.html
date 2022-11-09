@@ -47,18 +47,18 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <table class="col">
-                                                    <tr>
-                                                        <td>
-                                                            <input type="hidden" name="next" value="{{ request.path }}">
-                                                            <button type="submit" name="submit"
-                                                                    class="btn btn-success col-4">ثبت
-                                                                امتیاز
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </table>
                                             {% endfor %}
+                                            <table class="col">
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                                        <button type="submit" name="submit"
+                                                                class="btn btn-success col-4">ثبت
+                                                            امتیاز
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </form>
                                     </div>
                                 </div>
@@ -101,22 +101,21 @@
                                     <h6 class="my-4">محل نمایش فایل های بارگذاری شده</h6>
                                     <div class="row">
                                         <div class="text-right">
-                                            {% for x in df %}
-                                                <table>
+                                            <table class="table table-striped table-bordered col-md-auto text-center table-hover"
+                                                   style="width:100%">
+                                                {% for x in df %}
                                                     {% if x.upload_file.url != Null %}
                                                         <tr>
                                                             <td>
-                                                                <input type="hidden" name="next"
-                                                                       value="{{ request.path }}">
                                                                 <a href="{% url 'TopSkill:document_delete' x.id %}"
                                                                    id="delete">
                                                                     <button type="submit" name="submit"
-                                                                            class="btn btn-success col-4">
+                                                                            class="btn btn-danger col-12">
                                                                         حذف
                                                                     </button>
                                                                 </a>
                                                             </td>
-                                                            <td>
+                                                            <td class="align-content-sm-center">
                                                                 <a href="{% url 'TopSkill:download_file' x.id %}"
                                                                    target="_blank"><span
                                                                         class="float-left text-bold text-sm">{{ x.upload_name }}</span>
@@ -124,11 +123,10 @@
                                                             </td>
                                                         </tr>
                                                     {% endif %}
-                                                </table>
-                                            {% empty %}
-                                                <p>هیچ گزینه ای برای نمایش وجود ندارد.</p>
-                                            {% endfor %}
-                                            {#                    <a class="btn btn-dark my-4" href="/">Return to Homepage</a>#}
+                                                {% empty %}
+                                                    <p>هیچ گزینه ای برای نمایش وجود ندارد.</p>
+                                                {% endfor %}
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
