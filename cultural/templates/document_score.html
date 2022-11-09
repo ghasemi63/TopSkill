@@ -25,7 +25,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                </div>
+                                </div>{% if perms.TopSkill.add_score or perms.TopSkill.change_score%}
                                 <div class="card-body" style="background-color: #9fcdff">
                                     <div class="form-">
                                         <form action="" method="post" enctype="multipart/form-data">
@@ -61,7 +61,7 @@
                                             </table>
                                         </form>
                                     </div>
-                                </div>
+                                </div>{% endif %}
                             </div>
                             <div class="card col-md-6 col">
                                 <div class="card-heade" style="background-color: #3e999f">{% if perms.TopSkill.add_documentfile%}
