@@ -6,9 +6,10 @@
     </div>
     <div class="card-body">
         <table id="IndexTable" class="table table-striped table-bordered col-md-auto text-center"
-               style="width:100%"><a href="{% url 'TopSkill:search_student' %}">
-            <buttun class="btn btn-success col-2">ثبت دانشجوی جدید</buttun>
-        </a>
+               style="width:100%">{% if perms.TopSkill.view_student and perms.TopSkill.add_tsstudent%}
+            <a href="{% url 'TopSkill:search_student' %}">
+                <button class="btn btn-success col-2">ثبت دانشجوی جدید</button>
+            </a>{% endif %}
             <thead>
             <tr>
                 <th>نام</th>

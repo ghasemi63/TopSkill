@@ -88,10 +88,10 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <th>{{ detail.ostan_judgs|floatformat:2 }}</th>
-                    <th>{{ detail.setad_judges1|floatformat:2 }}</th>
-                    <th>{{ detail.setad_judges2|floatformat:2 }}</th>
-                    <th>{{ detail.setad_judges3|floatformat:2 }}</th>
+                    <th>{{ detail.province_score|floatformat:2 }}</th>
+                    <th>{{ detail.judges1|floatformat:2 }}</th>
+                    <th>{{ detail.judges2|floatformat:2 }}</th>
+                    <th>{{ detail.judges3|floatformat:2 }}</th>
                 </tr>
                 </tbody>
             </table>
@@ -130,13 +130,13 @@
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.ostan_judg }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge1 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge1|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge2 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge2|floatformat:2}}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge3 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge3|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td>
                                         <a href="{% url 'TopSkill:document_score' detail.id x.id %}">
                                             <button type="button" class="btn btn-info">مدارک</button>
@@ -167,13 +167,13 @@
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.ostan_judg }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge1 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge1|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge2 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge2|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge3 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge3|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td>
                                         <a href="{% url 'TopSkill:document_score' detail.id x.id %}">
                                             <button type="button" class="btn btn-info">مدارک</button>
@@ -204,13 +204,13 @@
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.ostan_judg }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge1 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge1|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge2 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge2|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge3 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge3|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><a href="{% url 'TopSkill:document_score' detail.id x.id %}">
                                         <button type="button" class="btn btn-info">مدارک</button>
                                     </a></td>
@@ -239,13 +239,13 @@
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.ostan_judg }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge1 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge1|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge2 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge2|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge3 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge3|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td>
                                         <a href="{% url 'TopSkill:document_score' detail.id x.id %}">
                                             <button type="button" class="btn btn-info">مدارک</button>
@@ -276,13 +276,13 @@
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.ostan_judg }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge1 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge1|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge2 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge2|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
-                                        {{ y.setad_judge3 }}{% endif %}{% endfor %}</p></td>
+                                        {{ y.judge3|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td>
                                         <a href="{% url 'TopSkill:document_score' detail.id x.id %}">
                                             <button type="button" class="btn btn-info">مدارک</button>

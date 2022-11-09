@@ -26,29 +26,27 @@ class DocumentForm(forms.ModelForm):
 
 class ScoreForm(forms.ModelForm):
     score = forms.BooleanField(widget=forms.HiddenInput, required=False, initial=True)
-    ostan_judg = forms.FloatField(min_value=0, required=False, label='استان', )
-    setad_judge1 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
-    setad_judge2 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
-    setad_judge3 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
-
-    # judgment = forms.FloatField(min_value=0, required=False, label='امتیاز', )
+    province_score = forms.FloatField(min_value=0, required=False, label='استان', )
+    judge1 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
+    judge2 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
+    judge3 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
 
     class Meta:
         model = Score
-        fields = ['ostan_judg', 'setad_judge1', 'setad_judge2', 'setad_judge3']
+        fields = ['province_score', 'judge1', 'judge2', 'judge3']
         # fields = ['ostan_judg']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['ostan_judg'].widget.attrs.update(
+        self.fields['province_score'].widget.attrs.update(
             {'max': self.instance.max_value},
         ),
-        self.fields['setad_judge1'].widget.attrs.update(
+        self.fields['judge1'].widget.attrs.update(
             {'max': self.instance.max_value},
         ),
-        self.fields['setad_judge2'].widget.attrs.update(
+        self.fields['judge2'].widget.attrs.update(
             {'max': self.instance.max_value},
         ),
-        self.fields['setad_judge3'].widget.attrs.update(
+        self.fields['judge3'].widget.attrs.update(
             {'max': self.instance.max_value},
         ),

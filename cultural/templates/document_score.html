@@ -20,7 +20,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                </div>{% if perms.TopSkill.add_score or perms.TopSkill.change_score%}
+                                </div>{% if perms.TopSkill.add_score or perms.TopSkill.change_score %}
                                 <div class="card-body" style="background-color: #9fcdff">
                                     <div class="form-">
                                         <form action="" method="post" enctype="multipart/form-data">
@@ -30,13 +30,13 @@
                                                     <tr>
                                                         <td>
                                                             {% if x.judgment_level == "2" %}
-                                                                {{ form.ostan_judg }}
+                                                                {{ form.province_score }}
                                                             {% elif x.judgment_level == "11" %}
-                                                                {{ form.setad_judge1 }}
+                                                                {{ form.judge1 }}
                                                             {% elif x.judgment_level == "12" %}
-                                                                {{ form.setad_judge2 }}
+                                                                {{ form.judge2 }}
                                                             {% elif x.judgment_level == "13" %}
-                                                                {{ form.setad_judge3 }}
+                                                                {{ form.judge3 }}
                                                             {% endif %}
                                                             {{ form.score }}
                                                         </td>
@@ -59,39 +59,40 @@
                                 </div>{% endif %}
                             </div>
                             <div class="card col-md-6 col">
-                                <div class="card-heade" style="background-color: #3e999f">{% if perms.TopSkill.add_documentfile%}
-                                    <form action="" id="Upload" method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <div class="col">
-                                            <table class="col-12">
-                                                <tr>
-                                                    <td>
-                                                        {{ upload_form.upload_file }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        {{ upload_form.upload_name }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        {{ upload_form.duc_data }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        {{ upload_form.upload }}
-                                                        <button type="submit" name="submit"
-                                                                class="btn btn-success col-4">بارگذاری
-                                                            فایل
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </form>
-                                </div>{% endif %}
+                                <div class="card-heade" style="background-color: #3e999f">
+                                    {% if perms.TopSkill.add_documentfile %}
+                                        <form action="" id="Upload" method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="col">
+                                                <table class="col-12">
+                                                    <tr>
+                                                        <td>
+                                                            {{ upload_form.upload_file }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {{ upload_form.upload_name }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {{ upload_form.duc_data }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {{ upload_form.upload }}
+                                                            <button type="submit" name="submit"
+                                                                    class="btn btn-success col-4">بارگذاری
+                                                                فایل
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </form>
+                                        </div>{% endif %}
                                 <div class="card-body" style="background-color: #9dbed8">
                                     <h6 class="my-4">محل نمایش فایل های بارگذاری شده</h6>
                                     <div class="row">
@@ -102,18 +103,19 @@
                                                     {% if x.upload_file.url != Null %}
                                                         <tr>{% if perms.TopSkill.delete_documentfile %}
                                                             <td>
-                                                                <a href="{% url 'TopSkill:document_delete' x.id %}"
-                                                                   id="delete">
-                                                                    <button type="submit" name="submit"
-                                                                            class="btn btn-danger col-12">
-                                                                        حذف
-                                                                    </button>
-                                                                </a>{% endif %}
+                                                            <a href="{% url 'TopSkill:document_delete' x.id %}"
+                                                               id="delete">
+                                                                <button type="submit" name="submit"
+                                                                        class="btn btn-danger col-12">
+                                                                    حذف
+                                                                </button>
+                                                            </a>{% endif %}
                                                             </td>
                                                             <td class="align-content-sm-center">
                                                                 <a href="{% url 'TopSkill:download_file' x.id %}"
-                                                                   target="_blank"><span
-                                                                        class="float-left text-bold text-sm">{{ x.upload_name }}</span>
+                                                                   target="_blank">
+
+                                                                    <p>{{ x.upload_name }}</p>
                                                                 </a>
                                                             </td>
                                                         </tr>

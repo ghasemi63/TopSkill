@@ -1,13 +1,12 @@
-import requests
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.http import JsonResponse
-from django.urls import reverse_lazy, reverse
-from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import Sum
 from django_sendfile import sendfile
-from django.views.generic import TemplateView, DeleteView
+from django.views.generic import TemplateView
 
 from .models import TSStudent, Student, LevelingIndex, DocumentFile, Score, StudentJudgment
 from .forms import DocumentForm, ScoreForm
@@ -19,12 +18,14 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
 
 @login_required
+@permission_required(perm='TopSkill.view_tsstudent')
 def studentsView(request):
     contex = TSStudent.objects.all()
     return render(request, 'students.html', {'context': contex})
 
 
 @login_required
+@permission_required(perm='TopSkill.view_student')
 def autocomplete(request):
     if 'term' in request.GET:
         term = request.GET.get('term')
@@ -36,6 +37,7 @@ def autocomplete(request):
 
 
 @login_required
+@permission_required(perm='TopSkill.add_tsstudent')
 def submit_student(request):
     if request.method == 'POST':
         form = request.POST.get('nationalcodeid', False)
@@ -94,34 +96,34 @@ def document_score(request, user_id, doc_id):
                 cd = bf.student.studentjudgment_set.all()
                 for x in cd:
                     if x.judgment_level == '2':
-                        bf.ostan_judg = form.cleaned_data.get('ostan_judg')
+                        bf.province_score = form.cleaned_data.get('province_score')
                         bf.save()
-                        score_ostan_judg = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('ostan_judg'))
+                        score_province_score = Score.objects.filter(student_id=user_id).aggregate(
+                            summs=Sum('province_score'))
                         var = TSStudent.objects.get(id=user_id)
-                        var.ostan_judgs = score_ostan_judg['summs']
+                        var.province_score = score_province_score['summs']
                         var.save()
                     elif x.judgment_level == '11':
-                        bf.setad_judge1 = form.cleaned_data.get('setad_judge1')
+                        bf.judge1 = form.cleaned_data.get('judge1')
                         bf.save()
-                        score_ostan_judg = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('setad_judge1'))
+                        score_judge = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('judge1'))
                         var = TSStudent.objects.get(id=user_id)
-                        var.setad_judges1 = score_ostan_judg['summs']
+                        var.judges1 = score_judge['summs']
                         var.save()
                     elif x.judgment_level == '12':
-                        bf.setad_judge2 = form.cleaned_data.get('setad_judge2')
+                        bf.judge2 = form.cleaned_data.get('judge2')
                         bf.save()
-                        score_ostan_judg = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('setad_judge2'))
+                        score_judge = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('judge2'))
                         var = TSStudent.objects.get(id=user_id)
-                        var.setad_judges2 = score_ostan_judg['summs']
+                        var.judges2 = score_judge['summs']
                         var.save()
                     elif x.judgment_level == '13':
-                        bf.setad_judge3 = form.cleaned_data.get('setad_judge3')
+                        bf.judge3 = form.cleaned_data.get('judge3')
                         bf.save()
-                        score_ostan_judg = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('setad_judge3'))
+                        score_judge = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('judge3'))
                         var = TSStudent.objects.get(id=user_id)
-                        var.setad_judges3 = score_ostan_judg['summs']
+                        var.judges3 = score_judge['summs']
                         var.save()
-                # next = request.POST.get('next', '/')
                 messages.error(request, form.errors)
                 return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
 
@@ -162,6 +164,7 @@ def document_score(request, user_id, doc_id):
 
 
 @login_required()
+@permission_required(perm='TopSkill.view_documentfile')
 def download_file(request, file_id):
     obj = DocumentFile.objects.get(id=file_id)
     return sendfile(request, obj.upload_file.path)
@@ -173,19 +176,22 @@ all delete objects
 
 
 @login_required()
+@permission_required(perm='TopSkill.delete_documentfile')
 def document_delete(request, pk):
     if request.POST:
         df = get_object_or_404(DocumentFile, id=pk)
         df.delete()
         messages.success(request, "فایل مورد نظر حذف شد.")
         return redirect(
-            reverse('TopSkill:document_score', kwargs={'user_id': df.score.student_id, 'doc_id': df.score.levelingindex_id}))
+            reverse('TopSkill:document_score',
+                    kwargs={'user_id': df.score.student_id, 'doc_id': df.score.levelingindex_id}))
     else:
         return render(request, 'document_delete.html', {'pk': pk})
 
 
+@login_required()
+@permission_required(perm='TopSkill.delete_tsstudent')
 def student_delete(request, pk):
     td = get_object_or_404(TSStudent, id=pk)
     td.delete()
     return HttpResponseRedirect('/')
-

@@ -94,19 +94,19 @@ class TSStudent(models.Model):
     centerId = models.CharField(max_length=64, verbose_name='کد استان')
     status = models.BooleanField(verbose_name='وضعیت پرونده', choices=[(False, 'غیرفعال'), (True, 'فعال')],
                                  default=True)
-    ostan_judgs = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
-    setad_judges1 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
-    setad_judges2 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
-    setad_judges3 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
+    province_score = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
+    judges1 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
+    judges2 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
+    judges3 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
 
     objects = models.Manager()
     leveling_manager = LevelingIndex.objects.all()
 
     def save(self, *args, **kwargs):
-        self.ostan_judgs = round(self.ostan_judgs, 2)
-        self.setad_judges1 = round(self.setad_judges1, 2)
-        self.setad_judges2 = round(self.setad_judges2, 2)
-        self.setad_judges3 = round(self.setad_judges3, 2)
+        self.province_score = round(self.province_score, 2)
+        self.judges1 = round(self.judges1, 2)
+        self.judges2 = round(self.judges2, 2)
+        self.judges3 = round(self.judges3, 2)
         super(TSStudent, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -119,12 +119,19 @@ class TSStudent(models.Model):
 class Score(models.Model):
     student = models.ForeignKey(TSStudent, on_delete=models.CASCADE, verbose_name='دانشجو')
     levelingindex = models.ForeignKey(LevelingIndex, on_delete=models.CASCADE, verbose_name='موضوع')
-    ostan_judg = models.FloatField(max_length=2, verbose_name='امتیاز استان', blank=True, default=0)
-    setad_judge1 = models.FloatField(max_length=2, verbose_name='امتیاز داور اول', blank=True, default=0)
-    setad_judge2 = models.FloatField(max_length=2, verbose_name='امتیاز داور دوم', blank=True, default=0)
-    setad_judge3 = models.FloatField(max_length=2, verbose_name='امتیاز داور سوم', blank=True, default=0)
+    province_score = models.FloatField(max_length=2, verbose_name='امتیاز استان', blank=True, default=0)
+    judge1 = models.FloatField(max_length=2, verbose_name='امتیاز داور اول', blank=True, default=0)
+    judge2 = models.FloatField(max_length=2, verbose_name='امتیاز داور دوم', blank=True, default=0)
+    judge3 = models.FloatField(max_length=2, verbose_name='امتیاز داور سوم', blank=True, default=0)
     min_value = models.CharField(max_length=4, verbose_name='حداقل امتیاز', default=0)
     max_value = models.CharField(max_length=4, verbose_name='حدکثر امتیاز', default=0)
+
+    def save(self, *args, **kwargs):
+        self.province_score = round(self.province_score, 2)
+        self.judge1 = round(self.judge1, 2)
+        self.judge2 = round(self.judge2, 2)
+        self.judge3 = round(self.judge3, 2)
+        super(Score, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('TopSkill:document_score', kwargs=[str(self.id)])
