@@ -98,7 +98,7 @@
                                     </form>
                                 </div>
                                 <div class="card-body" style="background-color: #9dbed8">
-                                    <h2 class="my-4">فایل های بارگذاری شده</h2>
+                                    <h6 class="my-4">محل نمایش فایل های بارگذاری شده</h6>
                                     <div class="row">
                                         <div class="text-right">
                                             {% for x in df %}
@@ -119,14 +119,14 @@
                                                             <td>
                                                                 <a href="{% url 'TopSkill:download_file' x.id %}"
                                                                    target="_blank"><span
-                                                                        class="float-left text-bold text-sm">{{ x.upload_name }}</span></a>
+                                                                        class="float-left text-bold text-sm">{{ x.upload_name }}</span>
+                                                                </a>
                                                             </td>
                                                         </tr>
-                                                        {#                                                <div class="dropdown-divider"></div>#}
                                                     {% endif %}
                                                 </table>
                                             {% empty %}
-                                                <p>هیچ فایلی برای نمایش وجود ندارد.</p>
+                                                <p>هیچ گزینه ای برای نمایش وجود ندارد.</p>
                                             {% endfor %}
                                             {#                    <a class="btn btn-dark my-4" href="/">Return to Homepage</a>#}
                                         </div>

@@ -17,8 +17,8 @@
                 <th>شماره دانشجویی</th>
                 <th>استان</th>
                 <th>مقطع</th>
-                <th>جزییات</th>
-                <th>حذف</th>
+                <th>جزییات</th>{% if perms.TopSkill.delete_tsstudent %}
+                <th>حذف</th>{% endif %}
             </tr>
             </thead>
             <tbody class="text-xs">
@@ -32,10 +32,10 @@
                     <td>{{ x.substudy_level_title }}</td>
                     <td><a href="{% url 'TopSkill:student_detail' x.id %}">
                         <button type="button" class="btn btn-info">جزییات</button>
-                    </a></td>
-                    <th><a href="{% url 'TopSkill:student_delete' x.id %}">
+                    </a></td>{% if perms.TopSkill.delete_tsstudent %}
+                    <td><a href="{% url 'TopSkill:student_delete' x.id %}">
                         <button type="button" class="btn btn-danger">حذف</button>
-                    </a></th>
+                    </a></td>{% endif %}
                 </tr>
             {% endfor %}
             </tbody>

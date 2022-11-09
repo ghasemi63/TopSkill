@@ -1,4 +1,3 @@
-import self as self
 from django.contrib.auth.models import AbstractUser, PermissionsMixin, BaseUserManager, Group
 from django.db import models
 from django_jalali.db import models as jmodels
@@ -56,7 +55,7 @@ class Center(models.Model):
 #         return user
 
 
-class CulturalUser(AbstractUser, PermissionsMixin):
+class CulturalUser(AbstractUser):
     POSITION_CHOICES = [
         ('1', 'مرکز آموزش'),
         ('2', 'استان'),
