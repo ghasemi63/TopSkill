@@ -99,30 +99,30 @@ def document_score(request, user_id, doc_id):
                         bf.province_score = form.cleaned_data.get('province_score')
                         bf.save()
                         score_province_score = Score.objects.filter(student_id=user_id).aggregate(
-                            summs=Sum('province_score'))
+                            sum=Sum('province_score'))
                         var = TSStudent.objects.get(id=user_id)
-                        var.province_score = score_province_score['summs']
+                        var.province_score = score_province_score['sum']
                         var.save()
                     elif x.judgment_level == '11':
                         bf.judge1 = form.cleaned_data.get('judge1')
                         bf.save()
-                        score_judge = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('judge1'))
+                        score_judge = Score.objects.filter(student_id=user_id).aggregate(sum=Sum('judge1'))
                         var = TSStudent.objects.get(id=user_id)
-                        var.judges1 = score_judge['summs']
+                        var.judges1 = score_judge['sum']
                         var.save()
                     elif x.judgment_level == '12':
                         bf.judge2 = form.cleaned_data.get('judge2')
                         bf.save()
-                        score_judge = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('judge2'))
+                        score_judge = Score.objects.filter(student_id=user_id).aggregate(sum=Sum('judge2'))
                         var = TSStudent.objects.get(id=user_id)
-                        var.judges2 = score_judge['summs']
+                        var.judges2 = score_judge['sum']
                         var.save()
                     elif x.judgment_level == '13':
                         bf.judge3 = form.cleaned_data.get('judge3')
                         bf.save()
-                        score_judge = Score.objects.filter(student_id=user_id).aggregate(summs=Sum('judge3'))
+                        score_judge = Score.objects.filter(student_id=user_id).aggregate(sum=Sum('judge3'))
                         var = TSStudent.objects.get(id=user_id)
-                        var.judges3 = score_judge['summs']
+                        var.judges3 = score_judge['sum']
                         var.save()
                 messages.error(request, form.errors)
                 return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
@@ -137,15 +137,14 @@ def document_score(request, user_id, doc_id):
                 if form.is_valid():
                     df = DocumentFile.objects.create(score=sc, creator_id=request.user.id)
                     df.upload_file = form.cleaned_data['upload_file']
-                    df.duc_data = form.cleaned_data['duc_data']
+                    df.document_get_date = form.cleaned_data['document_get_date']
                     df.upload_name = form.cleaned_data['upload_name']
                     df.save()
                     messages.success(request, 'مدارک مورد نظر بارگذاری شد.')
                     return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
                 else:
-                    df = DocumentFile.objects.filter(score=sc)
-                    messages.error(request, 'لطفاْ فایل مناسب را بارگذاری کنید.')
-                    return redirect(request, 'document_score.html', {'df': df})
+                    messages.error(request, form.errors)
+                    return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
     else:
         ts, create = StudentJudgment.objects.get_or_create(student_id=user_id, user_id=request.user.id)
         li = LevelingIndex.objects.get(id=doc_id)
@@ -194,4 +193,4 @@ def document_delete(request, pk):
 def student_delete(request, pk):
     td = get_object_or_404(TSStudent, id=pk)
     td.delete()
-    return HttpResponseRedirect('/')
+    return redirect(reverse('TopSkill:students'))

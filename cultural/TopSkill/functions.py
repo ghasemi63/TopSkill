@@ -1,3 +1,7 @@
+from django.db.models import FileField
+from django.forms import forms
+from django.template.defaultfilters import filesizeformat
+
 def td(ta):
     t = list(ta)
     if t[0] == '9':
@@ -12,4 +16,3 @@ def td(ta):
     print(t)
     lists = ''.join(map(str, t))
     return lists
-

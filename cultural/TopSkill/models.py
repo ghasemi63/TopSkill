@@ -95,18 +95,18 @@ class TSStudent(models.Model):
     status = models.BooleanField(verbose_name='وضعیت پرونده', choices=[(False, 'غیرفعال'), (True, 'فعال')],
                                  default=True)
     province_score = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
-    judges1 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
-    judges2 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
-    judges3 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
+    judge1 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
+    judge2 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
+    judge3 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
 
     objects = models.Manager()
     leveling_manager = LevelingIndex.objects.all()
 
     def save(self, *args, **kwargs):
         self.province_score = round(self.province_score, 2)
-        self.judges1 = round(self.judges1, 2)
-        self.judges2 = round(self.judges2, 2)
-        self.judges3 = round(self.judges3, 2)
+        self.judge1 = round(self.judge1, 2)
+        self.judge2 = round(self.judge2, 2)
+        self.judge3 = round(self.judge3, 2)
         super(TSStudent, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -164,8 +164,8 @@ class DocumentFile(models.Model):
     creator = models.ForeignKey(CulturalUser, on_delete=models.RESTRICT, verbose_name='کابر ثبت کننده')
     created_date = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت رکورد شمسی')
     score = models.ForeignKey(Score, on_delete=models.CASCADE)
-    duc_data = jmodels.jDateField(verbose_name='تاریخ ثبت گواهی',
-                                  default=jdatetime.date.today())
+    document_get_date = jmodels.jDateField(verbose_name='تاریخ گواهی',
+                                               default=jdatetime.date.today())
 
     def content_file_name(self, filename):
         ext = filename.split('.')[-1]

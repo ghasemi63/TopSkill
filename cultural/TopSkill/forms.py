@@ -1,7 +1,8 @@
 from .models import TSStudent, Score
-
+from .fields import RestrictedFileField
 from .views import DocumentFile
 from django import forms
+from django_jalali import forms as jforms
 
 
 class SearchStudentForm(forms.Form):
@@ -12,16 +13,24 @@ class SearchStudentForm(forms.Form):
 
 class DocumentForm(forms.ModelForm):
     upload = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+    upload_file = RestrictedFileField(content_types=['image/png', 'image/jpeg', 'application/zip', 'application/pdf'],
+                                      max_upload_size=314573)
+    # document_get_date = jforms.jDateTimeField(
+    #     input_formats=['%d-%m-%Y'],
+    #     widget=forms.DateInput(attrs={
+    #         'class': 'input-group-text cursor-pointer',
+    #     })
+    # )
 
     class Meta:
         model = DocumentFile
-        fields = {'duc_data', 'upload_file', 'upload_name'}
+        fields = {'document_get_date', 'upload_file', 'upload_name'}
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['upload_file'].widget.attrs.update(
-            {'accept': '.pdf, .jpg, .zip'},
-        ),
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['upload_file'].widget.attrs.update(
+    #         {'accept': '.pdf, .jpg, .zip'},
+    #     ),
 
 
 class ScoreForm(forms.ModelForm):

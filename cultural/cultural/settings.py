@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'TopSkill.apps.TopskillConfig',
     'django_jalali',
-    'crispy_forms',
     'widget_tweaks',
 ]
 
@@ -114,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa'
 
 TIME_ZONE = 'Asia/Tehran'
 
