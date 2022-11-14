@@ -126,7 +126,6 @@ def document_score(request, user_id, doc_id):
                         var.save()
                 messages.error(request, form.errors)
                 return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
-
             else:
                 return messages.error(request, form.errors)
         elif request.POST.get('upload'):

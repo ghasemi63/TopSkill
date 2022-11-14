@@ -120,7 +120,7 @@
                             <thead>
                             <tr>
                                 <th>عنوان</th>
-                                <th>توضیحات</th>
+                                <th>راهنما</th>
                                 <th>استان</th>
                                 <th>داوری مرحله اول</th>
                                 <th>داوری مرحله دوم</th>
@@ -130,12 +130,14 @@
                             </thead>
                             <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 1 %}
                                 <tr>
-                                    <td>{{ x.title }}</td>
                                     <td>
-                                        <button class="btn btn-success" hx-get="{% url 'TopSkill:description' x.id %}"
-                                                hx-target="#dialog">
-                                            مشاهده
-                                        </button>
+                                        {{ x.title }}
+                                    </td>
+                                    <td>
+                                        <a class="btn badge-info" hx-get="{% url 'TopSkill:description' x.id %}"
+                                           hx-target="#dialog">
+                                            راهنما
+                                        </a>
                                     </td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
                                         {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
@@ -165,7 +167,7 @@
                             <thead>
                             <tr>
                                 <th>عنوان</th>
-                                <th>توضیحات</th>
+                                <th>راهنما</th>
                                 <th>استان</th>
                                 <th>داوری مرحله اول</th>
                                 <th>داوری مرحله دوم</th>
@@ -177,10 +179,10 @@
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td>
-                                        <button class="btn btn-success" hx-get="{% url 'TopSkill:description' x.id %}"
-                                                hx-target="#dialog">
-                                            مشاهده
-                                        </button>
+                                        <a class="btn badge-info" hx-get="{% url 'TopSkill:description' x.id %}"
+                                           hx-target="#dialog">
+                                            راهنما
+                                        </a>
                                     </td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
                                         {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
@@ -210,7 +212,7 @@
                             <thead>
                             <tr>
                                 <th>عنوان</th>
-                                <th>توضیحات</th>
+                                <th>راهنما</th>
                                 <th>استان</th>
                                 <th>داوری مرحله اول</th>
                                 <th>داوری مرحله دوم</th>
@@ -222,10 +224,10 @@
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td>
-                                        <button class="btn btn-success" hx-get="{% url 'TopSkill:description' x.id %}"
-                                                hx-target="#dialog">
-                                            مشاهده
-                                        </button>
+                                        <a class="btn badge-info" hx-get="{% url 'TopSkill:description' x.id %}"
+                                           hx-target="#dialog">
+                                            راهنما
+                                        </a>
                                     </td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
                                         {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
@@ -235,9 +237,11 @@
                                         {{ y.judge2|floatformat:2 }}{% endif %}{% endfor %}</p></td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
                                         {{ y.judge3|floatformat:2 }}{% endif %}{% endfor %}</p></td>
-                                    <td><a href="{% url 'TopSkill:document_score' detail.id x.id %}">
-                                        <button type="button" class="btn btn-info">مدارک</button>
-                                    </a></td>
+                                    <td>
+                                        <a href="{% url 'TopSkill:document_score' detail.id x.id %}">
+                                            <button type="button" class="btn btn-info">مدارک</button>
+                                        </a>
+                                    </td>
                                 </tr>{% endif %}{% endfor %}
                             </tbody>
                         </table>
@@ -253,7 +257,7 @@
                             <thead>
                             <tr>
                                 <th>عنوان</th>
-                                <th>توضیحات</th>
+                                <th>راهنما</th>
                                 <th>استان</th>
                                 <th>داوری مرحله اول</th>
                                 <th>داوری مرحله دوم</th>
@@ -265,10 +269,10 @@
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td>
-                                        <button class="btn btn-success" hx-get="{% url 'TopSkill:description' x.id %}"
-                                                hx-target="#dialog">
-                                            مشاهده
-                                        </button>
+                                        <a class="btn badge-info" hx-get="{% url 'TopSkill:description' x.id %}"
+                                           hx-target="#dialog">
+                                            راهنما
+                                        </a>
                                     </td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
                                         {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
@@ -298,7 +302,7 @@
                             <thead>
                             <tr>
                                 <th>عنوان</th>
-                                <th>توضیحات</th>
+                                <th>راهنما</th>
                                 <th>استان</th>
                                 <th>داوری مرحله اول</th>
                                 <th>داوری مرحله دوم</th>
@@ -310,10 +314,10 @@
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td>
-                                        <button class="btn btn-success" hx-get="{% url 'TopSkill:description' x.id %}"
-                                                hx-target="#dialog">
-                                            مشاهده
-                                        </button>
+                                        <a class="btn badge-info" hx-get="{% url 'TopSkill:description' x.id %}"
+                                           hx-target="#dialog">
+                                            راهنما
+                                        </a>
                                     </td>
                                     <td><p>{% for y in x.score_set.all %}{% if y.student.id == detail.id %}
                                         {{ y.province_score|floatformat:2 }}{% endif %}{% endfor %}</p></td>
