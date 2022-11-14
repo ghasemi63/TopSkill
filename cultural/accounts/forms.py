@@ -69,8 +69,18 @@ class CulturalUserChangeForms(forms.ModelForm):
         }
 
 
-class CulturalAuthenticationForm(AuthenticationForm):
-    username = UsernameField(
-        label='نام کاربری',
-        widget=forms.TextInput(attrs={'autofocus': True})
-    )
+class CulturalUserLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(CulturalUserLoginForm, self).__init__(*args, **kwargs)
+
+    # username = UsernameField(widget=forms.CharField(
+    #     attrs={
+    #         'class': 'input100', 'placeholder': "نام کاربری"
+    #     }
+    # )),
+    # self.fields['username'].widget.attrs.update(
+    #     {'class': 'input100', 'placeholder': "نام کاربری"},
+    # ),
+    # self.fields['password'].widget.attrs.update(
+    #     {'class': 'input100', 'placeholder': "گذرواژه"},
+    # )

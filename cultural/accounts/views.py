@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 # from django.db import transaction
 # from django.contrib import messages
 
-from .forms import CulturalUserCreationForms, CulturalAuthenticationForm
+from .forms import CulturalUserCreationForms, CulturalUserLoginForm
 # from .forms import CulturalAuthenticationForm
 # Create your views here.
 
@@ -17,6 +17,6 @@ class SignUpView(CreateView):
 
 
 class CulturalLoginView(LoginView):
-    authentication_form = CulturalAuthenticationForm
+    authentication_form = CulturalUserLoginForm
     success_url = reverse_lazy('/')
     template_name = 'registration/login.html'
