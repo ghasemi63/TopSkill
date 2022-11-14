@@ -11,8 +11,8 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{% static '/Login/vendor/bootstrap/css/bootstrap.min.css' %}">
     <!--===============================================================================================-->
-    	<link rel="stylesheet" type="text/css" href="{% static '/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-{#    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">#}
+    <link rel="stylesheet" type="text/css"
+          href="{% static '/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{% static '/Login/vendor/animate/animate.css' %}">
     <!--===============================================================================================-->
@@ -35,7 +35,18 @@
 
             <form class="login100-form validate-form" method="post">{% csrf_token %}
                 <span class="login100-form-title">
+                    {% include 'messages.html' %}
+                    {% if form.errors %}
+                        <p>نام کابری و یا گذرواژه صحیح نیست.</p>
+                    {% endif %}
 
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                            <p>شما مجوز مشاهده این صفحه را ندارید.</p>
+{#                        {% else %}#}
+{#                            <p> ابتدا به سامانه وارد شوید.</p>#}
+                        {% endif %}
+                    {% endif %}
 					</span>
 
                 <div class="wrap-input100 validate-input" data-validate="لطفاْ نام کاربری صحیح را وارد کنید.">

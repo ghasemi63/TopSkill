@@ -14,4 +14,5 @@ urlpatterns = [
     # path('detail/document_delete/<int:pk>/delete', views.DocumentDelete.as_view(), name='document_delete'),
     path(r'detail/download_file/<int:file_id>/download', views.download_file, name='download_file'),
     # path('test', views.levelindex, name='test')
+    path(r'detail/<int:id>/description/', views.description, name='description')
 ]

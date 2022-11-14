@@ -53,7 +53,7 @@ class Student(models.Model):
 
 class LevelingIndex(models.Model):
     title = models.CharField(max_length=300, verbose_name='موضوع گواهی')
-    description = models.CharField(max_length=500, verbose_name='توضیحات', null=True)
+    description = models.CharField(max_length=1000, verbose_name='توضیحات', null=True)
     leveling_index_category_id = models.PositiveIntegerField(verbose_name='طبقه بندی موضوعات')
     min_score = models.CharField(verbose_name='حداقل امتیاز', max_length=4)
     max_score = models.CharField(verbose_name='حداکثر امتیاز', max_length=4, null=True)

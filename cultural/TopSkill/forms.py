@@ -13,8 +13,9 @@ class SearchStudentForm(forms.Form):
 
 class DocumentForm(forms.ModelForm):
     upload = forms.BooleanField(widget=forms.HiddenInput, initial=True)
-    upload_file = RestrictedFileField(content_types=['image/png', 'image/jpeg', 'application/zip', 'application/pdf'],
+    upload_file = RestrictedFileField(content_types=['image/png', 'image/jpeg', 'application/pdf'],
                                       max_upload_size=314573)
+
     # document_get_date = jforms.jDateTimeField(
     #     input_formats=['%d-%m-%Y'],
     #     widget=forms.DateInput(attrs={

@@ -143,7 +143,7 @@ def document_score(request, user_id, doc_id):
                     messages.success(request, 'مدارک مورد نظر بارگذاری شد.')
                     return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
                 else:
-                    messages.error(request, form.errors)
+                    messages.warning(request, form.errors)
                     return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
     else:
         ts, create = StudentJudgment.objects.get_or_create(student_id=user_id, user_id=request.user.id)
@@ -167,6 +167,20 @@ def document_score(request, user_id, doc_id):
 def download_file(request, file_id):
     obj = DocumentFile.objects.get(id=file_id)
     return sendfile(request, obj.upload_file.path)
+
+
+"""
+Descriptopn levelin index item
+"""
+
+
+def description(request, id):
+    try:
+        desc = LevelingIndex.objects.get(id=id)
+    except:
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'description.html', {'context': desc})
 
 
 """
