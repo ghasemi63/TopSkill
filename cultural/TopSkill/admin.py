@@ -1,15 +1,15 @@
 from django.contrib import admin
-from .models import TSStudent, Student, Score, StudentJudgment, DocumentFile
+from .models import AllStudent, Student, Score, JudgmentStatus, DocumentFile
 
 
 # Register your models here.
-@admin.register(TSStudent)
-class TSStudentAdmin(admin.ModelAdmin):
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Student)
-class StudentAdmin(admin.ModelAdmin):
+@admin.register(AllStudent)
+class AllStudentAdmin(admin.ModelAdmin):
     pass
 
 
@@ -18,8 +18,8 @@ class ScoreAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(StudentJudgment)
-class StudentJudgmentAdmin(admin.ModelAdmin):
+@admin.register(JudgmentStatus)
+class JudgmentStatusAdmin(admin.ModelAdmin):
     pass
 
 

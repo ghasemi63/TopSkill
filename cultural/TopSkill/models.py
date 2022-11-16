@@ -20,7 +20,7 @@ from accounts.models import CulturalUser
 #         )
 
 
-class Student(models.Model):
+class AllStudent(models.Model):
     FirstName = models.CharField(max_length=150, null=True, blank=True)
     LastName = models.CharField(max_length=150, null=True, blank=True)
     FatherName = models.CharField(max_length=150, null=True, blank=True)
@@ -53,7 +53,7 @@ class Student(models.Model):
 
 class LevelingIndex(models.Model):
     title = models.CharField(max_length=300, verbose_name='موضوع گواهی')
-    description = models.CharField(max_length=1000, verbose_name='توضیحات', null=True)
+    description = models.CharField(max_length=1500, verbose_name='توضیحات', null=True)
     leveling_index_category_id = models.PositiveIntegerField(verbose_name='طبقه بندی موضوعات')
     min_score = models.CharField(verbose_name='حداقل امتیاز', max_length=4)
     max_score = models.CharField(verbose_name='حداکثر امتیاز', max_length=4, null=True)
@@ -66,7 +66,7 @@ class LevelingIndex(models.Model):
         ordering = ['-id']
 
 
-class TSStudent(models.Model):
+class Student(models.Model):
     EDUCATION_GROUP_TITLE = [
         ('1', 'مدیریت و خدمات اجتماعی'),
         ('2', 'صنعت'),
@@ -95,9 +95,9 @@ class TSStudent(models.Model):
     status = models.BooleanField(verbose_name='وضعیت پرونده', choices=[(False, 'غیرفعال'), (True, 'فعال')],
                                  default=True)
     province_score = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
-    judge1 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
-    judge2 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
-    judge3 = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)
+    judge1 = models.FloatField(verbose_name='محموع امتیاز داوری اول', blank=True, default=0, max_length=2)
+    judge2 = models.FloatField(verbose_name='مجموع امتیاز داوری دوم', blank=True, default=0, max_length=2)
+    judge3 = models.FloatField(verbose_name='مجموع امتیاز داوری نهایی', blank=True, default=0, max_length=2)
 
     objects = models.Manager()
     leveling_manager = LevelingIndex.objects.all()
@@ -107,7 +107,7 @@ class TSStudent(models.Model):
         self.judge1 = round(self.judge1, 2)
         self.judge2 = round(self.judge2, 2)
         self.judge3 = round(self.judge3, 2)
-        super(TSStudent, self).save(*args, **kwargs)
+        super(Student, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('student_detail', args=[str(self.id)])
@@ -117,7 +117,7 @@ class TSStudent(models.Model):
 
 
 class Score(models.Model):
-    student = models.ForeignKey(TSStudent, on_delete=models.CASCADE, verbose_name='دانشجو')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='دانشجو')
     levelingindex = models.ForeignKey(LevelingIndex, on_delete=models.CASCADE, verbose_name='موضوع')
     province_score = models.FloatField(max_length=2, verbose_name='امتیاز استان', blank=True, default=0)
     judge1 = models.FloatField(max_length=2, verbose_name='امتیاز داور اول', blank=True, default=0)
@@ -140,32 +140,12 @@ class Score(models.Model):
         return f'{self.student.firstname} {self.student.lastname}'
 
 
-class StudentJudgment(models.Model):
-    JUDGMENT_LEVEL = [
-        ('1', 'مرکز آموزش'),
-        ('2', 'استان'),
-        ('3', 'دبیرخانه ستاد'),
-        ('11', 'داور اول'),
-        ('12', 'داور دوم'),
-        ('13', 'داور سوم'),
-        ('14', 'داور چهارم'),
-    ]
-    user = models.ForeignKey(CulturalUser, on_delete=models.CASCADE, verbose_name='کاربر')
-    student = models.ForeignKey(TSStudent, on_delete=models.CASCADE, verbose_name='دانشجو')
-    judgment_level = models.CharField(max_length=2, choices=JUDGMENT_LEVEL, verbose_name='مرحله داوری', )
-    status = models.BooleanField(verbose_name='وضعیت', default=True)
-    referral = models.BooleanField(verbose_name='وضعیت ارجاع', default=False)
-
-    def __str__(self):
-        return self.user.position
-
-
 class DocumentFile(models.Model):
     creator = models.ForeignKey(CulturalUser, on_delete=models.RESTRICT, verbose_name='کابر ثبت کننده')
     created_date = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت رکورد شمسی')
     score = models.ForeignKey(Score, on_delete=models.CASCADE)
     document_get_date = jmodels.jDateField(verbose_name='تاریخ گواهی',
-                                               default=jdatetime.date.today())
+                                           default=jdatetime.date.today())
 
     def content_file_name(self, filename):
         ext = filename.split('.')[-1]
@@ -182,3 +162,43 @@ class DocumentFile(models.Model):
 
     def get_absolute_url(self):
         return reverse('TopSkill:document_delete', args=[str(self.id)])
+
+
+class JudgmentStatus(models.Model):
+    FOLDER_POSITION = [
+        ('1', 'مرکز آموزش'),
+        ('2', 'استان'),
+        ('3', 'دبیرخانه ستاد'),
+        ('11', 'داور اول'),
+        ('12', 'داور دوم'),
+        ('13', 'داور سوم'),
+        ('14', 'داور چهارم'),
+    ]
+    user = models.ForeignKey(CulturalUser, on_delete=models.CASCADE, verbose_name='کاربر')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='دانشجو')
+    judgment_level = models.CharField(max_length=2, choices=FOLDER_POSITION, verbose_name='محل پرونده')
+    status = models.BooleanField(verbose_name='وضعیت کلی مرحله داوری', default=True)
+    referral = models.BooleanField(verbose_name='اتمام داوری', default=False)
+
+    def __str__(self):
+        return self.get_judgment_level_display
+
+
+class StudentFolder(models.Model):
+    REFERRAL_STAGE_CHOICES = [
+        ('4', 'دبیرخانه مرکزی'),
+        ('5', 'در دست داوری'),
+    ]
+    JUDGMENT_GROUP = [
+        ('1', 'آموزشی'),
+        ('2', 'پژوهشی'),
+        ('3', 'مهارتی'),
+        ('4', 'فرهنگی'),
+        ('5', 'امتیاز افزوده'),
+    ]
+    judgmentstatus = models.ForeignKey(JudgmentStatus, on_delete=models.CASCADE, verbose_name='وضعیت پرونده')
+    referee_status = models.CharField(max_length=2, choices=REFERRAL_STAGE_CHOICES, verbose_name='وضعیت داوری')
+    referee_level = models.CharField(max_length=1, verbose_name='مرحله داوری')
+    judgment_score_sum = models.CharField(max_length=2, choices=JUDGMENT_GROUP, blank=False)
+    judge_score_sum = models.FloatField(max_length=2, verbose_name='جمع امتیاز گروه', blank=True, default=0)
+

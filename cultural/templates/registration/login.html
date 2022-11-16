@@ -3,7 +3,7 @@
 {% load static %}
 {% load widget_tweaks %}
 <head>
-    <title>Login V1</title>
+    <title>دانشجوی نمونه</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -37,12 +37,13 @@
                 <span class="login100-form-title">
                     {% include 'messages.html' %}
                     {% if form.errors %}
-                        <p>نام کابری و یا گذرواژه صحیح نیست.</p>
+                        <p>نام کابری و یا گذرواژه صحیح نیست</p>
                     {% endif %}
 
                     {% if next %}
                         {% if user.is_authenticated %}
-                            <p>شما مجوز مشاهده این صفحه را ندارید.</p>
+                            <h4 style="color: red">شما مجوز مشاهده این صفحه را ندارید</h4><br>
+                            <h5 style="color: red">لطفاْ با نام کاربری دارای مجوز وارد شوید</h5>
 {#                        {% else %}#}
 {#                            <p> ابتدا به سامانه وارد شوید.</p>#}
                         {% endif %}

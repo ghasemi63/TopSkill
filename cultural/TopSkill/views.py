@@ -8,7 +8,7 @@ from django.db.models import Sum
 from django_sendfile import sendfile
 from django.views.generic import TemplateView
 
-from .models import TSStudent, Student, LevelingIndex, DocumentFile, Score, StudentJudgment
+from .models import Student, AllStudent, LevelingIndex, DocumentFile, Score, JudgmentStatus
 from .forms import DocumentForm, ScoreForm
 
 
@@ -18,18 +18,18 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
 
 @login_required
-@permission_required(perm='TopSkill.view_tsstudent')
+@permission_required(perm='TopSkill.view_student')
 def studentsView(request):
-    contex = TSStudent.objects.all()
+    contex = Student.objects.all()
     return render(request, 'students.html', {'context': contex})
 
 
 @login_required
-@permission_required(perm='TopSkill.view_student')
+@permission_required(perm='TopSkill.view_allstudent')
 def autocomplete(request):
     if 'term' in request.GET:
         term = request.GET.get('term')
-        national = Student.objects.filter(NationalCode__contains=term)
+        national = AllStudent.objects.filter(NationalCode__contains=term)
         return JsonResponse(list(national.values()), safe=False)
     else:
         print('the condition is false')
@@ -37,18 +37,18 @@ def autocomplete(request):
 
 
 @login_required
-@permission_required(perm='TopSkill.add_tsstudent')
+@permission_required(perm='TopSkill.add_student')
 def submit_student(request):
     if request.method == 'POST':
         form = request.POST.get('nationalcodeid', False)
         if form:
-            stu_na = Student.objects.get(id=form)
-            ts_na = TSStudent.objects.filter(studentnumber__exact=stu_na.StudentNumber)
+            stu_na = AllStudent.objects.get(id=form)
+            ts_na = Student.objects.filter(studentnumber__exact=stu_na.StudentNumber)
             if ts_na:
                 na = 'اطلاعات دانشجوی مورد نظر قبلاْ وارد شده است.'
                 return render(request, 'search_student.html', {'warning': na})
             else:
-                ts = TSStudent.objects.create(
+                ts = Student.objects.create(
                     firstname=stu_na.FirstName,
                     lastname=stu_na.LastName,
                     fathername=stu_na.FatherName,
@@ -65,25 +65,27 @@ def submit_student(request):
                     user_id=request.user.id
                 )
                 try:
-                    StudentJudgment.objects.get(user__position=2, user_id=request.user.id,
+                    JudgmentStatus.objects.get(user__position=2, user_id=request.user.id,
                                                 student_id=ts.id)
                 except:
-                    StudentJudgment.objects.create(user_id=request.user.id,
+                    JudgmentStatus.objects.create(user_id=request.user.id,
                                                    student_id=ts.id, judgment_level=2, status=True)
-                return render(request, 'students.html', {'context': TSStudent.objects.all()})
+                return render(request, 'students.html', {'context': Student.objects.all()})
     else:
-        na = 'اطلاعات وارد شده به روش امن ارسال نشده است.'
+        na = 'روش ارسال اطلاعات ایمن نبوده و امکان ثبت داده ها وجود ندارد.'
         return render(request, 'search_student.html', {'warning': na})
 
 
 @login_required
+@permission_required(perm='TopSkill.view_student')
 def student_detail(request, pk):
-    detail = get_object_or_404(TSStudent, id=pk)
+    detail = get_object_or_404(Student, id=pk)
     level = LevelingIndex.objects.all()
     return render(request, 'Student_detail.html', {'detail': detail, 'level': level})
 
 
 @login_required
+@permission_required(perm='TopSkill.view_documentfile')
 def document_score(request, user_id, doc_id):
     """
     evaluate post method from submit form
@@ -93,38 +95,39 @@ def document_score(request, user_id, doc_id):
             form = ScoreForm(request.POST)
             if form.is_valid():
                 bf = Score.objects.get(student_id=user_id, levelingindex_id=doc_id)
-                cd = bf.student.studentjudgment_set.all()
+                cd = bf.student.judgmentstatus_set.all()
                 for x in cd:
                     if x.judgment_level == '2':
                         bf.province_score = form.cleaned_data.get('province_score')
                         bf.save()
                         score_province_score = Score.objects.filter(student_id=user_id).aggregate(
                             sum=Sum('province_score'))
-                        var = TSStudent.objects.get(id=user_id)
+                        var = Student.objects.get(id=user_id)
                         var.province_score = score_province_score['sum']
                         var.save()
                     elif x.judgment_level == '11':
                         bf.judge1 = form.cleaned_data.get('judge1')
                         bf.save()
                         score_judge = Score.objects.filter(student_id=user_id).aggregate(sum=Sum('judge1'))
-                        var = TSStudent.objects.get(id=user_id)
-                        var.judges1 = score_judge['sum']
+                        var = Student.objects.get(id=user_id)
+                        var.judge1 = score_judge['sum']
                         var.save()
                     elif x.judgment_level == '12':
                         bf.judge2 = form.cleaned_data.get('judge2')
                         bf.save()
                         score_judge = Score.objects.filter(student_id=user_id).aggregate(sum=Sum('judge2'))
-                        var = TSStudent.objects.get(id=user_id)
-                        var.judges2 = score_judge['sum']
+                        var = Student.objects.get(id=user_id)
+                        var.judge2 = score_judge['sum']
                         var.save()
                     elif x.judgment_level == '13':
                         bf.judge3 = form.cleaned_data.get('judge3')
                         bf.save()
                         score_judge = Score.objects.filter(student_id=user_id).aggregate(sum=Sum('judge3'))
-                        var = TSStudent.objects.get(id=user_id)
-                        var.judges3 = score_judge['sum']
+                        var = Student.objects.get(id=user_id)
+                        var.judge3 = score_judge['sum']
                         var.save()
                 messages.error(request, form.errors)
+                messages.success(request, 'ثبت نمره شما صورت گرفت.')
                 return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
             else:
                 return messages.error(request, form.errors)
@@ -145,7 +148,7 @@ def document_score(request, user_id, doc_id):
                     messages.warning(request, form.errors)
                     return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
     else:
-        ts, create = StudentJudgment.objects.get_or_create(student_id=user_id, user_id=request.user.id)
+        ts, create = JudgmentStatus.objects.get_or_create(student_id=user_id, user_id=request.user.id)
         li = LevelingIndex.objects.get(id=doc_id)
         score_record, create = Score.objects.get_or_create(
             student_id=ts.student_id,
@@ -172,7 +175,8 @@ def download_file(request, file_id):
 Descriptopn levelin index item
 """
 
-
+@login_required()
+@permission_required(perm='TopSkill.view_levelingindex')
 def description(request, id):
     try:
         desc = LevelingIndex.objects.get(id=id)
@@ -180,6 +184,17 @@ def description(request, id):
         return HttpResponseRedirect('/')
     else:
         return render(request, 'description.html', {'context': desc})
+
+
+"""
+Referral Arbitration 
+پنل ارجاع داوری
+"""
+
+@login_required()
+@permission_required(perm='TopSkill.add_studentfolder')
+def referral_arbitration(request, stu_id):
+    student = get_object_or_404(Student, stu_id)
 
 
 """
@@ -202,8 +217,8 @@ def document_delete(request, pk):
 
 
 @login_required()
-@permission_required(perm='TopSkill.delete_tsstudent')
+@permission_required(perm='TopSkill.delete_student')
 def student_delete(request, pk):
-    td = get_object_or_404(TSStudent, id=pk)
+    td = get_object_or_404(Student, id=pk)
     td.delete()
     return redirect(reverse('TopSkill:students'))

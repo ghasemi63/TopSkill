@@ -20,5 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls', namespace='Accounts')),
-    re_path(r'', include('TopSkill.urls', namespace='TopSkill')),
+    path(r'', include('TopSkill.urls', namespace='TopSkill')),
 ]

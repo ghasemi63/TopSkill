@@ -41,11 +41,6 @@
                     <div class="col-sm-6">
                         {% include 'messages.html' %}
                     </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-left">
-                            <li class="breadcrumb-item"><a href="#">خانه</a></li>
-                        </ol>
-                    </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
@@ -57,7 +52,8 @@
                 <div class="overlay">
                     <i class="fas fa-2x fa-sync-alt fa-spin"></i>
                 </div>
-                <div class="card">{% block content %}{% endblock content %}
+                <div class="card">
+                    {% block content %}{% endblock content %}
                 </div>
             </div><!--/. container-fluid -->
         </section>
@@ -104,7 +100,14 @@
 <!-- HTMX -->
 <script src="{% static '/plugins/modal/htmx.min.js' %}"></script>
 <script src="{% static '/plugins/modal/dialog.js' %}"></script>
-{% block scriptbutton %}{% endblock scriptbutton %}
+{% block downscript %}{% endblock downscript %}
+<script>
+    const modal = new bootstrap.Modal(document.getElementById("modal"))
+
+    htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog").innerHTML = ""
+    })
+</script>
 <div id="modal" class="modal fade">
     <div id="dialog" class="modal-dialog" hx-target="this"></div>
 </div>

@@ -1,4 +1,4 @@
-from .models import TSStudent, Score
+from .models import Student, Score
 from .fields import RestrictedFileField
 from .views import DocumentFile
 from django import forms
@@ -7,7 +7,7 @@ from django_jalali import forms as jforms
 
 class SearchStudentForm(forms.Form):
     class Meta:
-        model = TSStudent
+        model = Student
         fields = "__all__"
 
 

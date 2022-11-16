@@ -1,0 +1,173 @@
+<!-- Modal -->
+<div hx-post="{{ request.path }}" class="modal-content">
+    <div class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div>
+                {% if messages %}
+                    <div class="toast-body">
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
+                                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}{% endif %}
+                                    {{ message }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-body">
+                        {% if perms.TopSkill.add_score or perms.TopSkill.change_score %}
+                            <div class="card-body" style="background-color: #9fcdff">
+                                <div class="form-">
+                                    <form hx-post="{{ request.path }}" class="modal-content"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {% for x in form.instance.student.studentjudgment_set.all %}
+                                            <table class="col">
+                                                <tr>
+                                                    <td>
+                                                        {% if x.judgment_level == "2" %}
+                                                            {{ form.province_score }}
+                                                        {% elif x.judgment_level == "11" %}
+                                                            {{ form.judge1 }}
+                                                        {% elif x.judgment_level == "12" %}
+                                                            {{ form.judge2 }}
+                                                        {% elif x.judgment_level == "13" %}
+                                                            {{ form.judge3 }}
+                                                        {% endif %}
+                                                        {{ form.score }}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        {% endfor %}
+                                        <table class="col">
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" name="next" value="{{ request.path }}">
+                                                    <button type="submit" name="submit"
+                                                            class="btn btn-success col-4">ثبت
+                                                        امتیاز
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="modal-body">
+                        {% if perms.TopSkill.add_documentfile %}
+                            <div class="btn-group col-md-12">
+                                <form hx-post="{{ request.path }}" class="modal-content" id="Upload"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="col">
+                                        <table class="col-12">
+                                            <tr>
+                                                <td>
+                                                    {{ upload_form.upload_file }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {{ upload_form.upload_name }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {{ upload_form.document_get_date }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {{ upload_form.upload }}
+                                                    <button type="submit" name="submit"
+                                                            class="btn btn-success col-4">
+                                                        بارگذاری فایل
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="modal-body">
+                        <div style="background-color: #9dbed8">
+                            <p>محل نمایش فایل های بارگذاری شده</p>
+                            <div>
+                                <table class="table table-striped table-bordered col-md-auto text-center table-hover"
+                                       style="width:100%">
+                                    <thead>
+                                    <tr>{% if perms.TopSkill.delete_documentfile %}
+                                        <th>
+                                            <p>حذف</p>
+                                        </th>{% endif %}
+                                        <th>
+                                            <p>عنوان گواهی</p>
+                                        </th>
+                                        <th>
+                                            <p>تاریخ دریافت گواهی</p>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    {% for x in df %}{% if perms.TopSkill.view_documentfile %}
+                                        {% if x.upload_file.url != Null %}
+                                            <tbody>
+                                            <tr>{% if perms.TopSkill.delete_documentfile %}
+                                                <td>
+                                                <a href="{% url 'TopSkill:document_delete' x.id %}"
+                                                   id="delete">
+                                                    <button type="submit" name="submit"
+                                                            class="btn btn-danger">
+                                                        حذف
+                                                    </button>
+                                                </a>{% endif %}
+                                                </td>
+                                                <td class="align-content-sm-center">
+                                                    <a href="{% url 'TopSkill:download_file' x.id %}"
+                                                       target="_blank">
+                                                        <p>{{ x.upload_name }}</p>
+                                                    </a>
+                                                </td>
+                                                <td class="align-content-sm-center">
+                                                    {{ x.document_get_date }}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        {% endif %}{% endif %}
+                                    {% empty %}
+                                        <p>هیچ گزینه ای برای نمایش وجود ندارد.</p>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#id_document_get_date').MdPersianDateTimePicker({
+                    targetTextSelector: '#id_document_get_date',
+                    placement: 'bottom',
+                    trigger: 'click',
+                    textFormat: 'yyyy-MM-dd',
+
+                });
+            })
+        </script>
+    </div>
+</div>
