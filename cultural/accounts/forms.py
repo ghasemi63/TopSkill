@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, AuthenticationForm, UsernameField
 from django.core.exceptions import ValidationError
+from captcha.fields import CaptchaField
 # from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from accounts.models import CulturalUser
@@ -71,16 +72,8 @@ class CulturalUserChangeForms(forms.ModelForm):
 
 class CulturalUserLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
-        super(CulturalUserLoginForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
-    # username = UsernameField(widget=forms.CharField(
-    #     attrs={
-    #         'class': 'input100', 'placeholder': "نام کاربری"
-    #     }
-    # )),
-    # self.fields['username'].widget.attrs.update(
-    #     {'class': 'input100', 'placeholder': "نام کاربری"},
-    # ),
-    # self.fields['password'].widget.attrs.update(
-    #     {'class': 'input100', 'placeholder': "گذرواژه"},
-    # )
+
+class CaptchaForm(forms.Form):
+    captcha = CaptchaField()

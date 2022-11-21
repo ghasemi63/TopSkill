@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'TopSkill.apps.TopskillConfig',
     'django_jalali',
     'widget_tweaks',
+    'captcha',
 ]
 
 MIDDLEWARE = [

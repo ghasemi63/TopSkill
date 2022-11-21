@@ -18,7 +18,8 @@ from django.urls import path, include, re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls', namespace='Accounts')),
     path(r'', include('TopSkill.urls', namespace='TopSkill')),
+    path('captcha/', include('captcha.urls')),
 ]
