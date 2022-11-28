@@ -201,4 +201,3 @@ class StudentFolder(models.Model):
     referee_level = models.CharField(max_length=1, verbose_name='مرحله داوری')
     judgment_score_sum = models.CharField(max_length=2, choices=JUDGMENT_GROUP, blank=False)
     judge_score_sum = models.FloatField(max_length=2, verbose_name='جمع امتیاز گروه', blank=True, default=0)
-

@@ -1,3 +1,5 @@
+import shutil
+
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.http import JsonResponse
 from django.urls import reverse
@@ -7,7 +9,9 @@ from django.contrib import messages
 from django.db.models import Sum
 from django_sendfile import sendfile
 from django.views.generic import TemplateView
-
+import os
+from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 from .models import Student, AllStudent, LevelingIndex, DocumentFile, Score, JudgmentStatus
 from .forms import DocumentForm, ScoreForm
 
@@ -66,11 +70,14 @@ def submit_student(request):
                 )
                 try:
                     JudgmentStatus.objects.get(user__position=2, user_id=request.user.id,
-                                                student_id=ts.id)
+                                               student_id=ts.id)
                 except:
                     JudgmentStatus.objects.create(user_id=request.user.id,
-                                                   student_id=ts.id, judgment_level=2, status=True)
+                                                  student_id=ts.id, judgment_level=2, status=True)
                 return render(request, 'students.html', {'context': Student.objects.all()})
+        else:
+            na = 'لطفاْ یک دانشجو را انتخاب کنید.'
+            return render(request, 'search_student.html', {'warning': na})
     else:
         na = 'روش ارسال اطلاعات ایمن نبوده و امکان ثبت داده ها وجود ندارد.'
         return render(request, 'search_student.html', {'warning': na})
@@ -175,6 +182,7 @@ def download_file(request, file_id):
 Descriptopn levelin index item
 """
 
+
 @login_required()
 @permission_required(perm='TopSkill.view_levelingindex')
 def description(request, id):
@@ -191,6 +199,7 @@ Referral Arbitration
 پنل ارجاع داوری
 """
 
+
 @login_required()
 @permission_required(perm='TopSkill.add_studentfolder')
 def referral_arbitration(request, stu_id):
@@ -205,15 +214,20 @@ all delete objects
 @login_required()
 @permission_required(perm='TopSkill.delete_documentfile')
 def document_delete(request, pk):
+    df = get_object_or_404(DocumentFile, id=pk)
     if request.POST:
-        df = get_object_or_404(DocumentFile, id=pk)
         df.delete()
+        if os.path.exists(df.upload_file.path):
+            os.remove(df.upload_file.path)
+        else:
+            raise FileNotFoundError(_("The desired file has already been deleted."))
         messages.success(request, "فایل مورد نظر حذف شد.")
         return redirect(
             reverse('TopSkill:document_score',
                     kwargs={'user_id': df.score.student_id, 'doc_id': df.score.levelingindex_id}))
     else:
-        return render(request, 'document_delete.html', {'pk': pk})
+        return render(request, 'document_delete.html',
+                      {'pk': pk, 'user_id': df.score.student_id, 'doc_id': df.score.levelingindex_id})
 
 
 @login_required()
@@ -221,4 +235,9 @@ def document_delete(request, pk):
 def student_delete(request, pk):
     td = get_object_or_404(Student, id=pk)
     td.delete()
-    return redirect(reverse('TopSkill:students'))
+    try:
+        shutil.rmtree(settings.MEDIA_ROOT + "/doc/" + td.nationalcode + "/")
+    except:
+        pass
+    messages.success(request, "پرونده مورد نظر به طور کامل حذف شد.")
+    return render(request, 'students.html')
