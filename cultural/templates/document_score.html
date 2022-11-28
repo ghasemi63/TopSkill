@@ -1,6 +1,12 @@
 {% extends 'base_generic.html' %}
 {% load static %}
-{% block script %}{% endblock script %}
+{% block topscript %}
+    <style>
+    input[type="file"] {
+    display: none;
+}
+    </style>
+{% endblock topscript %}
 {% block title %}جزییات مدارک{% endblock title %}
 {% block content %}
     <div class="container mt-5 pt-5">
@@ -66,7 +72,10 @@
                                                 <table class="col-12">
                                                     <tr>
                                                         <td>
-                                                            {{ upload_form.upload_file }}
+                                                            <label for="id_upload_file" class="btn btn-warning col-4">
+                                                                <i class="fa fa-cloud-upload"></i> انتخاب فایل
+                                                                {{ upload_form.upload_file }}
+                                                            </label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -83,7 +92,7 @@
                                                         <td>
                                                             {{ upload_form.upload }}
                                                             <button type="submit" name="submit"
-                                                                    class="btn btn-success col-4">بارگذاری
+                                                                    class="btn btn-primary col-4">بارگذاری
                                                                 فایل
                                                             </button>
                                                         </td>
@@ -156,9 +165,9 @@
         $(document).ready(function () {
             $('#id_document_get_date').MdPersianDateTimePicker({
                 targetTextSelector: '#id_document_get_date',
-                placement:'bottom',
-                trigger:'click',
-                textFormat:'yyyy-MM-dd',
+                placement: 'bottom',
+                trigger: 'click',
+                textFormat: 'yyyy-MM-dd',
 
             });
         })
