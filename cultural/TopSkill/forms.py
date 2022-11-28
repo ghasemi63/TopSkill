@@ -14,24 +14,17 @@ class SearchStudentForm(forms.Form):
 class DocumentForm(forms.ModelForm):
     upload = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     upload_file = RestrictedFileField(content_types=['image/png', 'image/jpeg', 'application/pdf'],
-                                      max_upload_size=314573)
-
-    # document_get_date = jforms.jDateTimeField(
-    #     input_formats=['%d-%m-%Y'],
-    #     widget=forms.DateInput(attrs={
-    #         'class': 'input-group-text cursor-pointer',
-    #     })
-    # )
+                                      max_upload_size=2097152)
 
     class Meta:
         model = DocumentFile
         fields = {'document_get_date', 'upload_file', 'upload_name'}
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['upload_file'].widget.attrs.update(
-    #         {'accept': '.pdf, .jpg, .zip'},
-    #     ),
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['upload_file'].widget.attrs.update(
+            {'accept': '.pdf, .jpg, .png '},
+        ),
 
 
 class ScoreForm(forms.ModelForm):
