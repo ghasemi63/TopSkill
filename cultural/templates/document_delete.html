@@ -5,5 +5,8 @@
     <form action="" method="post">{% csrf_token %}
         <p>آیا از پاک شدن فایل مورد نظر اطمینان دارید؟</p>
         <input type="submit" value="پاک شود">
+        <a href="{% url 'TopSkill:document_score' user_id doc_id %}">
+            <button type="button" class="btn btn-warning">بازگشت</button>
+        </a>
     </form>
 {% endblock content %}
