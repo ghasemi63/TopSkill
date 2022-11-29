@@ -30,21 +30,12 @@
     <!-- Navbar -->
     {% include 'navbar.html' %}
     <!-- /.navbar -->
-
     <!-- Main Sidebar Container -->
     {% include 'sidebar.html' %}
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
+        <div class="content-header"></div>
         <!-- /.content-header -->
 
         <!-- Main content -->
@@ -113,7 +104,7 @@
         document.addEventListener("DOMContentLoaded", function (event) {
             toastr.options = {
                 "closeButton": true, "debug": false, "newestOnTop": true,
-                "progressBar": false, "positionClass": "toast-top-left", "preventDuplicates": true,
+                "progressBar": true, "positionClass": "toast-top-left", "preventDuplicates": true,
                 "onclick": null, "showDuration": "300", "hideDuration": "1000", "timeOut": "5000",
                 "extendedTimeOut": "1000", "showEasing": "swing", "hideEasing": "linear",
                 "showMethod": "fadeIn", "hideMethod": "fadeOut"

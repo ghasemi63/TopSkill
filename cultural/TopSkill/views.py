@@ -221,7 +221,7 @@ def document_delete(request, pk):
             os.remove(df.upload_file.path)
         else:
             raise FileNotFoundError(_("The desired file has already been deleted."))
-        messages.success(request, "فایل مورد نظر حذف شد.")
+        messages.warning(request, "فایل مورد نظر حذف شد.")
         return redirect(
             reverse('TopSkill:document_score',
                     kwargs={'user_id': df.score.student_id, 'doc_id': df.score.levelingindex_id}))
