@@ -1,6 +1,5 @@
-from django.db.models import FileField
-from django.forms import forms
-from django.template.defaultfilters import filesizeformat
+from django.utils.translation import gettext_lazy as _
+
 
 def td(ta):
     t = list(ta)
@@ -16,3 +15,11 @@ def td(ta):
     print(t)
     lists = ''.join(map(str, t))
     return lists
+
+
+def toastrMessagePure(message):
+    return list(_(message))
+
+
+def toastrMessageForm(form):
+    return [v for v in form.errors.values()]

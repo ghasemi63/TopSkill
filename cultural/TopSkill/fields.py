@@ -7,6 +7,7 @@ from django.template.defaultfilters import filesizeformat
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.contrib import messages
 
 
 class RestrictedFileField(forms.FileField):
@@ -37,7 +38,7 @@ class RestrictedFileField(forms.FileField):
             content_type = file.content_type
             if content_type in self.content_types:
                 if file.size > self.max_upload_size:
-                    raise ValidationError(_('Please keep filesize under %s. Current filesize %s') % (
+                    raise ValidationError('Please keep filesize under %s. Current filesize %s' % (
                         filesizeformat(self.max_upload_size), filesizeformat(file.size)))
             else:
                 raise ValidationError(_('Filetype not supported.'))

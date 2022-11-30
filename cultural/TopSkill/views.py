@@ -1,5 +1,4 @@
-import shutil
-
+import os
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.http import JsonResponse
 from django.urls import reverse
@@ -9,11 +8,12 @@ from django.contrib import messages
 from django.db.models import Sum
 from django_sendfile import sendfile
 from django.views.generic import TemplateView
-import os
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+import shutil
 from .models import Student, AllStudent, LevelingIndex, DocumentFile, Score, JudgmentStatus
 from .forms import DocumentForm, ScoreForm
+from .functions import toastrMessagePure, toastrMessageForm
 
 
 # Create your views here.
@@ -36,8 +36,13 @@ def autocomplete(request):
         national = AllStudent.objects.filter(NationalCode__contains=term)
         return JsonResponse(list(national.values()), safe=False)
     else:
-        print('the condition is false')
+        pass
     return render(request, 'search_student.html')
+
+
+"""
+ثبت اطلاعات دانشجویان در دیتابیس شخصی
+"""
 
 
 @login_required
@@ -49,8 +54,9 @@ def submit_student(request):
             stu_na = AllStudent.objects.get(id=form)
             ts_na = Student.objects.filter(studentnumber__exact=stu_na.StudentNumber)
             if ts_na:
-                na = 'اطلاعات دانشجوی مورد نظر قبلاْ وارد شده است.'
-                return render(request, 'search_student.html', {'warning': na})
+                messages.warning(request, toastrMessagePure("The desired student's information has already been "
+                                                            "entered."))
+                return render(request, 'search_student.html')
             else:
                 ts = Student.objects.create(
                     firstname=stu_na.FirstName,
@@ -76,11 +82,12 @@ def submit_student(request):
                                                   student_id=ts.id, judgment_level=2, status=True)
                 return render(request, 'students.html', {'context': Student.objects.all()})
         else:
-            na = 'لطفاْ یک دانشجو را انتخاب کنید.'
-            return render(request, 'search_student.html', {'warning': na})
+            messages.error(request, toastrMessagePure("Please select a student."))
+            return render(request, 'search_student.html')
     else:
-        na = 'روش ارسال اطلاعات ایمن نبوده و امکان ثبت داده ها وجود ندارد.'
-        return render(request, 'search_student.html', {'warning': na})
+        messages.error(request, toastrMessagePure(
+            "The method of sending information is not safe and it is not possible to record data."))
+        return render(request, 'search_student.html')
 
 
 @login_required
@@ -91,11 +98,16 @@ def student_detail(request, pk):
     return render(request, 'Student_detail.html', {'detail': detail, 'level': level})
 
 
+"""
+ثبت امتیاز گواهی دانشجو و بارگذاری تصویر مدارک دانشجو 
+"""
+
+
 @login_required
 @permission_required(perm='TopSkill.view_documentfile')
 def document_score(request, user_id, doc_id):
     """
-    evaluate post method from submit form
+ارزیابی صحت ارسال اطلاعات توسط متدهای POST OR GET
     """
     if request.method == 'POST':
         if request.POST.get('score'):
@@ -133,13 +145,12 @@ def document_score(request, user_id, doc_id):
                         var = Student.objects.get(id=user_id)
                         var.judge3 = score_judge['sum']
                         var.save()
-                messages.error(request, form.errors)
-                messages.success(request, 'ثبت نمره شما صورت گرفت.')
+                messages.success(request, toastrMessagePure("Your score has been registered correctly."))
                 return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
             else:
-                return messages.error(request, form.errors)
+                message = [v for v in form.errors.values()]
+                return messages.error(request, message)
         elif request.POST.get('upload'):
-            # next = request.GET.get('next')
             if request.FILES:
                 sc = Score.objects.get(student_id=user_id, levelingindex_id=doc_id)
                 form = DocumentForm(request.POST, request.FILES)
@@ -149,11 +160,14 @@ def document_score(request, user_id, doc_id):
                     df.document_get_date = form.cleaned_data['document_get_date']
                     df.upload_name = form.cleaned_data['upload_name']
                     df.save()
-                    messages.success(request, 'مدارک مورد نظر بارگذاری شد.')
+                    messages.success(request, toastrMessagePure("The requested documents have been uploaded."))
                     return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
                 else:
-                    messages.warning(request, form.errors)
+                    messages.warning(request, toastrMessageForm(form))
                     return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
+        else:
+            messages.success(request, toastrMessagePure("The information you sent is incorrect."))
+            return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
     else:
         ts, create = JudgmentStatus.objects.get_or_create(student_id=user_id, user_id=request.user.id)
         li = LevelingIndex.objects.get(id=doc_id)
@@ -179,7 +193,7 @@ def download_file(request, file_id):
 
 
 """
-Descriptopn levelin index item
+توضیحات گزینه های مدارک
 """
 
 
@@ -219,9 +233,9 @@ def document_delete(request, pk):
         df.delete()
         if os.path.exists(df.upload_file.path):
             os.remove(df.upload_file.path)
+            messages.warning(request, toastrMessagePure("The desired file was deleted."))
         else:
             raise FileNotFoundError(_("The desired file has already been deleted."))
-        messages.warning(request, "فایل مورد نظر حذف شد.")
         return redirect(
             reverse('TopSkill:document_score',
                     kwargs={'user_id': df.score.student_id, 'doc_id': df.score.levelingindex_id}))
@@ -239,5 +253,5 @@ def student_delete(request, pk):
         shutil.rmtree(settings.MEDIA_ROOT + "/doc/" + td.nationalcode + "/")
     except:
         pass
-    messages.success(request, "پرونده مورد نظر به طور کامل حذف شد.")
+    messages.warning(request, toastrMessagePure("The desired folder was completely deleted."))
     return render(request, 'students.html')

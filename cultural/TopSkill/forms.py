@@ -13,18 +13,18 @@ class SearchStudentForm(forms.Form):
 
 class DocumentForm(forms.ModelForm):
     upload = forms.BooleanField(widget=forms.HiddenInput, initial=True)
-    upload_file = RestrictedFileField(content_types=['image/png', 'image/jpeg', 'application/pdf'],
-                                      max_upload_size=2097152)
+    upload_file = RestrictedFileField(content_types=['image/png', 'image/jpeg', 'application/pdf', 'application/zip'],
+                                      max_upload_size=200)
 
     class Meta:
         model = DocumentFile
         fields = {'document_get_date', 'upload_file', 'upload_name'}
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['upload_file'].widget.attrs.update(
-            {'accept': '.pdf, .jpg, .png '},
-        ),
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['upload_file'].widget.attrs.update(
+    #         {'accept': '.pdf, .jpg, .png '},
+    #     ),
 
 
 class ScoreForm(forms.ModelForm):
