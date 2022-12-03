@@ -27,7 +27,6 @@
                         </form>
                     </div>
                 </div>
-                <h5>{{ warning }}</h5>
             </div>
         </div>
     </div>
@@ -44,7 +43,7 @@
                             results: $.map(data, function (item) {
                                 return {
                                     id: item.id, text: item.FirstName + " " + item.LastName + " " + "فرزند:"
-                                        + " " + item.FatherName + " (" + item.NationalCode + ")"
+                                        + " " + item.FatherName + " (" + item.NationalCode + ")" + " مقطع: " + item.SubStudyLevelTitle
                                 };
                             })
                         };

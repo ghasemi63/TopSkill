@@ -1,8 +1,8 @@
-{% extends 'registration/login_base_generic.html' %}{% load static %}{% load widget_tweaks %}
+{% extends 'accounts/registration/login_base_generic.html' %}{% load static %}{% load widget_tweaks %}
 {% block content %}
     <form class="login100-form validate-form" method="post">{% csrf_token %}
         <span class="login100-form-title">
-                    {% include 'messages.html' %}
+                    {% include 'topskill/messages.html' %}
             {% if form.errors %}
                 <p>نام کابری و یا گذرواژه صحیح نیست</p>
             {% endif %}

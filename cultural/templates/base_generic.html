@@ -28,10 +28,10 @@
 <body class="hold-transition sidebar-mini sidebar-collapse">
 <div class="wrapper">
     <!-- Navbar -->
-    {% include 'navbar.html' %}
+    {% include 'topskill/navbar.html' %}
     <!-- /.navbar -->
     <!-- Main Sidebar Container -->
-    {% include 'sidebar.html' %}
+    {% include 'topskill/sidebar.html' %}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -101,14 +101,10 @@
     {% if messages %}
         document.addEventListener("DOMContentLoaded", function (event) {
             toastr.options = {
-                "closeButton": true,"debug": false,
-                "newestOnTop": false,"progressBar": true,
-                "positionClass": "toast-top-center",
-                "preventDuplicates": false,"onclick": null,
-                "showDuration": "300","hideDuration": "1000",
-                "timeOut": "5000","extendedTimeOut": "1000",
-                "showEasing": "swing","hideEasing": "linear",
-                "showMethod": "fadeIn","hideMethod": "fadeOut"
+                "closeButton": true,"debug": false, "newestOnTop": false,"progressBar": true,
+                "positionClass": "toast-bottom-left", "preventDuplicates": false,"onclick": null,
+                "showDuration": "300","hideDuration": "1000", "timeOut": "5000","extendedTimeOut": "1000",
+                "showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut",
             }
             {% autoescape off %}
                 {% for message in messages %}
