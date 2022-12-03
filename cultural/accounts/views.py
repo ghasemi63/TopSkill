@@ -17,7 +17,7 @@ from .forms import CulturalUserCreationForms, CulturalUserLoginForm, CaptchaForm
 class SignUpView(CreateView):
     form_class = CulturalUserCreationForms
     success_url = reverse_lazy("login")
-    template_name = 'registration/signup.html'
+    template_name = 'accounts/registration/signup.html'
 
 
 # class CulturalLoginView(LoginView):
@@ -41,17 +41,17 @@ def login_view(request):
                 captcha = CaptchaForm()
                 form = CulturalUserLoginForm()
                 context = {'error': 'نام کاربری یا گذرواژه صحیح نیست', 'form': form, 'captcha': captcha}
-                return render(request, 'registration/login.html', context)
+                return render(request, 'accounts/registration/login.html', context)
         else:
             captcha = CaptchaForm()
             form = CulturalUserLoginForm()
             context = {'error': 'کد کنترلی وارد شده صحیح نیست', 'form': form, 'captcha': captcha}
-            return render(request, 'registration/login.html', context)
+            return render(request, 'accounts/registration/login.html', context)
     else:
         captcha = CaptchaForm()
         form = CulturalUserLoginForm()
         context = {'form': form, 'captcha': captcha}
-        return render(request, 'registration/login.html', context)
+        return render(request, 'accounts/registration/login.html', context)
 
 
 def cultural_logout(request):

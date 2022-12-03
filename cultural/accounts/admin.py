@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin, GroupAdmin
 
-from .models import CulturalUser, Province, Center
+from .models import CulturalUser, Province, Center, Profile
 from .forms import CulturalUserCreationForms, CulturalUserChangeForms
 
 
@@ -47,6 +47,7 @@ class CulturalUserAdmin(BaseUserAdmin):
 # Now register the new UserAdmin...
 admin.site.register(CulturalUser, CulturalUserAdmin)
 
+
 # admin.site.register(CulturalUser, BaseUserAdmin)
 
 
@@ -62,4 +63,9 @@ class ProvinceAdmin(admin.ModelAdmin):
 
 @admin.register(Center)
 class CenterAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
     pass
