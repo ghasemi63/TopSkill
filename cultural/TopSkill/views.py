@@ -18,14 +18,14 @@ from .functions import toastrMessagePure, toastrMessageForm
 
 # Create your views here.
 class IndexView(LoginRequiredMixin, TemplateView):
-    template_name = 'index.html'
+    template_name = 'topskill/index.html'
 
 
 @login_required
 @permission_required(perm='TopSkill.view_student')
 def studentsView(request):
     contex = Student.objects.all()
-    return render(request, 'students.html', {'context': contex})
+    return render(request, 'topskill/students.html', {'context': contex})
 
 
 @login_required
@@ -37,7 +37,7 @@ def autocomplete(request):
         return JsonResponse(list(national.values()), safe=False)
     else:
         pass
-    return render(request, 'search_student.html')
+    return render(request, 'topskill/search_student.html')
 
 
 """
@@ -49,16 +49,16 @@ def autocomplete(request):
 @permission_required(perm='TopSkill.add_student')
 def submit_student(request):
     if request.method == 'POST':
-        form = request.POST.get('nationalcodeid', False)
+        form = request.POST.get('nationalcodeid')
         if form:
             stu_na = AllStudent.objects.get(id=form)
-            ts_na = Student.objects.filter(studentnumber__exact=stu_na.StudentNumber)
-            if ts_na:
+            s_na = Student.objects.filter(studentnumber__exact=stu_na.StudentNumber)
+            if s_na:
                 messages.warning(request, toastrMessagePure("The desired student's information has already been "
                                                             "entered."))
-                return render(request, 'search_student.html')
+                return render(request, 'topskill/search_student.html')
             else:
-                ts = Student.objects.create(
+                s = Student.objects.create(
                     firstname=stu_na.FirstName,
                     lastname=stu_na.LastName,
                     fathername=stu_na.FatherName,
@@ -76,18 +76,18 @@ def submit_student(request):
                 )
                 try:
                     JudgmentStatus.objects.get(user__position=2, user_id=request.user.id,
-                                               student_id=ts.id)
+                                               student_id=s.id)
                 except:
                     JudgmentStatus.objects.create(user_id=request.user.id,
-                                                  student_id=ts.id, judgment_level=2, status=True)
-                return render(request, 'students.html', {'context': Student.objects.all()})
+                                                  student_id=s.id, judgment_level=2, status=True)
+                return render(request, 'topskill/students.html', {'context': Student.objects.all()})
         else:
             messages.error(request, toastrMessagePure("Please select a student."))
-            return render(request, 'search_student.html')
+            return render(request, 'topskill/search_student.html')
     else:
         messages.error(request, toastrMessagePure(
             "The method of sending information is not safe and it is not possible to record data."))
-        return render(request, 'search_student.html')
+        return render(request, 'topskill/search_student.html')
 
 
 @login_required
@@ -95,7 +95,7 @@ def submit_student(request):
 def student_detail(request, pk):
     detail = get_object_or_404(Student, id=pk)
     level = LevelingIndex.objects.all()
-    return render(request, 'Student_detail.html', {'detail': detail, 'level': level})
+    return render(request, 'topskill/Student_detail.html', {'detail': detail, 'level': level})
 
 
 """
@@ -181,7 +181,7 @@ def document_score(request, user_id, doc_id):
         sc = Score.objects.get(student_id=user_id, levelingindex_id=doc_id)
         df = DocumentFile.objects.filter(score=sc)
         upload_form = DocumentForm()
-        return render(request, 'document_score.html',
+        return render(request, 'topskill/document_score.html',
                       {'form': form, 'upload_form': upload_form, 'contex': score_record, 'df': df})
 
 
@@ -205,7 +205,7 @@ def description(request, id):
     except:
         return HttpResponseRedirect('/')
     else:
-        return render(request, 'description.html', {'context': desc})
+        return render(request, 'topskill/description.html', {'context': desc})
 
 
 """
@@ -240,7 +240,7 @@ def document_delete(request, pk):
             reverse('TopSkill:document_score',
                     kwargs={'user_id': df.score.student_id, 'doc_id': df.score.levelingindex_id}))
     else:
-        return render(request, 'document_delete.html',
+        return render(request, 'topskill/document_delete.html',
                       {'pk': pk, 'user_id': df.score.student_id, 'doc_id': df.score.levelingindex_id})
 
 
@@ -253,5 +253,6 @@ def student_delete(request, pk):
         shutil.rmtree(settings.MEDIA_ROOT + "/doc/" + td.nationalcode + "/")
     except:
         pass
-    messages.warning(request, toastrMessagePure("The desired folder was completely deleted."))
-    return render(request, 'students.html')
+    finally:
+        messages.warning(request, toastrMessagePure("The desired folder was completely deleted."))
+    return redirect(reverse('TopSkill:students'))

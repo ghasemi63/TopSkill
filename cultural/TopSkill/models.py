@@ -145,7 +145,7 @@ class DocumentFile(models.Model):
     created_date = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت رکورد شمسی')
     score = models.ForeignKey(Score, on_delete=models.CASCADE)
     document_get_date = jmodels.jDateField(verbose_name='تاریخ گواهی',
-                                           default=jdatetime.date.today())
+                                           default=jdatetime.date.today)
 
     def content_file_name(self, filename):
         ext = filename.split('.')[-1]
