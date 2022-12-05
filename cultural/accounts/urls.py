@@ -7,4 +7,5 @@ app_name = 'accounts'
 urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.cultural_logout, name='logout'),
+    path('profile/<int:pk>/', views.ProfileView.as_view(), name='profile')
 ]

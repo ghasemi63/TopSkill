@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin, GroupAdmin
-
 from .models import CulturalUser, Province, Center, Profile
 from .forms import CulturalUserCreationForms, CulturalUserChangeForms
 
@@ -13,8 +12,8 @@ from .forms import CulturalUserCreationForms, CulturalUserChangeForms
 #     form = CulturalUserChangeForms
 #     model = CulturalUser
 
-
-class CulturalUserAdmin(BaseUserAdmin):
+@admin.register(CulturalUser)
+class CulturalUserAdmin(admin.ModelAdmin):
     # The forms to add and change user instances
     # form = CulturalUserChangeForms
     # add_form = CulturalUserCreationForms
@@ -45,7 +44,7 @@ class CulturalUserAdmin(BaseUserAdmin):
 
 
 # Now register the new UserAdmin...
-admin.site.register(CulturalUser, CulturalUserAdmin)
+# admin.site.register(CulturalUser, CulturalUserAdmin)
 
 
 # admin.site.register(CulturalUser, BaseUserAdmin)
@@ -69,3 +68,5 @@ class CenterAdmin(admin.ModelAdmin):
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     pass
+
+
