@@ -153,7 +153,7 @@
                                 <th>گواهی</th>{% endif %}
                             </tr>
                             </thead>
-                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 1 %}
+                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 1 and x.status%}
                                 <tr>
                                     <td>
                                         {{ x.title }}
@@ -204,7 +204,7 @@
                                 <th>گواهی</th>
                             </tr>
                             </thead>
-                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 2 %}
+                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 2 and x.status%}
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td>
@@ -249,7 +249,7 @@
                                 <th>گواهی</th>
                             </tr>
                             </thead>
-                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 3 %}
+                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 3 and x.status%}
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td>
@@ -294,7 +294,7 @@
                                 <th>گواهی</th>
                             </tr>
                             </thead>
-                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 4 %}
+                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 4 and x.status%}
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td>
@@ -339,7 +339,7 @@
                                 <th>گواهی</th>
                             </tr>
                             </thead>
-                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 5 %}
+                            <tbody class="text-xs">{% for x in level %}{% if x.leveling_index_category_id == 5 and x.status%}
                                 <tr>
                                     <td>{{ x.title }}</td>
                                     <td>
