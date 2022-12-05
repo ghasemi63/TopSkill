@@ -22,7 +22,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
 
 @login_required
-@permission_required(perm='TopSkill.view_student')
+@permission_required(perm='TopSkill.view_student', login_url='/')
 def studentsView(request):
     contex = Student.objects.all()
     return render(request, 'topskill/students.html', {'context': contex})
