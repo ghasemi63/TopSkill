@@ -1,6 +1,8 @@
-from django.contrib.auth.models import AbstractUser, PermissionsMixin, Group, AbstractBaseUser
+from django.contrib.auth.models import AbstractUser, PermissionsMixin, Group, AbstractBaseUser, AnonymousUser
 from django.db import models
-from django.utils.translation import gettext_lazy as _, gettext_noop
+from django.utils.translation import gettext_lazy as _
+from django.db.models.manager import EmptyManager
+
 from django_jalali.db import models as jmodels
 
 
@@ -33,8 +35,54 @@ class Center(models.Model):
         return (self.center_title,)
 
 
+class Positions(models.Model):
+    name = models.CharField(max_length=150, verbose_name=_('Name of the positions'), null=False)
+
+    def __str__(self):
+        return self.name
+
+
+class PositionProvince(models.Model):
+    position = models.ManyToManyField(Positions)
+    province = models.ManyToManyField(Province)
+
+    def __str__(self):
+        return self.position
+
+
 class CulturalUser(AbstractUser):
-    pass
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.username
+
+
+class UserPositions(models.Model):
+    # class Position(models.TextChoices):
+    #     UNIVERSITY_STUDENT = '1', _('University student')
+    #     TRAINING_CENTER = '2', _('Training center')
+    #     PROVINCE = '3', _('Province')
+    #     CENTRAL_OFFICE = '4', _('Central office')
+
+    # user = models.ForeignKey(CulturalUser, on_delete=models.CASCADE, verbose_name=_('User'))
+    # position = models.CharField(max_length=2, verbose_name=_('Access level'), choices=Position.choices,
+    #                             default=Position.UNIVERSITY_STUDENT)
+    # province = models.ForeignKey(Province, on_delete=models.SET_NULL, blank=True, null=True)
+    # center = models.ForeignKey(Center, on_delete=models.SET_NULL, blank=True, null=True)
+    popr = models.ManyToManyField(PositionProvince)
+    user = models.ManyToManyField(CulturalUser)
+
+
+    def __str__(self):
+        return self.popr.name
+
+    class Meta:
+        verbose_name = _("position")
+        verbose_name_plural = _("user_positions")
+
+    def natural_key(self):
+        return (self.popr.name,)
 
 
 class Profile(models.Model):
@@ -57,18 +105,9 @@ class Profile(models.Model):
         return self.user.username
 
 
-class UserPositions(models.Model):
-    class Position(models.TextChoices):
-        UNIVERSITY_STUDENT = '1', _('University student')
-        TRAINING_CENTER = '2', _('Training center')
-        PROVINCE = '3', _('Province')
-        CENTRAL_OFFICE = '4', _('Central office')
+class AnonymousCu:
+    _positioin = EmptyManager(UserPositions)
 
-    user = models.ForeignKey(CulturalUser, on_delete=models.CASCADE, verbose_name=_('User'))
-    position = models.CharField(max_length=2, verbose_name=_('Access level'), choices=Position.choices,
-                                default=Position.UNIVERSITY_STUDENT)
-    province = models.ForeignKey(Province, on_delete=models.SET_NULL, blank=True, null=True)
-    center = models.ForeignKey(Center, on_delete=models.SET_NULL, blank=True, null=True)
-
-    def __str__(self):
-        return self.position
+    @property
+    def positioins(self):
+        return self._positioin
