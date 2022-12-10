@@ -9,7 +9,7 @@ from django.db.models import Sum
 from django_sendfile import sendfile
 from django.views.generic import TemplateView
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 import shutil
 from .models import Student, AllStudent, LevelingIndex, DocumentFile, Score, JudgmentStatus
 from .forms import DocumentForm, ScoreForm
@@ -54,8 +54,8 @@ def submit_student(request):
             stu_na = AllStudent.objects.get(id=form)
             s_na = Student.objects.filter(studentnumber__exact=stu_na.StudentNumber)
             if s_na:
-                messages.warning(request, toastrMessagePure("The desired student's information has already been "
-                                                            "entered."))
+                messages.warning(request, toastrMessagePure(_("The desired student's information has already been "
+                                                            "entered.")))
                 return render(request, 'topskill/search_student.html')
             else:
                 s = Student.objects.create(
@@ -82,11 +82,11 @@ def submit_student(request):
                                                   student_id=s.id, judgment_level=2, status=True)
                 return render(request, 'topskill/students.html', {'context': Student.objects.all()})
         else:
-            messages.error(request, toastrMessagePure("Please select a student."))
+            messages.error(request, toastrMessagePure(_("Please select a student.")))
             return render(request, 'topskill/search_student.html')
     else:
         messages.error(request, toastrMessagePure(
-            "The method of sending information is not safe and it is not possible to record data."))
+            _("The method of sending information is not safe and it is not possible to record data.")))
         return render(request, 'topskill/search_student.html')
 
 
@@ -145,11 +145,11 @@ def document_score(request, user_id, doc_id):
                         var = Student.objects.get(id=user_id)
                         var.judge3 = score_judge['sum']
                         var.save()
-                messages.success(request, toastrMessagePure("Your score has been registered correctly."))
+                messages.success(request, toastrMessagePure(_("Your score has been registered correctly.")))
                 return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
             else:
                 message = [v for v in form.errors.values()]
-                return messages.error(request, message)
+                return messages.error(request, _(message))
         elif request.POST.get('upload'):
             if request.FILES:
                 sc = Score.objects.get(student_id=user_id, levelingindex_id=doc_id)
@@ -160,13 +160,13 @@ def document_score(request, user_id, doc_id):
                     df.document_get_date = form.cleaned_data['document_get_date']
                     df.upload_name = form.cleaned_data['upload_name']
                     df.save()
-                    messages.success(request, toastrMessagePure("The requested documents have been uploaded."))
+                    messages.success(request, toastrMessagePure(_("The requested documents have been uploaded.")))
                     return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
                 else:
                     messages.warning(request, toastrMessageForm(form))
                     return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
         else:
-            messages.success(request, toastrMessagePure("The information you sent is incorrect."))
+            messages.success(request, toastrMessagePure(_("The information you sent is incorrect.")))
             return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
     else:
         ts, create = JudgmentStatus.objects.get_or_create(student_id=user_id, user_id=request.user.id)
@@ -233,7 +233,7 @@ def document_delete(request, pk):
         df.delete()
         if os.path.exists(df.upload_file.path):
             os.remove(df.upload_file.path)
-            messages.warning(request, toastrMessagePure("The desired file was deleted."))
+            messages.warning(request, toastrMessagePure(_("The desired file was deleted.")))
         else:
             raise FileNotFoundError(_("The desired file has already been deleted."))
         return redirect(
@@ -254,5 +254,5 @@ def student_delete(request, pk):
     except:
         pass
     finally:
-        messages.warning(request, toastrMessagePure("The desired folder was completely deleted."))
+        messages.warning(request, toastrMessagePure(_("The desired folder was completely deleted.")))
     return redirect(reverse('TopSkill:students'))

@@ -18,7 +18,7 @@ def td(ta):
 
 
 def toastrMessagePure(message):
-    return list(_(message))
+    return list(message)
 
 
 def toastrMessageForm(form):

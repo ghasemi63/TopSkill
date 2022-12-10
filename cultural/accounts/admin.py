@@ -1,29 +1,19 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin, GroupAdmin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
-from .models import CulturalUser, Province, Center, Profile, UserPositions, AnonymousCu, AnonymousUser
-from .forms import CulturalUserCreationForms, CulturalUserChangeForms
+from .models import CulturalUser, Province, Center, Profile, Positions
 
 
 # Register your models here.
-@admin.register(UserPositions)
-class UserPositionsAdmin(admin.ModelAdmin):
-    # search_fields = ("position",)
-    # ordering = ("position",)
-    # filter_horizontal = ("position",)
-    #
-    # def formfield_for_manytomany(self, db_field, request=None, **kwargs):
-    #     if db_field.name == "province":
-    #         qs = kwargs.get("queryset", db_field.remote_field.model.objects)
-    #         # Avoid a major performance hit resolving permission names which
-    #         # triggers a content_type load:
-    #         kwargs["queryset"] = qs.select_related("content_type")
-    #     return super().formfield_for_manytomany(db_field, request=request, **kwargs)
-    pass
+@admin.register(Positions)
+class PositionsAdmin(admin.ModelAdmin):
+    search_fields = ("name",)
+    ordering = ("name",)
+    filter_horizontal = ("province",)
 
 
 @admin.register(CulturalUser)
-class CulturalUserAdmin(BaseUserAdmin, AnonymousCu):
+class CulturalUserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
@@ -42,6 +32,7 @@ class CulturalUserAdmin(BaseUserAdmin, AnonymousCu):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
+
     add_fieldsets = (
         (
             None,
