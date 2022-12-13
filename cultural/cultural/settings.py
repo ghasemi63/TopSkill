@@ -148,3 +148,10 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SENDFILE_BACKEND = "django_sendfile.backends.nginx"
 SENDFILE_ROOT = os.path.join(BASE_DIR, "media")
 SENDFILE_URL = '/media'
+
+# django-simple-captcha
+CAPTCHA_FONT_SIZE = 30
+CAPTCHA_IMAGE_SIZE = (290, 50)
+CAPTCHA_LENGTH = 5
+CAPTCHA_TEST_MODE = True
+
