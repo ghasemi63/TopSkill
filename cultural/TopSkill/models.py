@@ -50,6 +50,8 @@ class AllStudent(models.Model):
     StudentNumber = models.CharField(max_length=140, null=True, blank=True)
     CenterId = models.CharField(max_length=40, null=True, blank=True)
 
+    def __str__(self):
+        return self.StudentNumber
 
 class LevelingIndex(models.Model):
     title = models.CharField(max_length=300, verbose_name='موضوع گواهی')
