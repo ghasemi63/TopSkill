@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-10 09:19+0330\n"
+"POT-Creation-Date: 2022-12-13 15:04+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr "روش ارسال اطلاعات امن نبوده و امکان ثبت 
 
 #: TopSkill/views.py:148
 msgid "Your score has been registered correctly."
-msgstr "امتیاز مورد نظر به درستای ثبت شد."
+msgstr "امتیاز مورد نظر به درستی ثبت شد."
 
 #: TopSkill/views.py:163
 msgid "The requested documents have been uploaded."
@@ -66,48 +66,85 @@ msgstr "فایل مورد نظر قبلاً حذف شده است"
 msgid "The desired folder was completely deleted."
 msgstr "پوشه مورد نظر به طور کامل حذف شد."
 
-#: accounts/admin.py:19
+#: accounts/admin.py:21
 msgid "Personal info"
 msgstr "اطلاعات شخصی"
 
-#: accounts/admin.py:21
+#: accounts/admin.py:23
 msgid "Permissions"
 msgstr "مجوزها"
 
-#: accounts/admin.py:33
+#: accounts/admin.py:36
 msgid "Important dates"
 msgstr "تاریخ های مهم"
 
-#: accounts/models.py:12 accounts/models.py:25
-msgid "Province"
-msgstr "استان"
-
-#: accounts/models.py:23
-msgid "Name of the training center"
-msgstr "نام مرکز آموزشی"
-
-#: accounts/models.py:24
-msgid "Code of the training center"
-msgstr "کد مرکز آموزشی"
-
-#: accounts/models.py:28
-msgid "center"
-msgstr "مرکز آموزشی"
-
-#: accounts/models.py:29
-msgid "centers"
-msgstr "مراکز آموزشی"
-
-#: accounts/models.py:36
+#: accounts/models.py:10
 #, fuzzy
 #| msgid "Name of the training center"
 msgid "Name of the positions"
 msgstr "نام مرکز آموزشی"
 
-#: accounts/models.py:41
+#: accounts/models.py:13
 msgid "position"
 msgstr "موقعیت"
 
-#: accounts/models.py:42
+#: accounts/models.py:14
 msgid "user_positions"
 msgstr "موقعیت های_کاربر"
+
+#: accounts/models.py:22 accounts/models.py:39
+msgid "Province"
+msgstr "استان"
+
+#: accounts/models.py:23
+#, fuzzy
+#| msgid "position"
+msgid "position province"
+msgstr "موقعیت"
+
+#: accounts/models.py:28
+#, fuzzy
+#| msgid "Province"
+msgid "province"
+msgstr "استان"
+
+#: accounts/models.py:29
+#, fuzzy
+#| msgid "Province"
+msgid "provinces"
+msgstr "استان"
+
+#: accounts/models.py:37
+msgid "Name of the training center"
+msgstr "نام مرکز آموزشی"
+
+#: accounts/models.py:38
+msgid "Code of the training center"
+msgstr "کد مرکز آموزشی"
+
+#: accounts/models.py:43
+msgid "center"
+msgstr "مرکز آموزشی"
+
+#: accounts/models.py:44
+msgid "centers"
+msgstr "مراکز آموزشی"
+
+#: accounts/models.py:78
+msgid "profile"
+msgstr "پروفایل"
+
+#: accounts/models.py:79
+msgid "profiles"
+msgstr "پروفایل ها"
+
+#: accounts/models.py:83
+#, fuzzy
+#| msgid "group relations"
+msgid "position relations"
+msgstr "جدول گروه-موقعیت"
+
+#, fuzzy
+#~| msgid "Province"
+#~ msgid "province_group"
+#~ msgstr "استان"
