@@ -1,18 +1,32 @@
 from django.contrib.auth.models import AbstractUser, PermissionsMixin, Group, AbstractBaseUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.db.models.manager import EmptyManager
 
 from django_jalali.db import models as jmodels
 
 
 # Create your models here.
+class Positions(models.Model):
+    name = models.CharField(max_length=150, verbose_name=_('Name of the positions'), null=False)
+
+    class Meta:
+        verbose_name = _("position")
+        verbose_name_plural = _("user_positions")
+
+    def __str__(self):
+        return str(self.name)
+
+
 class Province(models.Model):
     province_id = models.IntegerField(primary_key=True, serialize=True, verbose_name='ID')
     province_title = models.CharField(max_length=30, verbose_name=_('Province'))
+    position_province = models.ForeignKey(Positions, on_delete=models.CASCADE, verbose_name=_("position province"),
+                                          related_name='position_province')
 
     class Meta:
         ordering = ['province_id']
+        verbose_name = _("province")
+        verbose_name_plural = _("provinces")
 
     def __str__(self):
         return self.province_title
@@ -22,7 +36,8 @@ class Center(models.Model):
     id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     center_title = models.CharField(max_length=150, verbose_name=_('Name of the training center'), null=True)
     center_title_id = models.CharField(max_length=64, verbose_name=_('Code of the training center'), null=True)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name=_('Province'))
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name=_('Province'),
+                                 related_name="province_relations")
 
     class Meta:
         verbose_name = _("center")
@@ -32,53 +47,12 @@ class Center(models.Model):
         return self.center_title
 
 
-class Positions(models.Model):
-    name = models.CharField(max_length=150, verbose_name=_('Name of the positions'), null=False)
-    province = models.ManyToManyField(Province)
-    group = models.ManyToManyField(Group, )
-
-    class Meta:
-        verbose_name = _("position")
-        verbose_name_plural = _("user_positions")
-
-    def __str__(self):
-        return self.name
-
-
 class CulturalUser(AbstractUser):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    position = models.ManyToManyField(Positions)
 
     def __str__(self):
         return self.username
-
-
-# class UserPositions(models.Model):
-#     # class Position(models.TextChoices):
-#     #     UNIVERSITY_STUDENT = '1', _('University student')
-#     #     TRAINING_CENTER = '2', _('Training center')
-#     #     PROVINCE = '3', _('Province')
-#     #     CENTRAL_OFFICE = '4', _('Central office')
-#
-#     # user = models.ForeignKey(CulturalUser, on_delete=models.CASCADE, verbose_name=_('User'))
-#     # position = models.CharField(max_length=2, verbose_name=_('Access level'), choices=Position.choices,
-#     #                             default=Position.UNIVERSITY_STUDENT)
-#     # province = models.ForeignKey(Province, on_delete=models.SET_NULL, blank=True, null=True)
-#     # center = models.ForeignKey(Center, on_delete=models.SET_NULL, blank=True, null=True)
-#     popr = models.ManyToManyField(PositionProvince)
-#     user = models.ManyToManyField(CulturalUser)
-#
-#
-#     def __str__(self):
-#         return self.popr.name
-#
-#     class Meta:
-#         verbose_name = _("position")
-#         verbose_name_plural = _("user_positions")
-#
-#     def natural_key(self):
-#         return (self.popr.name,)
 
 
 class Profile(models.Model):
@@ -99,3 +73,21 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    class Meta:
+        verbose_name = _("profile")
+        verbose_name_plural = _("profiles")
+
+
+if not hasattr(Group, 'position'):
+    position_group = models.ForeignKey(Positions, on_delete=models.CASCADE, verbose_name=_("position relations"),
+                                       related_name='position_relations', null=True, blank=True)
+    position_group.contribute_to_class(Group, 'position')
+
+
+class Group(Group):
+    class Meta:
+        proxy = True
+
+    def myFunction(self):
+        return True
