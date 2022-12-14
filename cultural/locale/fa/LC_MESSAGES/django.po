@@ -145,6 +145,6 @@ msgid "position relations"
 msgstr "جدول گروه-موقعیت"
 
 #, fuzzy
-#~| msgid "Province"
-#~ msgid "province_group"
-#~ msgstr "استان"
+#| msgid "Province"
+msgid "province_group"
+msgstr "استان"
