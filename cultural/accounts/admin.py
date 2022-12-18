@@ -29,7 +29,8 @@ class CulturalUserAdmin(BaseUserAdmin):
                     "is_superuser",
                     "groups",
                     "user_permissions",
-                    # "privilege",
+                    "province",
+                    "center",
                 ),
             },
         ),
@@ -41,7 +42,15 @@ class CulturalUserAdmin(BaseUserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("username", "password1", "password2"),
+                "fields": (
+                    "username",
+                    "password1",
+                    "password2",
+                    "groups",
+                    "user_permissions",
+                    "province",
+                    "center",
+                ),
             },
         ),
     )
@@ -49,11 +58,12 @@ class CulturalUserAdmin(BaseUserAdmin):
     list_filter = ("is_staff", "is_superuser", "is_active", "groups")
     search_fields = ("username", "first_name", "last_name", "email")
     ordering = ("username",)
-    # filter_horizontal = (
-    #     "groups",
-    #     "user_permissions",
-    #     "position",
-    # )
+    filter_horizontal = (
+        "groups",
+        "user_permissions",
+        "province",
+        "center",
+    )
 
 
 @admin.register(Province)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-18 13:25+0330\n"
+"POT-Creation-Date: 2022-12-18 16:51+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,7 +72,7 @@ msgstr "اطلاعات شخصی"
 msgid "Permissions"
 msgstr "مجوزها"
 
-#: accounts/admin.py:36
+#: accounts/admin.py:37
 msgid "Important dates"
 msgstr "تاریخ های مهم"
 
@@ -128,15 +128,15 @@ msgstr "مرکز آموزشی"
 msgid "centers"
 msgstr "مراکز آموزشی"
 
-#: accounts/models.py:111
+#: accounts/models.py:113
 msgid "profile"
 msgstr "پروفایل"
 
-#: accounts/models.py:112
+#: accounts/models.py:114
 msgid "profiles"
 msgstr "پروفایل ها"
 
-#: accounts/models.py:116
+#: accounts/models.py:118
 #, fuzzy
 #| msgid "group relations"
 msgid "privilege relations"

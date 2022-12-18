@@ -77,10 +77,12 @@ class Student(models.Model):
     center_id = models.CharField(max_length=40, null=True, blank=True)
 
     def __str__(self):
-        return self.StudentNumber
+        return self.studentnumber
 
 
 class CulturalUser(AbstractUser):
+    province = models.ManyToManyField(Province, blank=True, verbose_name='Province')
+    center = models.ManyToManyField(Center, blank=True, verbose_name='Center')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
