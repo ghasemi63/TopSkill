@@ -23,8 +23,6 @@ msgid "Filetype not supported."
 msgstr "نوع فایل پشتیبانی نمی شود."
 
 #: TopSkill/views.py:57
-#, fuzzy
-#| msgid "The desired file has already been deleted."
 msgid "The desired student's information has already been entered."
 msgstr "اطلاعات پرونده مورد نظر قبلاً حذف شده است"
 

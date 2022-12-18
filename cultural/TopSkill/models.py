@@ -8,9 +8,6 @@ from django_jalali.db import models as jmodels
 from accounts.models import CulturalUser
 
 
-# from django.contrib.auth.models import User
-
-
 # Create your models here.
 # def duc_time_validate(self, date):
 #     if date < self.tsstudent.ts_termcode:
@@ -20,38 +17,38 @@ from accounts.models import CulturalUser
 #         )
 
 
-class AllStudent(models.Model):
-    FirstName = models.CharField(max_length=150, null=True, blank=True)
-    LastName = models.CharField(max_length=150, null=True, blank=True)
-    FatherName = models.CharField(max_length=150, null=True, blank=True)
-    NationalCode = models.CharField(max_length=10, null=True, blank=True)
-    IdentificationNumber = models.CharField(max_length=10, null=True, blank=True)
-    MarriageStatusId = models.CharField(max_length=1, null=True, blank=True)
-    MarriageStatusTitle = models.CharField(max_length=60, null=True, )
-    Email = models.CharField(max_length=100, null=True, blank=True)
-    Phone = models.CharField(max_length=11, null=True, blank=True)
-    Mobile = models.CharField(max_length=11, null=True, blank=True)
-    Address = models.CharField(max_length=300, null=True, blank=True)
-    TermCode = models.CharField(max_length=30, null=True, blank=True)
-    CenterProvinceId = models.CharField(max_length=20, null=True, blank=True)
-    CenterProvinceTitle = models.CharField(max_length=50, null=True, blank=True)
-    SajadCenterId = models.CharField(max_length=50, null=True, blank=True)
-    CenterTitle = models.CharField(max_length=250, null=True, blank=True)
-    SubStudyLevelId = models.CharField(max_length=10, null=True, blank=True)
-    SubStudyLevelTitle = models.CharField(max_length=20, null=True, blank=True)
-    StudyLevelId = models.CharField(max_length=10, null=True, blank=True)
-    StudyLevelTitle = models.CharField(max_length=40, null=True, blank=True)
-    CourseStudyId = models.CharField(max_length=70, null=True, blank=True)
-    CourseStudyTitle = models.CharField(max_length=70, null=True, blank=True)
-    RegistryGroupId = models.CharField(max_length=10, null=True, blank=True)
-    RegistryGroupTitle = models.CharField(max_length=50, null=True, blank=True)
-    GenderId = models.CharField(max_length=10, null=True, blank=True)
-    GenderTitle = models.CharField(max_length=30, null=True, blank=True)
-    StudentNumber = models.CharField(max_length=140, null=True, blank=True)
-    CenterId = models.CharField(max_length=40, null=True, blank=True)
-
-    def __str__(self):
-        return self.StudentNumber
+# class AllStudent(models.Model):
+#     FirstName = models.CharField(max_length=150, null=True, blank=True)
+#     LastName = models.CharField(max_length=150, null=True, blank=True)
+#     FatherName = models.CharField(max_length=150, null=True, blank=True)
+#     NationalCode = models.CharField(max_length=10, null=True, blank=True)
+#     IdentificationNumber = models.CharField(max_length=10, null=True, blank=True)
+#     MarriageStatusId = models.CharField(max_length=1, null=True, blank=True)
+#     MarriageStatusTitle = models.CharField(max_length=60, null=True, )
+#     Email = models.CharField(max_length=100, null=True, blank=True)
+#     Phone = models.CharField(max_length=11, null=True, blank=True)
+#     Mobile = models.CharField(max_length=11, null=True, blank=True)
+#     Address = models.CharField(max_length=300, null=True, blank=True)
+#     TermCode = models.CharField(max_length=30, null=True, blank=True)
+#     CenterProvinceId = models.CharField(max_length=20, null=True, blank=True)
+#     CenterProvinceTitle = models.CharField(max_length=50, null=True, blank=True)
+#     SajadCenterId = models.CharField(max_length=50, null=True, blank=True)
+#     CenterTitle = models.CharField(max_length=250, null=True, blank=True)
+#     SubStudyLevelId = models.CharField(max_length=10, null=True, blank=True)
+#     SubStudyLevelTitle = models.CharField(max_length=20, null=True, blank=True)
+#     StudyLevelId = models.CharField(max_length=10, null=True, blank=True)
+#     StudyLevelTitle = models.CharField(max_length=40, null=True, blank=True)
+#     CourseStudyId = models.CharField(max_length=70, null=True, blank=True)
+#     CourseStudyTitle = models.CharField(max_length=70, null=True, blank=True)
+#     RegistryGroupId = models.CharField(max_length=10, null=True, blank=True)
+#     RegistryGroupTitle = models.CharField(max_length=50, null=True, blank=True)
+#     GenderId = models.CharField(max_length=10, null=True, blank=True)
+#     GenderTitle = models.CharField(max_length=30, null=True, blank=True)
+#     StudentNumber = models.CharField(max_length=140, null=True, blank=True)
+#     CenterId = models.CharField(max_length=40, null=True, blank=True)
+#
+#     def __str__(self):
+#         return self.StudentNumber
 
 class LevelingIndex(models.Model):
     title = models.CharField(max_length=300, verbose_name='موضوع گواهی')
@@ -90,10 +87,10 @@ class Student(models.Model):
                                        verbose_name='گروه آموزشی')
     course_study_title = models.CharField(max_length=150, verbose_name='رشته تحصیلی')
     substudy_level_title = models.CharField(max_length=50, verbose_name='مقطع تحصیلی')
+    center_id = models.CharField(max_length=64, verbose_name='کد مرکز')
     center_title = models.CharField(max_length=200, verbose_name='مرکز آموزش')
     center_province_id = models.CharField(max_length=2, verbose_name='کد استان')
     center_province_title = models.CharField(max_length=40, verbose_name='استان')
-    centerId = models.CharField(max_length=64, verbose_name='کد استان')
     status = models.BooleanField(verbose_name='وضعیت پرونده', choices=[(False, 'غیرفعال'), (True, 'فعال')],
                                  default=True)
     province_score = models.FloatField(verbose_name='امتیاز استان', blank=True, default=0, max_length=2)

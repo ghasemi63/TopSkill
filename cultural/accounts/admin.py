@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group, Permission, ContentType
 from django.utils.translation import gettext_lazy as _
-from .models import CulturalUser, Province, Center, Profile, Positions
+from .models import CulturalUser, Province, Center, Profile, Positions, Student
 
 
 # Register your models here.
@@ -88,4 +88,9 @@ class GroupAdmin(admin.ModelAdmin):
 
 @admin.register(ContentType)
 class UserContentAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
     pass

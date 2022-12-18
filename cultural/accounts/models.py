@@ -7,7 +7,7 @@ from django_jalali.db import models as jmodels
 
 # Create your models here.
 class Positions(models.Model):
-    name = models.CharField(max_length=150, verbose_name=_('Name of the positions'), null=False)
+    name = models.CharField(max_length=150, verbose_name=_("Name of the positions"), null=False)
 
     class Meta:
         verbose_name = _("position")
@@ -33,7 +33,6 @@ class Province(models.Model):
 
 
 class Center(models.Model):
-    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     center_title = models.CharField(max_length=150, verbose_name=_('Name of the training center'), null=True)
     center_title_id = models.CharField(max_length=64, verbose_name=_('Code of the training center'), null=True)
     province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name=_('Province'),
@@ -45,6 +44,40 @@ class Center(models.Model):
 
     def __str__(self):
         return self.center_title
+
+
+class Student(models.Model):
+    FirstName = models.CharField(max_length=150, null=True, blank=True)
+    LastName = models.CharField(max_length=150, null=True, blank=True)
+    FatherName = models.CharField(max_length=150, null=True, blank=True)
+    nationalcode = models.CharField(max_length=10, null=True, blank=True)
+    IdentificationNumber = models.CharField(max_length=10, null=True, blank=True)
+    MarriageStatusId = models.CharField(max_length=1, null=True, blank=True)
+    MarriageStatusTitle = models.CharField(max_length=60, null=True, )
+    Email = models.CharField(max_length=100, null=True, blank=True)
+    Phone = models.CharField(max_length=11, null=True, blank=True)
+    Mobile = models.CharField(max_length=11, null=True, blank=True)
+    Address = models.CharField(max_length=300, null=True, blank=True)
+    TermCode = models.CharField(max_length=30, null=True, blank=True)
+    center_province_id = models.CharField(max_length=20, null=True, blank=True)
+    center_province_title = models.CharField(max_length=50, null=True, blank=True)
+    StandardCode = models.CharField(max_length=50, null=True, blank=True)
+    center_title = models.CharField(max_length=250, null=True, blank=True)
+    SubStudyLevelId = models.CharField(max_length=10, null=True, blank=True)
+    SubStudyLevelTitle = models.CharField(max_length=20, null=True, blank=True)
+    StudyLevelId = models.CharField(max_length=10, null=True, blank=True)
+    StudyLevelTitle = models.CharField(max_length=40, null=True, blank=True)
+    CourseStudyId = models.CharField(max_length=70, null=True, blank=True)
+    CourseStudyTitle = models.CharField(max_length=70, null=True, blank=True)
+    RegistryGroupId = models.CharField(max_length=10, null=True, blank=True)
+    RegistryGroupTitle = models.CharField(max_length=50, null=True, blank=True)
+    GenderId = models.CharField(max_length=10, null=True, blank=True)
+    GenderTitle = models.CharField(max_length=30, null=True, blank=True)
+    studentnumber = models.CharField(max_length=140, null=True, blank=True)
+    center_id = models.CharField(max_length=40, null=True, blank=True)
+
+    def __str__(self):
+        return self.StudentNumber
 
 
 class CulturalUser(AbstractUser):
@@ -80,9 +113,9 @@ class Profile(models.Model):
 
 
 if not hasattr(Group, 'position'):
-    position_group = models.ForeignKey(Positions, on_delete=models.CASCADE, verbose_name=_("position relations"),
-                                       related_name='position_relations', null=True, blank=True)
-    position_group.contribute_to_class(Group, 'position')
+    position = models.ForeignKey(Positions, on_delete=models.CASCADE, verbose_name=_("position relations"),
+                                 related_name='position_relations', null=True, blank=True)
+    position.contribute_to_class(Group, 'position')
 
 
 class Group(Group):

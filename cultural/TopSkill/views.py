@@ -11,9 +11,10 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.utils.translation import gettext as _
 import shutil
-from .models import Student, AllStudent, LevelingIndex, DocumentFile, Score, JudgmentStatus
+from .models import Student, LevelingIndex, DocumentFile, Score, JudgmentStatus
 from .forms import DocumentForm, ScoreForm
 from .functions import toastrMessagePure, toastrMessageForm
+from accounts.models import Student as AllStudent
 
 
 # Create your views here.
@@ -33,7 +34,7 @@ def studentsView(request):
 def autocomplete(request):
     if 'term' in request.GET:
         term = request.GET.get('term')
-        national = AllStudent.objects.filter(NationalCode__contains=term)
+        national = AllStudent.objects.filter(nationalcode__contains=term)
         return JsonResponse(list(national.values()), safe=False)
     else:
         pass
@@ -51,27 +52,27 @@ def submit_student(request):
     if request.method == 'POST':
         form = request.POST.get('nationalcodeid')
         if form:
-            stu_na = AllStudent.objects.get(id=form)
-            s_na = Student.objects.filter(studentnumber__exact=stu_na.StudentNumber)
-            if s_na:
+            allStudent = AllStudent.objects.get(id=form)
+            student = Student.objects.filter(studentnumber__exact=AllStudent.studentnumber)
+            if student:
                 messages.warning(request, toastrMessagePure(_("The desired student's information has already been "
-                                                            "entered.")))
+                                                              "entered.")))
                 return render(request, 'topskill/search_student.html')
             else:
                 s = Student.objects.create(
-                    firstname=stu_na.FirstName,
-                    lastname=stu_na.LastName,
-                    fathername=stu_na.FatherName,
-                    sex=stu_na.GenderId,
-                    nationalcode=stu_na.NationalCode,
-                    studentnumber=stu_na.StudentNumber,
-                    course_study_title=stu_na.CourseStudyTitle,
-                    center_province_id=stu_na.CenterProvinceId,
-                    center_province_title=stu_na.CenterProvinceTitle,
-                    center_title=stu_na.CenterTitle,
-                    substudy_level_title=stu_na.SubStudyLevelTitle,
-                    centerId=stu_na.CenterId,
-                    education_group=stu_na.StudyLevelId,
+                    firstname=allStudent.FirstName,
+                    lastname=allStudent.LastName,
+                    fathername=allStudent.FatherName,
+                    sex=allStudent.GenderId,
+                    nationalcode=allStudent.nationalcode,
+                    studentnumber=allStudent.studentnumber,
+                    course_study_title=allStudent.CourseStudyTitle,
+                    center_province_id=allStudent.center_province_id,
+                    center_province_title=allStudent.center_province_title,
+                    center_title=allStudent.center_title,
+                    substudy_level_title=allStudent.SubStudyLevelTitle,
+                    center_id=allStudent.center_id,
+                    education_group=allStudent.StudyLevelId,
                     user_id=request.user.id
                 )
                 try:
