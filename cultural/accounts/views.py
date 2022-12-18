@@ -62,6 +62,7 @@ def cultural_logout(request):
     print(request.user)
     return HttpResponseRedirect('/')
 
+
 class ProfileView(DetailView):
     model = Profile
     template_name = 'accounts/profile.html'

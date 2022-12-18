@@ -3,9 +3,9 @@ from django.db import models
 from accounts.models import Group
 
 
-class PositionManager(models.Manager):
+class PrivilegeManager(models.Manager):
 
     def get_queryset(self):
-        return super(PositionManager, self).get_queryset().filter(
+        return super(PrivilegeManager, self).get_queryset().filter(
 
         )

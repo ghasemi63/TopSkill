@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group, Permission, ContentType
 from django.utils.translation import gettext_lazy as _
-from .models import CulturalUser, Province, Center, Profile, Positions, Student
+from .models import CulturalUser, Province, Center, Profile, Privilege, Student
 
 
 # Register your models here.
-@admin.register(Positions)
+@admin.register(Privilege)
 class PositionsAdmin(admin.ModelAdmin):
     # search_fields = ("province",)
     # ordering = ("group",)
@@ -29,7 +29,7 @@ class CulturalUserAdmin(BaseUserAdmin):
                     "is_superuser",
                     "groups",
                     "user_permissions",
-                    # "position",
+                    # "privilege",
                 ),
             },
         ),

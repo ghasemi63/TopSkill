@@ -6,12 +6,12 @@ from django_jalali.db import models as jmodels
 
 
 # Create your models here.
-class Positions(models.Model):
-    name = models.CharField(max_length=150, verbose_name=_("Name of the positions"), null=False)
+class Privilege(models.Model):
+    name = models.CharField(max_length=150, verbose_name=_("Name of the privilege"), null=False)
 
     class Meta:
-        verbose_name = _("position")
-        verbose_name_plural = _("user_positions")
+        verbose_name = _("privilege")
+        verbose_name_plural = _("user_privilege")
 
     def __str__(self):
         return str(self.name)
@@ -20,8 +20,8 @@ class Positions(models.Model):
 class Province(models.Model):
     province_id = models.IntegerField(primary_key=True, serialize=True, verbose_name='ID')
     province_title = models.CharField(max_length=30, verbose_name=_('Province'))
-    position_province = models.ForeignKey(Positions, on_delete=models.CASCADE, verbose_name=_("position province"),
-                                          related_name='position_province')
+    privilege_province = models.ForeignKey(Privilege, on_delete=models.CASCADE, verbose_name=_("privilege province"),
+                                           related_name='privilege_province')
 
     class Meta:
         ordering = ['province_id']
@@ -112,10 +112,10 @@ class Profile(models.Model):
         verbose_name_plural = _("profiles")
 
 
-if not hasattr(Group, 'position'):
-    position = models.ForeignKey(Positions, on_delete=models.CASCADE, verbose_name=_("position relations"),
-                                 related_name='position_relations', null=True, blank=True)
-    position.contribute_to_class(Group, 'position')
+if not hasattr(Group, 'privilege'):
+    privilege = models.ForeignKey(Privilege, on_delete=models.CASCADE, verbose_name=_("privilege relations"),
+                                  related_name='privilege_relations', null=True, blank=True)
+    privilege.contribute_to_class(Group, 'privilege')
 
 
 class Group(Group):
