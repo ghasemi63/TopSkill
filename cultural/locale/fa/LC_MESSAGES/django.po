@@ -1,0 +1,148 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-13 15:04+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: TopSkill/fields.py:44
+msgid "Filetype not supported."
+msgstr "نوع فایل پشتیبانی نمی شود."
+
+#: TopSkill/views.py:57
+msgid "The desired student's information has already been entered."
+msgstr "اطلاعات پرونده مورد نظر قبلاً حذف شده است"
+
+#: TopSkill/views.py:85
+msgid "Please select a student."
+msgstr "لطفا یک دانشجو را انتخاب کنید."
+
+#: TopSkill/views.py:89
+msgid ""
+"The method of sending information is not safe and it is not possible to "
+"record data."
+msgstr "روش ارسال اطلاعات امن نبوده و امکان ثبت داده ها وجود ندارد."
+
+#: TopSkill/views.py:148
+msgid "Your score has been registered correctly."
+msgstr "امتیاز مورد نظر به درستی ثبت شد."
+
+#: TopSkill/views.py:163
+msgid "The requested documents have been uploaded."
+msgstr "مدارک درخواستی بارگذاری شده است."
+
+#: TopSkill/views.py:169
+msgid "The information you sent is incorrect."
+msgstr "اطلاعاتی که ارسال کردید نادرست است."
+
+#: TopSkill/views.py:236
+#, fuzzy
+#| msgid "The desired file has already been deleted."
+msgid "The desired file was deleted."
+msgstr "فایل مورد نظر حذف شد."
+
+#: TopSkill/views.py:238
+msgid "The desired file has already been deleted."
+msgstr "فایل مورد نظر قبلاً حذف شده است"
+
+#: TopSkill/views.py:257
+#, fuzzy
+#| msgid "The desired file has already been deleted."
+msgid "The desired folder was completely deleted."
+msgstr "پوشه مورد نظر به طور کامل حذف شد."
+
+#: accounts/admin.py:21
+msgid "Personal info"
+msgstr "اطلاعات شخصی"
+
+#: accounts/admin.py:23
+msgid "Permissions"
+msgstr "مجوزها"
+
+#: accounts/admin.py:36
+msgid "Important dates"
+msgstr "تاریخ های مهم"
+
+#: accounts/models.py:10
+#, fuzzy
+#| msgid "Name of the training center"
+msgid "Name of the positions"
+msgstr "نام مرکز آموزشی"
+
+#: accounts/models.py:13
+msgid "position"
+msgstr "موقعیت"
+
+#: accounts/models.py:14
+msgid "user_positions"
+msgstr "موقعیت های_کاربر"
+
+#: accounts/models.py:22 accounts/models.py:39
+msgid "Province"
+msgstr "استان"
+
+#: accounts/models.py:23
+#, fuzzy
+#| msgid "position"
+msgid "position province"
+msgstr "موقعیت"
+
+#: accounts/models.py:28
+#, fuzzy
+#| msgid "Province"
+msgid "province"
+msgstr "استان"
+
+#: accounts/models.py:29
+#, fuzzy
+#| msgid "Province"
+msgid "provinces"
+msgstr "استان"
+
+#: accounts/models.py:37
+msgid "Name of the training center"
+msgstr "نام مرکز آموزشی"
+
+#: accounts/models.py:38
+msgid "Code of the training center"
+msgstr "کد مرکز آموزشی"
+
+#: accounts/models.py:43
+msgid "center"
+msgstr "مرکز آموزشی"
+
+#: accounts/models.py:44
+msgid "centers"
+msgstr "مراکز آموزشی"
+
+#: accounts/models.py:78
+msgid "profile"
+msgstr "پروفایل"
+
+#: accounts/models.py:79
+msgid "profiles"
+msgstr "پروفایل ها"
+
+#: accounts/models.py:83
+#, fuzzy
+#| msgid "group relations"
+msgid "position relations"
+msgstr "جدول گروه-موقعیت"
+
+#, fuzzy
+#| msgid "Province"
+msgid "province_group"
+msgstr "استان"

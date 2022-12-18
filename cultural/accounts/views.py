@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+from django.views.generic import DetailView
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView, LogoutView
@@ -8,6 +9,7 @@ from django.contrib.auth import logout
 from django.contrib import messages
 
 from .forms import CulturalUserCreationForms, CulturalUserLoginForm, CaptchaForm
+from .models import Profile
 
 
 # from .forms import CulturalAuthenticationForm
@@ -59,3 +61,7 @@ def cultural_logout(request):
     logout(request)
     print(request.user)
     return HttpResponseRedirect('/')
+
+class ProfileView(DetailView):
+    model = Profile
+    template_name = 'accounts/profile.html'

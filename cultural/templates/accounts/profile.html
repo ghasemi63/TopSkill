@@ -1,0 +1,41 @@
+{% extends 'base_generic.html' %}
+{% load static %}{% load widget_tweaks %}{% block title %}پروفایل{% endblock title %}
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            {% if profile %}
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>
+                            نام و نام خانوادگی
+                        </th>
+                        <th>
+                            کد ملی
+                        </th>
+                        <th>
+                            سطح دسترسی
+                        </th>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <td>
+                            {{ profile.user.first_name }}
+                            {{ profile.user.last_name }}
+                        </td>
+                        <td>
+                            {{ profile.user.nationalcode }}
+                        </td>
+                        <td>
+                            {{ profile.get_position_display }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
