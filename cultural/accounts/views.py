@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 from django.contrib import messages
 
 from .forms import CulturalUserCreationForms, CulturalUserLoginForm, CaptchaForm
-from .models import Profile
+from .models import Profile, Province, Privilege, Group
 
 
 # from .forms import CulturalAuthenticationForm
@@ -66,3 +66,5 @@ def cultural_logout(request):
 class ProfileView(DetailView):
     model = Profile
     template_name = 'accounts/profile.html'
+
+
