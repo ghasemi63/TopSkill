@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 from django.contrib import messages
 
 from .forms import CulturalUserCreationForms, CulturalUserLoginForm, CaptchaForm
-from .models import Profile, Province, Privilege, Group
+from .models import Profile
 
 
 # from .forms import CulturalAuthenticationForm
@@ -67,4 +67,21 @@ class ProfileView(DetailView):
     model = Profile
     template_name = 'accounts/profile.html'
 
+"""
+code for create center groups
+"""
+# for c in center:
+#     prov = Province.objects.get(province_id=c.province_id)
+#     # print(f'{prov.province_title}----{c.center_title}')
+#     priv = Privilege.objects.create(name=f'{prov.province_title}----{c.center_title}')
+#     priv.center.add(c)
+#     priv.province.add(prov)
 
+"""code for create ostan groups"""
+
+# for p in Province:
+#     # prov = Province.objects.get(province_id=c.province_id)
+#     # print(f'{prov.province_title}----{c.center_title}')
+#     priv = Privilege.objects.create(name=f'{p.province_title}(واحد استانی)')
+#     priv.center.add(c)
+#     priv.province.add(prov)

@@ -14,7 +14,8 @@ import shutil
 from .models import Student, LevelingIndex, DocumentFile, Score, JudgmentStatus
 from .forms import DocumentForm, ScoreForm
 from .functions import toastrMessagePure, toastrMessageForm
-from accounts.models import Student as AllStudent
+from accounts.models import Student as AccountsStudent
+from accounts import functions
 
 
 # Create your views here.
@@ -25,16 +26,18 @@ class IndexView(LoginRequiredMixin, TemplateView):
 @login_required
 @permission_required(perm='TopSkill.view_student', login_url='/')
 def studentsView(request):
-    contex = Student.objects.all()
+    privilege = functions.privileges(request)
+    contex = Student.objects.filter(center_id__in=privilege)
     return render(request, 'topskill/students.html', {'context': contex})
 
 
 @login_required
-@permission_required(perm='TopSkill.view_allstudent')
+@permission_required(perm='accounts.view_student')
 def autocomplete(request):
+    privilege = functions.privileges(request)
     if 'term' in request.GET:
         term = request.GET.get('term')
-        national = AllStudent.objects.filter(nationalcode__contains=term)
+        national = AccountsStudent.objects.filter(center_id__in=privilege).filter(nationalcode__contains=term,)
         return JsonResponse(list(national.values()), safe=False)
     else:
         pass
@@ -47,32 +50,32 @@ def autocomplete(request):
 
 
 @login_required
-@permission_required(perm='TopSkill.add_student')
+@permission_required(perm='accounts.add_student')
 def submit_student(request):
     if request.method == 'POST':
         form = request.POST.get('nationalcodeid')
         if form:
-            allStudent = AllStudent.objects.get(id=form)
-            student = Student.objects.filter(studentnumber__exact=AllStudent.studentnumber)
+            accounts_student = AccountsStudent.objects.get(id=form)
+            student = Student.objects.filter(studentnumber__exact=accounts_student.studentnumber)
             if student:
                 messages.warning(request, toastrMessagePure(_("The desired student's information has already been "
                                                               "entered.")))
-                return render(request, 'topskill/search_student.html')
+                return redirect(reverse("TopSkill:search_student"))
             else:
                 s = Student.objects.create(
-                    firstname=allStudent.FirstName,
-                    lastname=allStudent.LastName,
-                    fathername=allStudent.FatherName,
-                    sex=allStudent.GenderId,
-                    nationalcode=allStudent.nationalcode,
-                    studentnumber=allStudent.studentnumber,
-                    course_study_title=allStudent.CourseStudyTitle,
-                    center_province_id=allStudent.center_province_id,
-                    center_province_title=allStudent.center_province_title,
-                    center_title=allStudent.center_title,
-                    substudy_level_title=allStudent.SubStudyLevelTitle,
-                    center_id=allStudent.center_id,
-                    education_group=allStudent.StudyLevelId,
+                    firstname=accounts_student.FirstName,
+                    lastname=accounts_student.LastName,
+                    fathername=accounts_student.FatherName,
+                    sex=accounts_student.GenderId,
+                    nationalcode=accounts_student.nationalcode,
+                    studentnumber=accounts_student.studentnumber,
+                    course_study_title=accounts_student.CourseStudyTitle,
+                    center_province_id=accounts_student.center_province_id,
+                    center_province_title=accounts_student.center_province_title,
+                    center_title=accounts_student.center_title,
+                    substudy_level_title=accounts_student.SubStudyLevelTitle,
+                    center_id=accounts_student.center_id,
+                    education_group=accounts_student.StudyLevelId,
                     user_id=request.user.id
                 )
                 try:
@@ -81,7 +84,7 @@ def submit_student(request):
                 except:
                     JudgmentStatus.objects.create(user_id=request.user.id,
                                                   student_id=s.id, judgment_level=2, status=True)
-                return render(request, 'topskill/students.html', {'context': Student.objects.all()})
+                return redirect(reverse("TopSkill:students"))
         else:
             messages.error(request, toastrMessagePure(_("Please select a student.")))
             return render(request, 'topskill/search_student.html')

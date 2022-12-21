@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
         <table id="IndexTable" class="table table-striped table-bordered col-md-auto text-center"
-               style="width:100%">{% if perms.TopSkill.view_allstudent and perms.TopSkill.add_student %}
+               style="width:100%">{% if perms.accounts.view_student %}
             <a href="{% url 'TopSkill:search_student' %}">
                 <button class="btn btn-success col-lg-2">ثبت دانشجوی جدید</button>
             </a>{% endif %}
@@ -18,7 +18,7 @@
                 <th>شماره دانشجویی</th>
                 <th>استان</th>
                 <th>مقطع</th>
-                <th>جزییات</th>{% if perms.TopSkill.delete_tsstudent %}
+                <th>جزییات</th>{% if perms.TopSkill.delete_student %}
                 <th>حذف</th>{% endif %}
             </tr>
             </thead>

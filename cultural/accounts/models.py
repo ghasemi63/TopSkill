@@ -23,27 +23,27 @@ class Center(models.Model):
     province = models.ForeignKey(Province, on_delete=models.DO_NOTHING, null=True, blank=True, )
     center_title = models.CharField(max_length=150, verbose_name=_('Name of the training center'), null=True)
     center_title_id = models.CharField(max_length=64, verbose_name=_('Code of the training center'), null=True)
-    standard_code = models.CharField(max_length=8,null=True, blank=True)
+    standard_code = models.CharField(max_length=8, null=True, blank=True)
 
     class Meta:
         verbose_name = _("center")
         verbose_name_plural = _("centers")
 
     def __str__(self):
-        return self.center_title
+        return f'{self.province.province_title}({self.center_title})'
 
 
-class Privilege(models.Model):
-    # name = models.CharField(max_length=150, verbose_name=_("Name of the privilege"), null=False)
-    province = models.ManyToManyField(Province, verbose_name=_("Province"), )
-    center = models.ManyToManyField(Center, verbose_name=_("Center"))
-
-    class Meta:
-        verbose_name = _("privilege")
-        verbose_name_plural = _("user_privilege")
-
-    def __str__(self):
-        return f'{self.province.get().province_title}--{self.center.get().center_title}'
+# class Privilege(models.Model):
+#     name = models.CharField(max_length=150, verbose_name=_("Name of the privilege"), null=False)
+#     province = models.ManyToManyField(Province, verbose_name=_("Province"), )
+#     center = models.ManyToManyField(Center, verbose_name=_("Center"))
+#
+#     class Meta:
+#         verbose_name = _("privilege")
+#         verbose_name_plural = _("user_privilege")
+#
+#     def __str__(self):
+#         return self.name
 
 
 class Student(models.Model):
@@ -81,7 +81,7 @@ class Student(models.Model):
 
 
 class CulturalUser(AbstractUser):
-    privilege = models.ManyToManyField(Privilege, )
+    center = models.ManyToManyField(Center, blank=True, related_name="user_to_center")
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -112,15 +112,16 @@ class Profile(models.Model):
         verbose_name = _("profile")
         verbose_name_plural = _("profiles")
 
-# if not hasattr(Group, 'privilege'):
-#     privilege = models.ForeignKey(Privilege, on_delete=models.CASCADE, verbose_name=_("privilege relations"),
-#                                   related_name='privilege_relations', null=True, blank=True)
-#     privilege.contribute_to_class(Group, 'privilege')
-#
-#
-# class Group(Group):
-#     class Meta:
-#         proxy = True
-#
-#     def myFunction(self):
-#         return True
+
+if not hasattr(Group, 'center'):
+    center = models.ManyToManyField(Center, blank=True, verbose_name=_("Center privilege"),
+                                    related_name="group_to_center")
+    center.contribute_to_class(Group, 'center')
+
+
+class Group(Group):
+    class Meta:
+        proxy = True
+
+    def myFunction(self):
+        return True

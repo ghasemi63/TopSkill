@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-18 16:51+0330\n"
+"POT-Creation-Date: 2022-12-21 08:17+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,122 +22,102 @@ msgstr ""
 msgid "Filetype not supported."
 msgstr "نوع فایل پشتیبانی نمی شود."
 
-#: TopSkill/views.py:58
+#: TopSkill/views.py:61
 msgid "The desired student's information has already been entered."
-msgstr "اطلاعات پرونده مورد نظر قبلاً حذف شده است"
+msgstr "پرونده دانشجوی مورد نظر قبلاْ ثبت شده است"
 
-#: TopSkill/views.py:86
+#: TopSkill/views.py:89
 msgid "Please select a student."
 msgstr "لطفا یک دانشجو را انتخاب کنید."
 
-#: TopSkill/views.py:90
+#: TopSkill/views.py:93
 msgid ""
 "The method of sending information is not safe and it is not possible to "
 "record data."
 msgstr "روش ارسال اطلاعات امن نبوده و امکان ثبت داده ها وجود ندارد."
 
-#: TopSkill/views.py:149
+#: TopSkill/views.py:152
 msgid "Your score has been registered correctly."
 msgstr "امتیاز مورد نظر به درستی ثبت شد."
 
-#: TopSkill/views.py:164
+#: TopSkill/views.py:167
 msgid "The requested documents have been uploaded."
 msgstr "مدارک درخواستی بارگذاری شده است."
 
-#: TopSkill/views.py:170
+#: TopSkill/views.py:173
 msgid "The information you sent is incorrect."
 msgstr "اطلاعاتی که ارسال کردید نادرست است."
 
-#: TopSkill/views.py:237
+#: TopSkill/views.py:240
 #, fuzzy
 #| msgid "The desired file has already been deleted."
 msgid "The desired file was deleted."
 msgstr "فایل مورد نظر حذف شد."
 
-#: TopSkill/views.py:239
+#: TopSkill/views.py:242
 msgid "The desired file has already been deleted."
 msgstr "فایل مورد نظر قبلاً حذف شده است"
 
-#: TopSkill/views.py:258
+#: TopSkill/views.py:261
 #, fuzzy
 #| msgid "The desired file has already been deleted."
 msgid "The desired folder was completely deleted."
 msgstr "پوشه مورد نظر به طور کامل حذف شد."
 
-#: accounts/admin.py:21
+#: accounts/admin.py:19
 msgid "Personal info"
 msgstr "اطلاعات شخصی"
 
-#: accounts/admin.py:23
+#: accounts/admin.py:21
 msgid "Permissions"
 msgstr "مجوزها"
 
-#: accounts/admin.py:37
+#: accounts/admin.py:34
 msgid "Important dates"
 msgstr "تاریخ های مهم"
 
-#: accounts/models.py:10
-#, fuzzy
-#| msgid "Name of the training center"
-msgid "Name of the privilege"
-msgstr "نام مرکز آموزشی"
-
-#: accounts/models.py:13
-msgid "privilege"
-msgstr "سطح دسترسی"
-
-#: accounts/models.py:14
-msgid "user_privilege"
-msgstr "سطح دسترسی کاربر"
-
-#: accounts/models.py:22 accounts/models.py:38
+#: accounts/models.py:11
 msgid "Province"
 msgstr "استان"
 
-#: accounts/models.py:23
-#, fuzzy
-#| msgid "position"
-msgid "privilege province"
-msgstr "موقعیت"
-
-#: accounts/models.py:28
+#: accounts/models.py:15
 #, fuzzy
 #| msgid "Province"
 msgid "province"
 msgstr "استان"
 
-#: accounts/models.py:29
+#: accounts/models.py:16
 #, fuzzy
 #| msgid "Province"
 msgid "provinces"
 msgstr "استان"
 
-#: accounts/models.py:36
+#: accounts/models.py:24
 msgid "Name of the training center"
 msgstr "نام مرکز آموزشی"
 
-#: accounts/models.py:37
+#: accounts/models.py:25
 msgid "Code of the training center"
 msgstr "کد مرکز آموزشی"
 
-#: accounts/models.py:42
+#: accounts/models.py:29
 msgid "center"
 msgstr "مرکز آموزشی"
 
-#: accounts/models.py:43
+#: accounts/models.py:30
 msgid "centers"
 msgstr "مراکز آموزشی"
 
-#: accounts/models.py:113
+#: accounts/models.py:112
 msgid "profile"
 msgstr "پروفایل"
 
-#: accounts/models.py:114
+#: accounts/models.py:113
 msgid "profiles"
 msgstr "پروفایل ها"
 
-#: accounts/models.py:118
+#: accounts/models.py:117
 #, fuzzy
-#| msgid "group relations"
-msgid "privilege relations"
-msgstr "جدول گروه-موقعیت"
+#| msgid "user_privilege"
+msgid "Center privilege"
+msgstr "سطح دسترسی کاربر"
