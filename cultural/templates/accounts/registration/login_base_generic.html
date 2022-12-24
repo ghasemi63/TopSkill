@@ -29,9 +29,14 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
-            <div class="login100-pic js-tilt" data-tilt>
-                <img src="{% static '/Login/images/uast.png' %}" alt="IMG">
+            <div class="card-body " style="text-align: right">
+                    <span>
+                        لطفا در این مکان زباله نریزید
+                    </span>
             </div>
+            {#            <div class="login100-pic js-tilt" data-tilt>#}
+            {#                <img src="{% static '/Login/images/uast.png' %}" alt="IMG">#}
+            {#            </div>#}
             {% block content %}{% endblock content %}
         </div>
     </div>

@@ -22,7 +22,6 @@ class CulturalUserAdmin(BaseUserAdmin):
             {
                 "fields": (
                     "is_active",
-                    "is_admin",
                     "is_staff",
                     "is_superuser",
                     "groups",
@@ -79,7 +78,6 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(Permission)
 class UserPermissionsAdmin(admin.ModelAdmin):
     search_fields = ("name",)
-
 
 
 admin.site.unregister(Group)

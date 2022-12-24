@@ -26,24 +26,12 @@ class Center(models.Model):
     standard_code = models.CharField(max_length=8, null=True, blank=True)
 
     class Meta:
+        ordering = ['province_id']
         verbose_name = _("center")
         verbose_name_plural = _("centers")
 
     def __str__(self):
         return f'{self.province.province_title}({self.center_title})'
-
-
-# class Privilege(models.Model):
-#     name = models.CharField(max_length=150, verbose_name=_("Name of the privilege"), null=False)
-#     province = models.ManyToManyField(Province, verbose_name=_("Province"), )
-#     center = models.ManyToManyField(Center, verbose_name=_("Center"))
-#
-#     class Meta:
-#         verbose_name = _("privilege")
-#         verbose_name_plural = _("user_privilege")
-#
-#     def __str__(self):
-#         return self.name
 
 
 class Student(models.Model):
@@ -83,7 +71,6 @@ class Student(models.Model):
 class CulturalUser(AbstractUser):
     center = models.ManyToManyField(Center, blank=True, related_name="user_to_center")
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
