@@ -19,11 +19,15 @@
     <link rel="stylesheet" href="{% static '/dist/css/custom-style.css' %}">
     <!-- Select 2 -->
     <link rel="stylesheet" href="{% static '/dist/css/select2.min.css' %}">
+    <!-- tabs -->
+    <link rel="stylesheet" href="{% static '/plugins/tabs/jquery-pretty-tabs.css' %}">
     <!--toastr--->
     <link rel="stylesheet" href="{% static '/plugins/toastr/toastr.min.css' %}" type="text/css" media="all">
     <!-- data picker -->
     <link rel="stylesheet"
           href="{% static 'plugins/PersianDataPicker/dist/jquery.md.bootstrap.datetimepicker.style.css' %}">
+    <!--cultural-->
+    <link rel="stylesheet" href="{% static '/plugins/public/cultural.css' %}">
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse">
 <div class="wrapper">
@@ -91,6 +95,10 @@
 <!-- HTMX -->
 <script src="{% static '/plugins/modal/htmx.min.js' %}"></script>
 <script src="{% static '/plugins/modal/dialog.js' %}"></script>
+<!-- tabs -->
+<script src="{% static '/plugins/tabs/jquery-pretty-tabs.js' %}"></script>
+<!--cultural-->
+<script src="{% static '/plugins/public/cultural.js' %}"></script>
 {% block downscript %}{% endblock downscript %}
 <script>
     const modal = new bootstrap.Modal(document.getElementById("modal"))
@@ -101,10 +109,10 @@
     {% if messages %}
         document.addEventListener("DOMContentLoaded", function (event) {
             toastr.options = {
-                "closeButton": true,"debug": false, "newestOnTop": false,"progressBar": true,
-                "positionClass": "toast-bottom-left", "preventDuplicates": false,"onclick": null,
-                "showDuration": "300","hideDuration": "1000", "timeOut": "5000","extendedTimeOut": "1000",
-                "showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut",
+                "closeButton": true, "debug": false, "newestOnTop": false, "progressBar": true,
+                "positionClass": "toast-bottom-left", "preventDuplicates": false, "onclick": null,
+                "showDuration": "300", "hideDuration": "1000", "timeOut": "5000", "extendedTimeOut": "1000",
+                "showEasing": "swing", "hideEasing": "linear", "showMethod": "fadeIn", "hideMethod": "fadeOut",
             }
             {% autoescape off %}
                 {% for message in messages %}

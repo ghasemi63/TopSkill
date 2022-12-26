@@ -24,16 +24,17 @@
             </thead>
             <tbody class="text-xs">
             {% for x in context %}
-                <tr>
+                <tr {% if not x.status %}style="background-color: #CBD4C6 " {% endif %}>
                     <td>{{ x.firstname }}</td>
                     <td>{{ x.lastname }}</td>
                     <td>{{ x.get_sex_display }}</td>
                     <td>{{ x.studentnumber }}</td>
                     <td>{{ x.center_province_title }}</td>
                     <td>{{ x.substudy_level_title }}</td>
-                    <td><a href="{% url 'TopSkill:student_detail' x.id %}">
-                        <button type="button" class="btn btn-info">جزییات</button>
-                    </a></td>{% if perms.TopSkill.delete_student %}
+                    <td>{% if x.status %}<a href="{% url 'TopSkill:student_detail' x.id %}">
+                        <button type="button" class="btn btn-info" >جزییات
+                        </button>
+                    </a>{% endif %}</td>{% if perms.TopSkill.delete_student %}
                     <td><a href="{% url 'TopSkill:student_delete' x.id %}">
                         <button type="button" class="btn btn-danger">حذف</button>
                     </a></td>{% endif %}
@@ -43,35 +44,4 @@
         </table>
     </div>
 {% endblock content %}
-{% block downscript %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#IndexTable').DataTable({
-                "language": {
-                    "paginate": {
-                        "next": "بعدی",
-                        "previous": "قبلی"
-                    },
-                    lengthMenu: 'نمایش _MENU_ رکورد در صفحه',
-                    zeroRecords: 'تعداد رکوردها صفر می باشد.',
-                    info: 'صفحه _PAGE_ از _PAGES_',
-                    infoEmpty: 'اطلاعاتی برای نمایش وجود ندارد.',
-                    infoFiltered: '(از تعداد _MAX_ رکورد)',
-                    search: 'جستجو: '
-                },
-                "info": true,
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "autoWidth": true,
-                scrollX: false,
-                stateSave: true,
-                lengthMenu: [
-                    [10, 25, 50, 100, -1],
-                    [10, 25, 50, 100, 'همه'],
-                ],
-            });
-        });
-    </script>
-{% endblock downscript %}
+{% block downscript %}{% endblock downscript %}
