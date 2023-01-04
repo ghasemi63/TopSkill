@@ -1,4 +1,3 @@
-from random import random
 import jdatetime
 import os
 from django.db import models
@@ -52,7 +51,7 @@ from accounts.models import CulturalUser
 
 class LevelingIndex(models.Model):
     title = models.CharField(max_length=300, verbose_name='موضوع گواهی')
-    description = models.CharField(max_length=1500, verbose_name='توضیحات', null=True)
+    description = models.CharField(max_length=3000, verbose_name='توضیحات', null=True)
     leveling_index_category_id = models.PositiveIntegerField(verbose_name='طبقه بندی موضوعات')
     min_score = models.CharField(verbose_name='حداقل امتیاز', max_length=4)
     max_score = models.CharField(verbose_name='حداکثر امتیاز', max_length=4, null=True)
@@ -180,7 +179,7 @@ class JudgmentStatus(models.Model):
     referral = models.BooleanField(verbose_name='اتمام داوری', default=False)
 
     def __str__(self):
-        return self.get_judgment_level_display
+        return f'{self.student.firstname} {self.student.lastname}'
 
 
 class StudentFolder(models.Model):
@@ -200,3 +199,6 @@ class StudentFolder(models.Model):
     referee_level = models.CharField(max_length=1, verbose_name='مرحله داوری')
     judgment_score_sum = models.CharField(max_length=2, choices=JUDGMENT_GROUP, blank=False)
     judge_score_sum = models.FloatField(max_length=2, verbose_name='جمع امتیاز گروه', blank=True, default=0)
+
+    def __str__(self):
+        return self.judgmentstatus

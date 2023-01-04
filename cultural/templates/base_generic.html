@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{% static '/dist/css/select2.min.css' %}">
     <!-- tabs -->
     <link rel="stylesheet" href="{% static '/plugins/tabs/jquery-pretty-tabs.css' %}">
+    <!-- tables -->
+    <link rel="stylesheet" href="{% static '/plugins/datatables/datatables.min.css' %}">
     <!--toastr--->
     <link rel="stylesheet" href="{% static '/plugins/toastr/toastr.min.css' %}" type="text/css" media="all">
     <!-- data picker -->
@@ -80,11 +82,8 @@
 <script src="{% static '/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static '/dist/js/adminlte.js' %}"></script>
-<!-- DataTables -->
-<script src="{% static '/plugins/datatables/jquery.dataTables.min.js' %}"></script>
-<script src="{% static '/plugins/datatables/dataTables.bootstrap4.js' %}"></script>
 <!-- jquery.dataTables.min.js -->
-<script src="{% static '/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static '/plugins/datatables/DataTables-1.13.1/js/jquery.dataTables.min.js' %}"></script>
 <!-- Select 2 -->
 <script src="{% static '/plugins/select2/select2.min.js' %}"></script>
 <!-- OPTIONAL SCRIPTS -->
@@ -110,7 +109,7 @@
         document.addEventListener("DOMContentLoaded", function (event) {
             toastr.options = {
                 "closeButton": true, "debug": false, "newestOnTop": false, "progressBar": true,
-                "positionClass": "toast-bottom-left", "preventDuplicates": false, "onclick": null,
+                "positionClass": "toast-top-left", "preventDuplicates": false, "onclick": null,
                 "showDuration": "300", "hideDuration": "1000", "timeOut": "5000", "extendedTimeOut": "1000",
                 "showEasing": "swing", "hideEasing": "linear", "showMethod": "fadeIn", "hideMethod": "fadeOut",
             }

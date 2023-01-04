@@ -2,17 +2,16 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth import logout
-# from django.db import transaction
-from django.contrib import messages
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.translation import gettext
+from django_sendfile import sendfile
 
 from .forms import CulturalUserCreationForms, CulturalUserLoginForm, CaptchaForm
 from .models import Profile
+from .functions import privileges
 
 
-# from .forms import CulturalAuthenticationForm
 # Create your views here.
 
 
@@ -21,11 +20,6 @@ class SignUpView(CreateView):
     success_url = reverse_lazy("login")
     template_name = 'accounts/registration/signup.html'
 
-
-# class CulturalLoginView(LoginView):
-#     authentication_form = CulturalUserLoginForm
-#     success_url = reverse_lazy('/')
-#     template_name = 'registration/login.html'
 
 def login_view(request):
     if request.POST:
@@ -36,18 +30,21 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                if 'center_user' not in request.session:
+                    request.session['center_user'] = privileges(request)
+                    print(request.session['center_user'])
                 # Redirect to a success page.
                 return redirect('TopSkill:index')
             else:
                 # Return an 'invalid login' error message.
                 captcha = CaptchaForm()
                 form = CulturalUserLoginForm()
-                context = {'error': 'نام کاربری یا گذرواژه صحیح نیست', 'form': form, 'captcha': captcha}
+                context = {'error': gettext('The username or password is incorrect'), 'form': form, 'captcha': captcha}
                 return render(request, 'accounts/registration/login.html', context)
         else:
             captcha = CaptchaForm()
             form = CulturalUserLoginForm()
-            context = {'error': 'کد کنترلی وارد شده صحیح نیست', 'form': form, 'captcha': captcha}
+            context = {'error': gettext("The control code entered is not correct"), 'form': form, 'captcha': captcha}
             return render(request, 'accounts/registration/login.html', context)
     else:
         captcha = CaptchaForm()
@@ -57,7 +54,7 @@ def login_view(request):
 
 
 def cultural_logout(request):
-    print(f'Loggin out {request.user}')
+    # print(f'Logout {request.user}')
     logout(request)
     print(request.user)
     return HttpResponseRedirect('/')
@@ -67,21 +64,8 @@ class ProfileView(DetailView):
     model = Profile
     template_name = 'accounts/profile.html'
 
-"""
-code for create center groups
-"""
-# for c in center:
-#     prov = Province.objects.get(province_id=c.province_id)
-#     # print(f'{prov.province_title}----{c.center_title}')
-#     priv = Privilege.objects.create(name=f'{prov.province_title}----{c.center_title}')
-#     priv.center.add(c)
-#     priv.province.add(prov)
 
-"""code for create ostan groups"""
-
-# for p in Province:
-#     # prov = Province.objects.get(province_id=c.province_id)
-#     # print(f'{prov.province_title}----{c.center_title}')
-#     priv = Privilege.objects.create(name=f'{p.province_title}(واحد استانی)')
-#     priv.center.add(c)
-#     priv.province.add(prov)
+@login_required()
+def profile_image_display(request, file_id):
+    obj = Profile.objects.get(user_id=file_id)
+    return sendfile(request, obj.profile_image.path)

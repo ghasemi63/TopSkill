@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-21 08:17+0330\n"
+"POT-Creation-Date: 2023-01-03 10:59+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,77 +20,69 @@ msgstr ""
 
 #: TopSkill/fields.py:44
 msgid "Filetype not supported."
-msgstr "نوع فایل پشتیبانی نمی شود."
+msgstr ""
 
-#: TopSkill/views.py:61
+#: TopSkill/views.py:64
 msgid "The desired student's information has already been entered."
-msgstr "پرونده دانشجوی مورد نظر قبلاْ ثبت شده است"
+msgstr "اطلاعات دانشجوی مورد نظر قبلاْ ثبت شده است."
 
-#: TopSkill/views.py:89
+#: TopSkill/views.py:92
 msgid "Please select a student."
-msgstr "لطفا یک دانشجو را انتخاب کنید."
+msgstr "لطفاْ مشخصات یک دانشجو را وارد کنید."
 
-#: TopSkill/views.py:93
+#: TopSkill/views.py:96
 msgid ""
 "The method of sending information is not safe and it is not possible to "
 "record data."
-msgstr "روش ارسال اطلاعات امن نبوده و امکان ثبت داده ها وجود ندارد."
+msgstr "روش ارسال اطلاعات امن نیست."
 
-#: TopSkill/views.py:152
+#: TopSkill/views.py:155
 msgid "Your score has been registered correctly."
-msgstr "امتیاز مورد نظر به درستی ثبت شد."
+msgstr "امتیاز دانشجو ثبت شد."
 
-#: TopSkill/views.py:167
-msgid "The requested documents have been uploaded."
-msgstr "مدارک درخواستی بارگذاری شده است."
+#: TopSkill/views.py:170
+msgid "The send documents have been uploaded."
+msgstr "مدارک ارسالی بارگذاری شد."
 
-#: TopSkill/views.py:173
+#: TopSkill/views.py:176
 msgid "The information you sent is incorrect."
-msgstr "اطلاعاتی که ارسال کردید نادرست است."
+msgstr "اطلاعات و مدارک ارسالی غیر قابل ثبت است."
 
-#: TopSkill/views.py:240
-#, fuzzy
-#| msgid "The desired file has already been deleted."
+#: TopSkill/views.py:243
 msgid "The desired file was deleted."
-msgstr "فایل مورد نظر حذف شد."
+msgstr "مدارک مورد نظر حذف شد."
 
-#: TopSkill/views.py:242
+#: TopSkill/views.py:245
 msgid "The desired file has already been deleted."
-msgstr "فایل مورد نظر قبلاً حذف شده است"
+msgstr "مدارک مورد نظر قبلاْ حذف شده است."
 
-#: TopSkill/views.py:261
-#, fuzzy
-#| msgid "The desired file has already been deleted."
+#: TopSkill/views.py:264
 msgid "The desired folder was completely deleted."
-msgstr "پوشه مورد نظر به طور کامل حذف شد."
+msgstr "پرونده مورد نظر حذف شد."
 
 #: accounts/admin.py:19
 msgid "Personal info"
-msgstr "اطلاعات شخصی"
+msgstr "اطلاعات پرسنلی"
 
 #: accounts/admin.py:21
 msgid "Permissions"
 msgstr "مجوزها"
 
-#: accounts/admin.py:34
+#: accounts/admin.py:33
 msgid "Important dates"
-msgstr "تاریخ های مهم"
+msgstr "تاریخ های ضروری"
 
 #: accounts/models.py:11
 msgid "Province"
 msgstr "استان"
 
 #: accounts/models.py:15
-#, fuzzy
-#| msgid "Province"
 msgid "province"
 msgstr "استان"
 
 #: accounts/models.py:16
-#, fuzzy
-#| msgid "Province"
 msgid "provinces"
-msgstr "استان"
+msgstr "استان ها"
 
 #: accounts/models.py:24
 msgid "Name of the training center"
@@ -100,24 +92,34 @@ msgstr "نام مرکز آموزشی"
 msgid "Code of the training center"
 msgstr "کد مرکز آموزشی"
 
-#: accounts/models.py:29
-msgid "center"
-msgstr "مرکز آموزشی"
-
 #: accounts/models.py:30
+msgid "center"
+msgstr "مرکز آموزش"
+
+#: accounts/models.py:31
 msgid "centers"
 msgstr "مراکز آموزشی"
 
-#: accounts/models.py:112
+#: accounts/models.py:99
 msgid "profile"
-msgstr "پروفایل"
+msgstr "مشخصات"
 
-#: accounts/models.py:113
+#: accounts/models.py:100
 msgid "profiles"
-msgstr "پروفایل ها"
+msgstr "همه مشخصات"
 
-#: accounts/models.py:117
-#, fuzzy
-#| msgid "user_privilege"
+#: accounts/models.py:111
+msgid "Centers access level"
+msgstr "سطح دسترسی به مراکز"
+
+#: accounts/models.py:114
 msgid "Center privilege"
-msgstr "سطح دسترسی کاربر"
+msgstr "مجوز مراکز آموزش"
+
+#: accounts/views.py:37
+msgid "The username or password is incorrect"
+msgstr "نام کاربری یا گذرواژه اشتباه است!"
+
+#: accounts/views.py:42
+msgid "The control code entered is not correct"
+msgstr "عبارت کنترلی وارد شده صحیح نیست!"

@@ -101,6 +101,16 @@ class Profile(models.Model):
 
 
 if not hasattr(Group, 'center'):
+    FOLDER_POSITION = [
+        ('1', 'دانشجو'),
+        ('2', 'مرکز آموزش'),
+        ('3', 'استان'),
+        ('4', 'دبیرخانه ستاد'),
+    ]
+    access_level = models.CharField(max_length=2, choices=FOLDER_POSITION, blank=True,
+                                    verbose_name=_("Centers access level"), )
+
+    access_level.contribute_to_class(Group, 'access_level')
     center = models.ManyToManyField(Center, blank=True, verbose_name=_("Center privilege"),
                                     related_name="group_to_center")
     center.contribute_to_class(Group, 'center')
@@ -110,5 +120,5 @@ class Group(Group):
     class Meta:
         proxy = True
 
-    def myFunction(self):
-        return True
+    # def myFunction(self):
+    #     return True

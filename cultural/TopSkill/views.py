@@ -15,7 +15,6 @@ from .models import Student, LevelingIndex, DocumentFile, Score, JudgmentStatus
 from .forms import DocumentForm, ScoreForm
 from .functions import toastrMessagePure, toastrMessageForm
 from accounts.models import Student as AccountsStudent
-from accounts import functions
 
 
 # Create your views here.
@@ -26,18 +25,21 @@ class IndexView(LoginRequiredMixin, TemplateView):
 @login_required
 @permission_required(perm='TopSkill.view_student', login_url='/')
 def studentsView(request):
-    privilege = functions.privileges(request)
-    contex = Student.objects.filter(center_id__in=privilege)
-    return render(request, 'topskill/students.html', {'context': contex})
+    if request.user.has_perm("TopSkill.change_student"):
+        contex = Student.objects.filter(center_id__in=request.session['center_user'])
+        return render(request, 'topskill/students.html', {'context': contex})
+    else:
+        contex = Student.objects.filter(center_id__in=request.session['center_user'], status__exact=True)
+        return render(request, 'topskill/students.html', {'context': contex})
 
 
 @login_required
 @permission_required(perm='accounts.view_student')
 def autocomplete(request):
-    privilege = functions.privileges(request)
     if 'term' in request.GET:
         term = request.GET.get('term')
-        national = AccountsStudent.objects.filter(center_id__in=privilege).filter(nationalcode__contains=term,)
+        national = AccountsStudent.objects.filter(center_id__in=request.session['center_user']).filter(
+            nationalcode__contains=term, )
         return JsonResponse(list(national.values()), safe=False)
     else:
         pass
@@ -45,7 +47,7 @@ def autocomplete(request):
 
 
 """
-ثبت اطلاعات دانشجویان در دیتابیس شخصی
+ثبت اطلاعات دانشجویان در دیتابیس دانشجوی نمونه
 """
 
 
@@ -164,7 +166,7 @@ def document_score(request, user_id, doc_id):
                     df.document_get_date = form.cleaned_data['document_get_date']
                     df.upload_name = form.cleaned_data['upload_name']
                     df.save()
-                    messages.success(request, toastrMessagePure(_("The requested documents have been uploaded.")))
+                    messages.success(request, toastrMessagePure(_("The send documents have been uploaded.")))
                     return redirect('TopSkill:document_score', user_id=user_id, doc_id=doc_id)
                 else:
                     messages.warning(request, toastrMessageForm(form))

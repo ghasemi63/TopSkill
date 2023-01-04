@@ -84,12 +84,18 @@ $(document).ready(function () {
             [5, 10, 20, 40, -1],
             [5, 10, 20, 40, 'همه'],
         ],
+        columnDefs: [
+            {
+                targets: -1,
+                className: 'dt[-head|-body]-center'
+            }
+        ],
         "info": true,
         "paging": true,
         "lengthChange": true,
         "searching": true,
         "ordering": true,
         "autoWidth": true,
-        stateSave: true,
+        // "scrollX": true
     });
 });

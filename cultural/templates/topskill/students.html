@@ -3,14 +3,16 @@
 {% block content %}
     <div class="card-header">
         <h3 class="card-title">جدول اطلاعات دانشجویان</h3>
-    </div>
+    </div>{% if perms.accounts.view_student %}
     <div class="card-body">
-        <table id="IndexTable" class="table table-striped table-bordered col-md-auto text-center"
-               style="width:100%">{% if perms.accounts.view_student %}
-            <a href="{% url 'TopSkill:search_student' %}">
-                <button class="btn btn-success col-lg-2">ثبت دانشجوی جدید</button>
-            </a>{% endif %}
-            <thead>
+        <a href="{% url 'TopSkill:search_student' %}">
+            <button class="btn btn-success col-lg-2">ثبت دانشجوی جدید</button>
+        </a>
+    </div>{% endif %}
+    <div class="card-body">
+        <table class="table table-striped table-bordered text-center compact hover"
+               style="width:100%">
+            <thead style="background-color: #00ce00">
             <tr>
                 <th>نام</th>
                 <th>نام خانوادگی</th>
@@ -32,7 +34,7 @@
                     <td>{{ x.center_province_title }}</td>
                     <td>{{ x.substudy_level_title }}</td>
                     <td>{% if x.status %}<a href="{% url 'TopSkill:student_detail' x.id %}">
-                        <button type="button" class="btn btn-info" >جزییات
+                        <button type="button" class="btn btn-info">جزییات
                         </button>
                     </a>{% endif %}</td>{% if perms.TopSkill.delete_student %}
                     <td><a href="{% url 'TopSkill:student_delete' x.id %}">

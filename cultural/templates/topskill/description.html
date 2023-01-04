@@ -1,6 +1,8 @@
 <!-- Modal -->
 <div hx-post="{{ request.path }}" class="modal-content">
     <div class="modal-body">
+        {% autoescape off %}
         {{ context.description }}
+        {% endautoescape %}
     </div>
 </div>
