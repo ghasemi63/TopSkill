@@ -3,6 +3,7 @@ import os
 from django.db import models
 from django.shortcuts import reverse
 import uuid
+from django.utils.translation import gettext_lazy as _, gettext
 from django_jalali.db import models as jmodels
 from accounts.models import CulturalUser
 
@@ -15,39 +16,6 @@ from accounts.models import CulturalUser
 #             code='date_error'
 #         )
 
-
-# class AllStudent(models.Model):
-#     FirstName = models.CharField(max_length=150, null=True, blank=True)
-#     LastName = models.CharField(max_length=150, null=True, blank=True)
-#     FatherName = models.CharField(max_length=150, null=True, blank=True)
-#     NationalCode = models.CharField(max_length=10, null=True, blank=True)
-#     IdentificationNumber = models.CharField(max_length=10, null=True, blank=True)
-#     MarriageStatusId = models.CharField(max_length=1, null=True, blank=True)
-#     MarriageStatusTitle = models.CharField(max_length=60, null=True, )
-#     Email = models.CharField(max_length=100, null=True, blank=True)
-#     Phone = models.CharField(max_length=11, null=True, blank=True)
-#     Mobile = models.CharField(max_length=11, null=True, blank=True)
-#     Address = models.CharField(max_length=300, null=True, blank=True)
-#     TermCode = models.CharField(max_length=30, null=True, blank=True)
-#     CenterProvinceId = models.CharField(max_length=20, null=True, blank=True)
-#     CenterProvinceTitle = models.CharField(max_length=50, null=True, blank=True)
-#     SajadCenterId = models.CharField(max_length=50, null=True, blank=True)
-#     CenterTitle = models.CharField(max_length=250, null=True, blank=True)
-#     SubStudyLevelId = models.CharField(max_length=10, null=True, blank=True)
-#     SubStudyLevelTitle = models.CharField(max_length=20, null=True, blank=True)
-#     StudyLevelId = models.CharField(max_length=10, null=True, blank=True)
-#     StudyLevelTitle = models.CharField(max_length=40, null=True, blank=True)
-#     CourseStudyId = models.CharField(max_length=70, null=True, blank=True)
-#     CourseStudyTitle = models.CharField(max_length=70, null=True, blank=True)
-#     RegistryGroupId = models.CharField(max_length=10, null=True, blank=True)
-#     RegistryGroupTitle = models.CharField(max_length=50, null=True, blank=True)
-#     GenderId = models.CharField(max_length=10, null=True, blank=True)
-#     GenderTitle = models.CharField(max_length=30, null=True, blank=True)
-#     StudentNumber = models.CharField(max_length=140, null=True, blank=True)
-#     CenterId = models.CharField(max_length=40, null=True, blank=True)
-#
-#     def __str__(self):
-#         return self.StudentNumber
 
 class LevelingIndex(models.Model):
     title = models.CharField(max_length=300, verbose_name='موضوع گواهی')
@@ -121,6 +89,7 @@ class Score(models.Model):
     judge1 = models.FloatField(max_length=2, verbose_name='امتیاز داور اول', blank=True, default=0)
     judge2 = models.FloatField(max_length=2, verbose_name='امتیاز داور دوم', blank=True, default=0)
     judge3 = models.FloatField(max_length=2, verbose_name='امتیاز داور سوم', blank=True, default=0)
+    description = models.CharField(max_length=150, blank=True, verbose_name=_('Description'))
     min_value = models.CharField(max_length=4, verbose_name='حداقل امتیاز', default=0)
     max_value = models.CharField(max_length=4, verbose_name='حدکثر امتیاز', default=0)
 
@@ -139,12 +108,6 @@ class Score(models.Model):
 
 
 class DocumentFile(models.Model):
-    creator = models.ForeignKey(CulturalUser, on_delete=models.RESTRICT, verbose_name='کابر ثبت کننده')
-    created_date = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت رکورد شمسی')
-    score = models.ForeignKey(Score, on_delete=models.CASCADE)
-    document_get_date = jmodels.jDateField(verbose_name='تاریخ گواهی',
-                                           default=jdatetime.date.today)
-
     def content_file_name(self, filename):
         ext = filename.split('.')[-1]
         filename = self.score.student.nationalcode
@@ -152,6 +115,11 @@ class DocumentFile(models.Model):
                                     self.score.student.studentnumber, filename, ext)
         return os.path.join('doc', filename)
 
+    creator = models.ForeignKey(CulturalUser, on_delete=models.RESTRICT, verbose_name='کابر ثبت کننده')
+    created_date = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت رکورد شمسی')
+    score = models.ForeignKey(Score, on_delete=models.CASCADE)
+    document_get_date = jmodels.jDateField(verbose_name='تاریخ گواهی',
+                                           default=jdatetime.date.today)
     upload_file = models.FileField(verbose_name='گواهی', upload_to=content_file_name)
     upload_name = models.CharField(max_length=50, blank=False, verbose_name='عنوان گواهی')
 

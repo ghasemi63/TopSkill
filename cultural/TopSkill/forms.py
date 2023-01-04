@@ -2,7 +2,7 @@ from .models import Student, Score
 from .fields import RestrictedFileField
 from .views import DocumentFile
 from django import forms
-from django_jalali import forms as jforms
+from django.utils.translation import gettext_lazy as _
 
 
 class SearchStudentForm(forms.Form):
@@ -33,14 +33,14 @@ class ScoreForm(forms.ModelForm):
     judge1 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
     judge2 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
     judge3 = forms.FloatField(min_value=0, required=False, label='امتیاز', )
+    description = forms.CharField(max_length=150, required=False, label=_('Description'),
+                                  widget=forms.Textarea(attrs={'cols': 50, 'rows': 3}))
 
     class Meta:
         model = Score
-        fields = ['province_score', 'judge1', 'judge2', 'judge3']
-        # fields = ['ostan_judg']
+        fields = ['province_score', 'judge1', 'judge2', 'judge3', 'description']
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
         self.fields['province_score'].widget.attrs.update(
             {'max': self.instance.max_value},
         ),
@@ -53,3 +53,4 @@ class ScoreForm(forms.ModelForm):
         self.fields['judge3'].widget.attrs.update(
             {'max': self.instance.max_value},
         ),
+        super().__init__(*args, **kwargs)

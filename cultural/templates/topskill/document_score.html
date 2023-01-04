@@ -35,7 +35,8 @@
                                                     <tr>
                                                         <td>
                                                             {% if x.judgment_level == "2" %}
-                                                                {{ form.province_score }}
+                                                                {{ form.province_score }}<br>
+                                                                {{ form.description }}
                                                             {% elif x.judgment_level == "11" %}
                                                                 {{ form.judge1 }}
                                                             {% elif x.judgment_level == "12" %}
