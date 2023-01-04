@@ -8,15 +8,6 @@ from django_jalali.db import models as jmodels
 from accounts.models import CulturalUser
 
 
-# Create your models here.
-# def duc_time_validate(self, date):
-#     if date < self.tsstudent.ts_termcode:
-#         raise forms.ValidationError(
-#             message='تاریخ گواهی باید بعد از تاریخ شروع تحصیل دانشجو باشد.',
-#             code='date_error'
-#         )
-
-
 class LevelingIndex(models.Model):
     title = models.CharField(max_length=300, verbose_name='موضوع گواهی')
     description = models.CharField(max_length=3000, verbose_name='توضیحات', null=True)
